@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="PopUpLive" id="BYZ-38-t0r" customClass="ViewController" customModule="MyLive" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" restorationIdentifier="MainVIew" translatesAutoresizingMaskIntoConstraints="NO" id="Kh1-PP-qaS" userLabel="MyView" customClass="GLHKView" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="647" height="375"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYo-Dd-lQJ" userLabel="btn Settings" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="20" width="45" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Settings"/>
+                                        <connections>
+                                            <action selector="settingsTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khW-PY-w2J"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKV-lI-NWY" userLabel="btn Turn" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="83" y="17" width="44" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Loop"/>
+                                        <connections>
+                                            <action selector="turnTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="940-ik-tYg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4N-Px-d2w" userLabel="btn Publish" customClass="CircleButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="514" y="147" width="80" height="80"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="White"/>
+                                        <connections>
+                                            <action selector="publishTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RrI-mj-zgR"/>
+                                        </connections>
+                                    </button>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cIu-YK-rzU" userLabel="seg Fps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="118" width="143" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="5fps"/>
+                                            <segment title="10fps"/>
+                                            <segment title="15fps"/>
+                                            <segment title="30fps"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="onFpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="TJX-Dv-0QR"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8ov-0z-qUs" userLabel="seg Bps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="154" width="219" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="250k"/>
+                                            <segment title="500k"/>
+                                            <segment title="1000k"/>
+                                            <segment title="2000k"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="onBpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="MuQ-Di-S7k"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nzy-3z-QgA" userLabel="seg Zoom" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="223" width="119" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="x1"/>
+                                            <segment title="x2"/>
+                                            <segment title="x3"/>
+                                            <segment title="x4"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="onZoomChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="bJS-p5-yo6"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP2-Tc-mbZ" userLabel="btn Option" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="42" y="280" width="35" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Option"/>
+                                        <connections>
+                                            <action selector="optionTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sCw-ZV-eSO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0O-3U-6ol" userLabel="btn Audio" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="91" y="270" width="48" height="47"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Audio"/>
+                                        <connections>
+                                            <action selector="audioTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hZZ-iL-Idb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOY-Kb-tFl" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="147" y="269" width="52" height="49"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="Face"/>
+                                        <connections>
+                                            <action selector="faceTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IFu-VP-gzb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Kh1-PP-qaS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="4eA-Qv-qsS"/>
+                            <constraint firstItem="Kh1-PP-qaS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZRz-Gs-ozj"/>
+                            <constraint firstItem="Kh1-PP-qaS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="oR1-Ce-lux"/>
+                            <constraint firstItem="Kh1-PP-qaS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="wGc-YK-W6b"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Z8A-Fv-Owu"/>
+                    <connections>
+                        <outlet property="btnAudio" destination="A0O-3U-6ol" id="cMd-e1-Brv"/>
+                        <outlet property="btnFace" destination="aOY-Kb-tFl" id="1A8-Lh-LvM"/>
+                        <outlet property="btnOption" destination="JP2-Tc-mbZ" id="1kU-Fn-KaE"/>
+                        <outlet property="btnPublish" destination="t4N-Px-d2w" id="84S-6I-Mtc"/>
+                        <outlet property="btnSettings" destination="pYo-Dd-lQJ" id="tg9-a1-abZ"/>
+                        <outlet property="btnTurn" destination="aKV-lI-NWY" id="fji-yS-gxF"/>
+                        <outlet property="myView" destination="Kh1-PP-qaS" id="Ln7-9Q-xML"/>
+                        <outlet property="segBps" destination="8ov-0z-qUs" id="d9m-Jm-GvD"/>
+                        <outlet property="segFps" destination="cIu-YK-rzU" id="1GB-e2-XmA"/>
+                        <outlet property="segZoom" destination="Nzy-3z-QgA" id="pJ5-n5-imX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-155" y="71"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="Sjs-qf-L7O">
+            <objects>
+                <viewController storyboardIdentifier="Settings" id="Z6I-E6-jkZ" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UGI-n5-nKt" customClass="FormViewController">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vZH-Wl-GJg"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jNL-LU-YF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-140" y="1014"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Audio" width="80" height="80"/>
+        <image name="Face" width="80" height="80"/>
+        <image name="Loop" width="85.333335876464844" height="85.333335876464844"/>
+        <image name="Option" width="85.333335876464844" height="85.333335876464844"/>
+        <image name="Settings" width="85.333335876464844" height="85.333335876464844"/>
+        <image name="White" width="80" height="80"/>
+    </resources>
+</document>

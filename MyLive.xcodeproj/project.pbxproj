@@ -1,0 +1,1179 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
+		4AF7E1762283295A006F0329 /* RTMPStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF7E1752283295A006F0329 /* RTMPStreamDelegate.swift */; };
+		4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4B922871F2100616402 /* AudioConverter.swift */; };
+		4AFCD4BC22871F4600616402 /* AVRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BB22871F4600616402 /* AVRecorder.swift */; };
+		4AFCD4BE22871F6300616402 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BD22871F6300616402 /* Atomic.swift */; };
+		4AFCD4C022871F6800616402 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BF22871F6800616402 /* Constants.swift */; };
+		4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C122871F6D00616402 /* DataConvertible.swift */; };
+		4AFCD4C422871F7300616402 /* Running.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C322871F7300616402 /* Running.swift */; };
+		4AFCD4C6228811A900616402 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */; };
+		CE6469271FD255D300A8FAB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7471661FC9009300F2515D /* Info.plist */; };
+		CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
+		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
+		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
+		CE7471621FC9009300F2515D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7471611FC9009300F2515D /* Assets.xcassets */; };
+		CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7471631FC9009300F2515D /* LaunchScreen.storyboard */; };
+		CE7471701FC9009300F2515D /* MyLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74716F1FC9009300F2515D /* MyLiveTests.swift */; };
+		CE74717B1FC9009300F2515D /* MyLiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74717A1FC9009300F2515D /* MyLiveUITests.swift */; };
+		CE747B611FC9153500F2515D /* H264Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747AFE1FC9153500F2515D /* H264Decoder.swift */; };
+		CE747B621FC9153500F2515D /* H264Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747AFF1FC9153500F2515D /* H264Encoder.swift */; };
+		CE747B651FC9153500F2515D /* CMAudioFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */; };
+		CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */; };
+		CE747B671FC9153500F2515D /* CMFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */; };
+		CE747B681FC9153500F2515D /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */; };
+		CE747B691FC9153500F2515D /* CMSampleTimingInfo+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B081FC9153500F2515D /* CMSampleTimingInfo+Extension.swift */; };
+		CE747B6A1FC9153500F2515D /* CMVideoFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */; };
+		CE747B6B1FC9153500F2515D /* CVPixelBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */; };
+		CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0B1FC9153500F2515D /* Data+Extension.swift */; };
+		CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */; };
+		CE747B6F1FC9153500F2515D /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0E1FC9153500F2515D /* URL+Extension.swift */; };
+		CE747B701FC9153500F2515D /* FLVAACPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B101FC9153500F2515D /* FLVAACPacket.swift */; };
+		CE747B711FC9153500F2515D /* FLVAudioCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B111FC9153500F2515D /* FLVAudioCodec.swift */; };
+		CE747B721FC9153500F2515D /* FLVAVCPacketType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B121FC9153500F2515D /* FLVAVCPacketType.swift */; };
+		CE747B731FC9153500F2515D /* FLVFrameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B131FC9153500F2515D /* FLVFrameType.swift */; };
+		CE747B741FC9153500F2515D /* FLVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B141FC9153500F2515D /* FLVReader.swift */; };
+		CE747B751FC9153500F2515D /* FLVSoundRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B151FC9153500F2515D /* FLVSoundRate.swift */; };
+		CE747B761FC9153500F2515D /* FLVSoundSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B161FC9153500F2515D /* FLVSoundSize.swift */; };
+		CE747B771FC9153500F2515D /* FLVSoundType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B171FC9153500F2515D /* FLVSoundType.swift */; };
+		CE747B781FC9153500F2515D /* FLVTagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B181FC9153500F2515D /* FLVTagType.swift */; };
+		CE747B791FC9153500F2515D /* FLVVideoCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B191FC9153500F2515D /* FLVVideoCodec.swift */; };
+		CE747B7A1FC9153500F2515D /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B1B1FC9153500F2515D /* HTTPRequest.swift */; };
+		CE747B7B1FC9153500F2515D /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B1C1FC9153500F2515D /* HTTPResponse.swift */; };
+		CE747B7C1FC9153500F2515D /* HTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B1D1FC9153500F2515D /* HTTPService.swift */; };
+		CE747B7D1FC9153500F2515D /* HTTPStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B1E1FC9153500F2515D /* HTTPStream.swift */; };
+		CE747B7E1FC9153500F2515D /* M3U.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B1F1FC9153500F2515D /* M3U.swift */; };
+		CE747B7F1FC9153500F2515D /* AudioSpecificConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B211FC9153500F2515D /* AudioSpecificConfig.swift */; };
+		CE747B801FC9153500F2515D /* H264+AVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B221FC9153500F2515D /* H264+AVC.swift */; };
+		CE747B811FC9153500F2515D /* MP4Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B231FC9153500F2515D /* MP4Reader.swift */; };
+		CE747B821FC9153500F2515D /* MP4Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B241FC9153500F2515D /* MP4Sampler.swift */; };
+		CE747B831FC9153500F2515D /* NALUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B251FC9153500F2515D /* NALUnit.swift */; };
+		CE747B841FC9153500F2515D /* PacketizedElementaryStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B261FC9153500F2515D /* PacketizedElementaryStream.swift */; };
+		CE747B851FC9153500F2515D /* ProgramSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B271FC9153500F2515D /* ProgramSpecific.swift */; };
+		CE747B861FC9153500F2515D /* TransportStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B281FC9153500F2515D /* TransportStream.swift */; };
+		CE747B871FC9153500F2515D /* TSReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B291FC9153500F2515D /* TSReader.swift */; };
+		CE747B881FC9153500F2515D /* TSWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B2A1FC9153500F2515D /* TSWriter.swift */; };
+		CE747B891FC9153500F2515D /* AudioIOComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B2C1FC9153500F2515D /* AudioIOComponent.swift */; };
+		CE747B8B1FC9153500F2515D /* AVMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B2E1FC9153500F2515D /* AVMixer.swift */; };
+		CE747B8D1FC9153500F2515D /* IOComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B301FC9153500F2515D /* IOComponent.swift */; };
+		CE747B8E1FC9153500F2515D /* ScalingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B311FC9153500F2515D /* ScalingMode.swift */; };
+		CE747B8F1FC9153500F2515D /* SoundSpliter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B321FC9153500F2515D /* SoundSpliter.swift */; };
+		CE747B901FC9153500F2515D /* SoundTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B331FC9153500F2515D /* SoundTransform.swift */; };
+		CE747B911FC9153500F2515D /* VideoIOComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B341FC9153500F2515D /* VideoIOComponent.swift */; };
+		CE747B921FC9153500F2515D /* VisualEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B351FC9153500F2515D /* VisualEffect.swift */; };
+		CE747B931FC9153500F2515D /* MIME.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B371FC9153500F2515D /* MIME.swift */; };
+		CE747B941FC9153500F2515D /* NetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B381FC9153500F2515D /* NetClient.swift */; };
+		CE747B951FC9153500F2515D /* NetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B391FC9153500F2515D /* NetService.swift */; };
+		CE747B961FC9153500F2515D /* NetSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B3A1FC9153500F2515D /* NetSocket.swift */; };
+		CE747B971FC9153500F2515D /* NetStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B3B1FC9153500F2515D /* NetStream.swift */; };
+		CE747B981FC9153500F2515D /* AMF0Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B3D1FC9153500F2515D /* AMF0Serializer.swift */; };
+		CE747B991FC9153500F2515D /* AMF3Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B3E1FC9153500F2515D /* AMF3Serializer.swift */; };
+		CE747B9A1FC9153500F2515D /* ASClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B3F1FC9153500F2515D /* ASClass.swift */; };
+		CE747B9B1FC9153500F2515D /* RTMPChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B401FC9153500F2515D /* RTMPChunk.swift */; };
+		CE747B9C1FC9153500F2515D /* RTMPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B411FC9153500F2515D /* RTMPConnection.swift */; };
+		CE747B9D1FC9153500F2515D /* RTMPHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B421FC9153500F2515D /* RTMPHandshake.swift */; };
+		CE747B9E1FC9153500F2515D /* RTMPMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B431FC9153500F2515D /* RTMPMessage.swift */; };
+		CE747B9F1FC9153500F2515D /* RTMPMuxer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B441FC9153500F2515D /* RTMPMuxer.swift */; };
+		CE747BA01FC9153500F2515D /* RTMPSharedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B451FC9153500F2515D /* RTMPSharedObject.swift */; };
+		CE747BA11FC9153500F2515D /* RTMPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B461FC9153500F2515D /* RTMPSocket.swift */; };
+		CE747BA21FC9153500F2515D /* RTMPStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B471FC9153500F2515D /* RTMPStream.swift */; };
+		CE747BA41FC9153500F2515D /* RTMPTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B491FC9153500F2515D /* RTMPTSocket.swift */; };
+		CE747BAD1FC9153500F2515D /* AnyUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B551FC9153500F2515D /* AnyUtil.swift */; };
+		CE747BAE1FC9153500F2515D /* ByteArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B561FC9153500F2515D /* ByteArray.swift */; };
+		CE747BB01FC9153500F2515D /* CRC32.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B581FC9153500F2515D /* CRC32.swift */; };
+		CE747BB11FC9153500F2515D /* DeviceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B591FC9153500F2515D /* DeviceUtil.swift */; };
+		CE747BB21FC9153500F2515D /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B5A1FC9153500F2515D /* EventDispatcher.swift */; };
+		CE747BB31FC9153500F2515D /* MachUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B5B1FC9153500F2515D /* MachUtil.swift */; };
+		CE747BB41FC9153500F2515D /* MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B5C1FC9153500F2515D /* MD5.swift */; };
+		CE747BB61FC9153500F2515D /* TimerDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B5E1FC9153500F2515D /* TimerDriver.swift */; };
+		CE747BB71FC9153500F2515D /* VideoGravityUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B5F1FC9153500F2515D /* VideoGravityUtil.swift */; };
+		CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BB91FC9275800F2515D /* Foundation.framework */; };
+		CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */; };
+		CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBD1FC9302100F2515D /* AVFoundation.framework */; };
+		CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBF1FC9303800F2515D /* CoreMedia.framework */; };
+		CE747BCD1FC9353000F2515D /* DeviceUtil+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747BC41FC9352F00F2515D /* DeviceUtil+Extenstion.swift */; };
+		CE747BD11FC9353000F2515D /* NetStream+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747BC91FC9353000F2515D /* NetStream+Extension.swift */; };
+		CE747BD21FC9353000F2515D /* ScreenCaptureSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747BCA1FC9353000F2515D /* ScreenCaptureSession.swift */; };
+		CE747BD31FC9353000F2515D /* VideoIOComponent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747BCB1FC9353000F2515D /* VideoIOComponent+Extension.swift */; };
+		CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BD61FC9414D00F2515D /* CoreImage.framework */; };
+		CE747BD91FC94A3B00F2515D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BD81FC94A3400F2515D /* UIKit.framework */; };
+		CE8767D120504445009F9FF8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8767D020504445009F9FF8 /* SettingsViewController.swift */; };
+		CE8F887F2041576A00E19633 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE8F88812041576A00E19633 /* Localizable.strings */; };
+		CEA20C3E204821D60061E7EA /* help-en.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA20C3C204821D50061E7EA /* help-en.html */; };
+		CEA20C3F204821D60061E7EA /* help-ja.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA20C3D204821D50061E7EA /* help-ja.html */; };
+		EB05D135206A81BB00F17E98 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = EB05D134206A81BA00F17E98 /* LICENSE.md */; };
+		EB297E9320C9E15300511099 /* MyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9120C9E15300511099 /* MyExtension.swift */; };
+		EB297E9820CBBBC600511099 /* VTSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9720CBBBC600511099 /* VTSession+Extension.swift */; };
+		EB297E9A20CBBBD000511099 /* DisplayLinkedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9920CBBBD000511099 /* DisplayLinkedQueue.swift */; };
+		EB297E9E20CBBD5C00511099 /* MTHKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9B20CBBD5C00511099 /* MTHKView.swift */; };
+		EB297E9F20CBBD5C00511099 /* HKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9C20CBBD5C00511099 /* HKView.swift */; };
+		EB297EA020CBBD5C00511099 /* GLHKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9D20CBBD5C00511099 /* GLHKView.swift */; };
+		EBBFB7A12079DF0400D71E70 /* Logboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBBFB7A02079DF0400D71E70 /* Logboard.framework */; };
+		EBBFB7A22079F86C00D71E70 /* Logboard.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = EBBFB7A02079DF0400D71E70 /* Logboard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EBD8A392205EA78B0011938A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A391205EA78B0011938A /* Settings.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE74716C1FC9009300F2515D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE74714F1FC9009300F2515D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE7471561FC9009300F2515D;
+			remoteInfo = MyLive;
+		};
+		CE7471771FC9009300F2515D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE74714F1FC9009300F2515D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE7471561FC9009300F2515D;
+			remoteInfo = MyLive;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CEAFC1401FCF095C000326CE /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EBBFB7A22079F86C00D71E70 /* Logboard.framework in Copy Files */,
+				CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */,
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4A05962E2281D4E60070B169 /* VisionAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionAdapter.swift; sourceTree = "<group>"; };
+		4AF7E1752283295A006F0329 /* RTMPStreamDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPStreamDelegate.swift; sourceTree = "<group>"; };
+		4AFCD4B922871F2100616402 /* AudioConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioConverter.swift; sourceTree = "<group>"; };
+		4AFCD4BB22871F4600616402 /* AVRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVRecorder.swift; sourceTree = "<group>"; };
+		4AFCD4BD22871F6300616402 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		4AFCD4BF22871F6800616402 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4AFCD4C122871F6D00616402 /* DataConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConvertible.swift; sourceTree = "<group>"; };
+		4AFCD4C322871F7300616402 /* Running.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Running.swift; sourceTree = "<group>"; };
+		4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
+		4AFCD4C72288174A00616402 /* HaishinKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaishinKit.h; sourceTree = "<group>"; };
+		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
+		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE74715A1FC9009300F2515D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE74715C1FC9009300F2515D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE74715F1FC9009300F2515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE7471611FC9009300F2515D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE7471641FC9009300F2515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE7471661FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE74716B1FC9009300F2515D /* MyLiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE74716F1FC9009300F2515D /* MyLiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLiveTests.swift; sourceTree = "<group>"; };
+		CE7471711FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE7471761FC9009300F2515D /* MyLiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE74717A1FC9009300F2515D /* MyLiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLiveUITests.swift; sourceTree = "<group>"; };
+		CE74717C1FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE747AFE1FC9153500F2515D /* H264Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H264Decoder.swift; sourceTree = "<group>"; };
+		CE747AFF1FC9153500F2515D /* H264Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H264Encoder.swift; sourceTree = "<group>"; };
+		CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMAudioFormatDescription+Extension.swift"; sourceTree = "<group>"; };
+		CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMBlockBuffer+Extension.swift"; sourceTree = "<group>"; };
+		CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMFormatDescription+Extension.swift"; sourceTree = "<group>"; };
+		CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
+		CE747B081FC9153500F2515D /* CMSampleTimingInfo+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMSampleTimingInfo+Extension.swift"; sourceTree = "<group>"; };
+		CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMVideoFormatDescription+Extension.swift"; sourceTree = "<group>"; };
+		CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Extension.swift"; sourceTree = "<group>"; };
+		CE747B0B1FC9153500F2515D /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpressibleByIntegerLiteral+Extension.swift"; sourceTree = "<group>"; };
+		CE747B0E1FC9153500F2515D /* URL+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
+		CE747B101FC9153500F2515D /* FLVAACPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVAACPacket.swift; sourceTree = "<group>"; };
+		CE747B111FC9153500F2515D /* FLVAudioCodec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVAudioCodec.swift; sourceTree = "<group>"; };
+		CE747B121FC9153500F2515D /* FLVAVCPacketType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVAVCPacketType.swift; sourceTree = "<group>"; };
+		CE747B131FC9153500F2515D /* FLVFrameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVFrameType.swift; sourceTree = "<group>"; };
+		CE747B141FC9153500F2515D /* FLVReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVReader.swift; sourceTree = "<group>"; };
+		CE747B151FC9153500F2515D /* FLVSoundRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVSoundRate.swift; sourceTree = "<group>"; };
+		CE747B161FC9153500F2515D /* FLVSoundSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVSoundSize.swift; sourceTree = "<group>"; };
+		CE747B171FC9153500F2515D /* FLVSoundType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVSoundType.swift; sourceTree = "<group>"; };
+		CE747B181FC9153500F2515D /* FLVTagType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVTagType.swift; sourceTree = "<group>"; };
+		CE747B191FC9153500F2515D /* FLVVideoCodec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLVVideoCodec.swift; sourceTree = "<group>"; };
+		CE747B1B1FC9153500F2515D /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		CE747B1C1FC9153500F2515D /* HTTPResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
+		CE747B1D1FC9153500F2515D /* HTTPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPService.swift; sourceTree = "<group>"; };
+		CE747B1E1FC9153500F2515D /* HTTPStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStream.swift; sourceTree = "<group>"; };
+		CE747B1F1FC9153500F2515D /* M3U.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = M3U.swift; sourceTree = "<group>"; };
+		CE747B211FC9153500F2515D /* AudioSpecificConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSpecificConfig.swift; sourceTree = "<group>"; };
+		CE747B221FC9153500F2515D /* H264+AVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "H264+AVC.swift"; sourceTree = "<group>"; };
+		CE747B231FC9153500F2515D /* MP4Reader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MP4Reader.swift; sourceTree = "<group>"; };
+		CE747B241FC9153500F2515D /* MP4Sampler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MP4Sampler.swift; sourceTree = "<group>"; };
+		CE747B251FC9153500F2515D /* NALUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NALUnit.swift; sourceTree = "<group>"; };
+		CE747B261FC9153500F2515D /* PacketizedElementaryStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PacketizedElementaryStream.swift; sourceTree = "<group>"; };
+		CE747B271FC9153500F2515D /* ProgramSpecific.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramSpecific.swift; sourceTree = "<group>"; };
+		CE747B281FC9153500F2515D /* TransportStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportStream.swift; sourceTree = "<group>"; };
+		CE747B291FC9153500F2515D /* TSReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSReader.swift; sourceTree = "<group>"; };
+		CE747B2A1FC9153500F2515D /* TSWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSWriter.swift; sourceTree = "<group>"; };
+		CE747B2C1FC9153500F2515D /* AudioIOComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioIOComponent.swift; sourceTree = "<group>"; };
+		CE747B2E1FC9153500F2515D /* AVMixer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVMixer.swift; sourceTree = "<group>"; };
+		CE747B301FC9153500F2515D /* IOComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOComponent.swift; sourceTree = "<group>"; };
+		CE747B311FC9153500F2515D /* ScalingMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingMode.swift; sourceTree = "<group>"; };
+		CE747B321FC9153500F2515D /* SoundSpliter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundSpliter.swift; sourceTree = "<group>"; };
+		CE747B331FC9153500F2515D /* SoundTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundTransform.swift; sourceTree = "<group>"; };
+		CE747B341FC9153500F2515D /* VideoIOComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponent.swift; sourceTree = "<group>"; };
+		CE747B351FC9153500F2515D /* VisualEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffect.swift; sourceTree = "<group>"; };
+		CE747B371FC9153500F2515D /* MIME.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIME.swift; sourceTree = "<group>"; };
+		CE747B381FC9153500F2515D /* NetClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetClient.swift; sourceTree = "<group>"; };
+		CE747B391FC9153500F2515D /* NetService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetService.swift; sourceTree = "<group>"; };
+		CE747B3A1FC9153500F2515D /* NetSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetSocket.swift; sourceTree = "<group>"; };
+		CE747B3B1FC9153500F2515D /* NetStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetStream.swift; sourceTree = "<group>"; };
+		CE747B3D1FC9153500F2515D /* AMF0Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMF0Serializer.swift; sourceTree = "<group>"; };
+		CE747B3E1FC9153500F2515D /* AMF3Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMF3Serializer.swift; sourceTree = "<group>"; };
+		CE747B3F1FC9153500F2515D /* ASClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASClass.swift; sourceTree = "<group>"; };
+		CE747B401FC9153500F2515D /* RTMPChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPChunk.swift; sourceTree = "<group>"; };
+		CE747B411FC9153500F2515D /* RTMPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPConnection.swift; sourceTree = "<group>"; };
+		CE747B421FC9153500F2515D /* RTMPHandshake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPHandshake.swift; sourceTree = "<group>"; };
+		CE747B431FC9153500F2515D /* RTMPMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPMessage.swift; sourceTree = "<group>"; };
+		CE747B441FC9153500F2515D /* RTMPMuxer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPMuxer.swift; sourceTree = "<group>"; };
+		CE747B451FC9153500F2515D /* RTMPSharedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSharedObject.swift; sourceTree = "<group>"; };
+		CE747B461FC9153500F2515D /* RTMPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPSocket.swift; sourceTree = "<group>"; };
+		CE747B471FC9153500F2515D /* RTMPStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPStream.swift; sourceTree = "<group>"; };
+		CE747B491FC9153500F2515D /* RTMPTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPTSocket.swift; sourceTree = "<group>"; };
+		CE747B551FC9153500F2515D /* AnyUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyUtil.swift; sourceTree = "<group>"; };
+		CE747B561FC9153500F2515D /* ByteArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteArray.swift; sourceTree = "<group>"; };
+		CE747B581FC9153500F2515D /* CRC32.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRC32.swift; sourceTree = "<group>"; };
+		CE747B591FC9153500F2515D /* DeviceUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceUtil.swift; sourceTree = "<group>"; };
+		CE747B5A1FC9153500F2515D /* EventDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
+		CE747B5B1FC9153500F2515D /* MachUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MachUtil.swift; sourceTree = "<group>"; };
+		CE747B5C1FC9153500F2515D /* MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MD5.swift; sourceTree = "<group>"; };
+		CE747B5E1FC9153500F2515D /* TimerDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerDriver.swift; sourceTree = "<group>"; };
+		CE747B5F1FC9153500F2515D /* VideoGravityUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoGravityUtil.swift; sourceTree = "<group>"; };
+		CE747BB91FC9275800F2515D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		CE747BBD1FC9302100F2515D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CE747BBF1FC9303800F2515D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		CE747BC41FC9352F00F2515D /* DeviceUtil+Extenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeviceUtil+Extenstion.swift"; sourceTree = "<group>"; };
+		CE747BC91FC9353000F2515D /* NetStream+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetStream+Extension.swift"; sourceTree = "<group>"; };
+		CE747BCA1FC9353000F2515D /* ScreenCaptureSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenCaptureSession.swift; sourceTree = "<group>"; };
+		CE747BCB1FC9353000F2515D /* VideoIOComponent+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VideoIOComponent+Extension.swift"; sourceTree = "<group>"; };
+		CE747BD61FC9414D00F2515D /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		CE747BD81FC94A3400F2515D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CE8767D020504445009F9FF8 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CE8F88822041578300E19633 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE8F88842041582A00E19633 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CEA20C3C204821D50061E7EA /* help-en.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "help-en.html"; sourceTree = "<group>"; };
+		CEA20C3D204821D50061E7EA /* help-ja.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "help-ja.html"; sourceTree = "<group>"; };
+		EB05D134206A81BA00F17E98 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		EB297E9120C9E15300511099 /* MyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyExtension.swift; sourceTree = "<group>"; };
+		EB297E9720CBBBC600511099 /* VTSession+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VTSession+Extension.swift"; sourceTree = "<group>"; };
+		EB297E9920CBBBD000511099 /* DisplayLinkedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayLinkedQueue.swift; sourceTree = "<group>"; };
+		EB297E9B20CBBD5C00511099 /* MTHKView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MTHKView.swift; sourceTree = "<group>"; };
+		EB297E9C20CBBD5C00511099 /* HKView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HKView.swift; sourceTree = "<group>"; };
+		EB297E9D20CBBD5C00511099 /* GLHKView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GLHKView.swift; sourceTree = "<group>"; };
+		EBBFB7A02079DF0400D71E70 /* Logboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Logboard.framework; path = Carthage/Build/iOS/Logboard.framework; sourceTree = "<group>"; };
+		EBD8A391205EA78B0011938A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE7471541FC9009300F2515D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBBFB7A12079DF0400D71E70 /* Logboard.framework in Frameworks */,
+				CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */,
+				CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */,
+				CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */,
+				CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */,
+				CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */,
+				CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */,
+				CE747BD91FC94A3B00F2515D /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471681FC9009300F2515D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471731FC9009300F2515D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE74714E1FC9009300F2515D = {
+			isa = PBXGroup;
+			children = (
+				CE8F88812041576A00E19633 /* Localizable.strings */,
+				CE7471591FC9009300F2515D /* MyLive */,
+				CE74716E1FC9009300F2515D /* MyLiveTests */,
+				CE7471791FC9009300F2515D /* MyLiveUITests */,
+				CE7471581FC9009300F2515D /* Products */,
+				CE747BB81FC9275800F2515D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CE7471581FC9009300F2515D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE7471571FC9009300F2515D /* MyLive.app */,
+				CE74716B1FC9009300F2515D /* MyLiveTests.xctest */,
+				CE7471761FC9009300F2515D /* MyLiveUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE7471591FC9009300F2515D /* MyLive */ = {
+			isa = PBXGroup;
+			children = (
+				CEA20C3B204821D50061E7EA /* Doc */,
+				EB05D133206A815700F17E98 /* HaishinKit */,
+				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
+				4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */,
+				4A05962E2281D4E60070B169 /* VisionAdapter.swift */,
+				EB297E9120C9E15300511099 /* MyExtension.swift */,
+				CE74715C1FC9009300F2515D /* ViewController.swift */,
+				CE8767D020504445009F9FF8 /* SettingsViewController.swift */,
+				CE74715E1FC9009300F2515D /* Main.storyboard */,
+				CE7471611FC9009300F2515D /* Assets.xcassets */,
+				CE7471631FC9009300F2515D /* LaunchScreen.storyboard */,
+				CE7471661FC9009300F2515D /* Info.plist */,
+				EBD8A391205EA78B0011938A /* Settings.bundle */,
+			);
+			path = MyLive;
+			sourceTree = "<group>";
+		};
+		CE74716E1FC9009300F2515D /* MyLiveTests */ = {
+			isa = PBXGroup;
+			children = (
+				CE74716F1FC9009300F2515D /* MyLiveTests.swift */,
+				CE7471711FC9009300F2515D /* Info.plist */,
+			);
+			path = MyLiveTests;
+			sourceTree = "<group>";
+		};
+		CE7471791FC9009300F2515D /* MyLiveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CE74717A1FC9009300F2515D /* MyLiveUITests.swift */,
+				CE74717C1FC9009300F2515D /* Info.plist */,
+			);
+			path = MyLiveUITests;
+			sourceTree = "<group>";
+		};
+		CE747AFB1FC9153500F2515D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CE747AFC1FC9153500F2515D /* Codec */,
+				CE747B031FC9153500F2515D /* Extension */,
+				CE747B0F1FC9153500F2515D /* FLV */,
+				CE747B1A1FC9153500F2515D /* HTTP */,
+				CE747B201FC9153500F2515D /* ISO */,
+				CE747B2B1FC9153500F2515D /* Media */,
+				CE747B361FC9153500F2515D /* Net */,
+				CE747B3C1FC9153500F2515D /* RTMP */,
+				CE747B541FC9153500F2515D /* Util */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		CE747AFC1FC9153500F2515D /* Codec */ = {
+			isa = PBXGroup;
+			children = (
+				4AFCD4B922871F2100616402 /* AudioConverter.swift */,
+				CE747AFE1FC9153500F2515D /* H264Decoder.swift */,
+				CE747AFF1FC9153500F2515D /* H264Encoder.swift */,
+			);
+			path = Codec;
+			sourceTree = "<group>";
+		};
+		CE747B031FC9153500F2515D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EB297E9720CBBBC600511099 /* VTSession+Extension.swift */,
+				CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */,
+				CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */,
+				CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */,
+				CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */,
+				CE747B081FC9153500F2515D /* CMSampleTimingInfo+Extension.swift */,
+				CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */,
+				CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */,
+				CE747B0B1FC9153500F2515D /* Data+Extension.swift */,
+				CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */,
+				CE747B0E1FC9153500F2515D /* URL+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CE747B0F1FC9153500F2515D /* FLV */ = {
+			isa = PBXGroup;
+			children = (
+				CE747B101FC9153500F2515D /* FLVAACPacket.swift */,
+				CE747B111FC9153500F2515D /* FLVAudioCodec.swift */,
+				CE747B121FC9153500F2515D /* FLVAVCPacketType.swift */,
+				CE747B131FC9153500F2515D /* FLVFrameType.swift */,
+				CE747B141FC9153500F2515D /* FLVReader.swift */,
+				CE747B151FC9153500F2515D /* FLVSoundRate.swift */,
+				CE747B161FC9153500F2515D /* FLVSoundSize.swift */,
+				CE747B171FC9153500F2515D /* FLVSoundType.swift */,
+				CE747B181FC9153500F2515D /* FLVTagType.swift */,
+				CE747B191FC9153500F2515D /* FLVVideoCodec.swift */,
+			);
+			path = FLV;
+			sourceTree = "<group>";
+		};
+		CE747B1A1FC9153500F2515D /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				CE747B1B1FC9153500F2515D /* HTTPRequest.swift */,
+				CE747B1C1FC9153500F2515D /* HTTPResponse.swift */,
+				CE747B1D1FC9153500F2515D /* HTTPService.swift */,
+				CE747B1E1FC9153500F2515D /* HTTPStream.swift */,
+				CE747B1F1FC9153500F2515D /* M3U.swift */,
+			);
+			path = HTTP;
+			sourceTree = "<group>";
+		};
+		CE747B201FC9153500F2515D /* ISO */ = {
+			isa = PBXGroup;
+			children = (
+				CE747B211FC9153500F2515D /* AudioSpecificConfig.swift */,
+				CE747B221FC9153500F2515D /* H264+AVC.swift */,
+				CE747B231FC9153500F2515D /* MP4Reader.swift */,
+				CE747B241FC9153500F2515D /* MP4Sampler.swift */,
+				CE747B251FC9153500F2515D /* NALUnit.swift */,
+				CE747B261FC9153500F2515D /* PacketizedElementaryStream.swift */,
+				CE747B271FC9153500F2515D /* ProgramSpecific.swift */,
+				CE747B281FC9153500F2515D /* TransportStream.swift */,
+				CE747B291FC9153500F2515D /* TSReader.swift */,
+				CE747B2A1FC9153500F2515D /* TSWriter.swift */,
+			);
+			path = ISO;
+			sourceTree = "<group>";
+		};
+		CE747B2B1FC9153500F2515D /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				4AFCD4BB22871F4600616402 /* AVRecorder.swift */,
+				CE747B2C1FC9153500F2515D /* AudioIOComponent.swift */,
+				CE747B2E1FC9153500F2515D /* AVMixer.swift */,
+				CE747B301FC9153500F2515D /* IOComponent.swift */,
+				CE747B311FC9153500F2515D /* ScalingMode.swift */,
+				CE747B321FC9153500F2515D /* SoundSpliter.swift */,
+				CE747B331FC9153500F2515D /* SoundTransform.swift */,
+				CE747B341FC9153500F2515D /* VideoIOComponent.swift */,
+				CE747B351FC9153500F2515D /* VisualEffect.swift */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		CE747B361FC9153500F2515D /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				CE747B371FC9153500F2515D /* MIME.swift */,
+				CE747B381FC9153500F2515D /* NetClient.swift */,
+				CE747B391FC9153500F2515D /* NetService.swift */,
+				CE747B3A1FC9153500F2515D /* NetSocket.swift */,
+				CE747B3B1FC9153500F2515D /* NetStream.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		CE747B3C1FC9153500F2515D /* RTMP */ = {
+			isa = PBXGroup;
+			children = (
+				4AF7E1752283295A006F0329 /* RTMPStreamDelegate.swift */,
+				CE747B3D1FC9153500F2515D /* AMF0Serializer.swift */,
+				CE747B3E1FC9153500F2515D /* AMF3Serializer.swift */,
+				CE747B3F1FC9153500F2515D /* ASClass.swift */,
+				CE747B401FC9153500F2515D /* RTMPChunk.swift */,
+				CE747B411FC9153500F2515D /* RTMPConnection.swift */,
+				CE747B421FC9153500F2515D /* RTMPHandshake.swift */,
+				CE747B431FC9153500F2515D /* RTMPMessage.swift */,
+				CE747B441FC9153500F2515D /* RTMPMuxer.swift */,
+				CE747B451FC9153500F2515D /* RTMPSharedObject.swift */,
+				CE747B461FC9153500F2515D /* RTMPSocket.swift */,
+				CE747B471FC9153500F2515D /* RTMPStream.swift */,
+				CE747B491FC9153500F2515D /* RTMPTSocket.swift */,
+			);
+			path = RTMP;
+			sourceTree = "<group>";
+		};
+		CE747B541FC9153500F2515D /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				4AFCD4C322871F7300616402 /* Running.swift */,
+				4AFCD4C122871F6D00616402 /* DataConvertible.swift */,
+				4AFCD4BF22871F6800616402 /* Constants.swift */,
+				4AFCD4BD22871F6300616402 /* Atomic.swift */,
+				EB297E9920CBBBD000511099 /* DisplayLinkedQueue.swift */,
+				CE747B551FC9153500F2515D /* AnyUtil.swift */,
+				CE747B561FC9153500F2515D /* ByteArray.swift */,
+				CE747B581FC9153500F2515D /* CRC32.swift */,
+				CE747B591FC9153500F2515D /* DeviceUtil.swift */,
+				CE747B5A1FC9153500F2515D /* EventDispatcher.swift */,
+				CE747B5B1FC9153500F2515D /* MachUtil.swift */,
+				CE747B5C1FC9153500F2515D /* MD5.swift */,
+				CE747B5E1FC9153500F2515D /* TimerDriver.swift */,
+				CE747B5F1FC9153500F2515D /* VideoGravityUtil.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		CE747BB81FC9275800F2515D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EBBFB7A02079DF0400D71E70 /* Logboard.framework */,
+				CE70DD361FEE659D000D45AC /* Eureka.framework */,
+				CE747BD81FC94A3400F2515D /* UIKit.framework */,
+				CE747BD61FC9414D00F2515D /* CoreImage.framework */,
+				CE747BBF1FC9303800F2515D /* CoreMedia.framework */,
+				CE747BBD1FC9302100F2515D /* AVFoundation.framework */,
+				CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */,
+				CE747BB91FC9275800F2515D /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE747BC11FC9352F00F2515D /* Platforms */ = {
+			isa = PBXGroup;
+			children = (
+				CE747BC21FC9352F00F2515D /* iOS */,
+			);
+			path = Platforms;
+			sourceTree = "<group>";
+		};
+		CE747BC21FC9352F00F2515D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				4AFCD4C72288174A00616402 /* HaishinKit.h */,
+				EB297E9D20CBBD5C00511099 /* GLHKView.swift */,
+				EB297E9C20CBBD5C00511099 /* HKView.swift */,
+				EB297E9B20CBBD5C00511099 /* MTHKView.swift */,
+				CE747BC41FC9352F00F2515D /* DeviceUtil+Extenstion.swift */,
+				CE747BC91FC9353000F2515D /* NetStream+Extension.swift */,
+				CE747BCA1FC9353000F2515D /* ScreenCaptureSession.swift */,
+				CE747BCB1FC9353000F2515D /* VideoIOComponent+Extension.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		CEA20C3B204821D50061E7EA /* Doc */ = {
+			isa = PBXGroup;
+			children = (
+				CEA20C3C204821D50061E7EA /* help-en.html */,
+				CEA20C3D204821D50061E7EA /* help-ja.html */,
+			);
+			path = Doc;
+			sourceTree = "<group>";
+		};
+		EB05D133206A815700F17E98 /* HaishinKit */ = {
+			isa = PBXGroup;
+			children = (
+				EB05D134206A81BA00F17E98 /* LICENSE.md */,
+				CE747BC11FC9352F00F2515D /* Platforms */,
+				CE747AFB1FC9153500F2515D /* Sources */,
+			);
+			path = HaishinKit;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE7471561FC9009300F2515D /* MyLive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE74717F1FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLive" */;
+			buildPhases = (
+				CE7471531FC9009300F2515D /* Sources */,
+				CE7471541FC9009300F2515D /* Frameworks */,
+				CE7471551FC9009300F2515D /* Resources */,
+				CEAFC1401FCF095C000326CE /* Copy Files */,
+				EB062A1C207CEA28006B03A5 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyLive;
+			productName = MyLive;
+			productReference = CE7471571FC9009300F2515D /* MyLive.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE74716A1FC9009300F2515D /* MyLiveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE7471821FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveTests" */;
+			buildPhases = (
+				CE7471671FC9009300F2515D /* Sources */,
+				CE7471681FC9009300F2515D /* Frameworks */,
+				CE7471691FC9009300F2515D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE74716D1FC9009300F2515D /* PBXTargetDependency */,
+			);
+			name = MyLiveTests;
+			productName = MyLiveTests;
+			productReference = CE74716B1FC9009300F2515D /* MyLiveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CE7471751FC9009300F2515D /* MyLiveUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE7471851FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveUITests" */;
+			buildPhases = (
+				CE7471721FC9009300F2515D /* Sources */,
+				CE7471731FC9009300F2515D /* Frameworks */,
+				CE7471741FC9009300F2515D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE7471781FC9009300F2515D /* PBXTargetDependency */,
+			);
+			name = MyLiveUITests;
+			productName = MyLiveUITests;
+			productReference = CE7471761FC9009300F2515D /* MyLiveUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE74714F1FC9009300F2515D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = User;
+				TargetAttributes = {
+					CE7471561FC9009300F2515D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					CE74716A1FC9009300F2515D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CE7471561FC9009300F2515D;
+					};
+					CE7471751FC9009300F2515D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CE7471561FC9009300F2515D;
+					};
+				};
+			};
+			buildConfigurationList = CE7471521FC9009300F2515D /* Build configuration list for PBXProject "MyLive" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ja,
+			);
+			mainGroup = CE74714E1FC9009300F2515D;
+			productRefGroup = CE7471581FC9009300F2515D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE7471561FC9009300F2515D /* MyLive */,
+				CE74716A1FC9009300F2515D /* MyLiveTests */,
+				CE7471751FC9009300F2515D /* MyLiveUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE7471551FC9009300F2515D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBD8A392205EA78B0011938A /* Settings.bundle in Resources */,
+				EB05D135206A81BB00F17E98 /* LICENSE.md in Resources */,
+				CEA20C3F204821D60061E7EA /* help-ja.html in Resources */,
+				CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */,
+				CEA20C3E204821D60061E7EA /* help-en.html in Resources */,
+				CE8F887F2041576A00E19633 /* Localizable.strings in Resources */,
+				CE7471621FC9009300F2515D /* Assets.xcassets in Resources */,
+				CE6469271FD255D300A8FAB8 /* Info.plist in Resources */,
+				CE7471601FC9009300F2515D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471691FC9009300F2515D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471741FC9009300F2515D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EB062A1C207CEA28006B03A5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE7471531FC9009300F2515D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE747B921FC9153500F2515D /* VisualEffect.swift in Sources */,
+				CE747BB41FC9153500F2515D /* MD5.swift in Sources */,
+				CE747B7C1FC9153500F2515D /* HTTPService.swift in Sources */,
+				EB297E9820CBBBC600511099 /* VTSession+Extension.swift in Sources */,
+				4AFCD4C6228811A900616402 /* VideoIOComponentEx.swift in Sources */,
+				CE747B871FC9153500F2515D /* TSReader.swift in Sources */,
+				CE747B761FC9153500F2515D /* FLVSoundSize.swift in Sources */,
+				CE747B8E1FC9153500F2515D /* ScalingMode.swift in Sources */,
+				CE747B6A1FC9153500F2515D /* CMVideoFormatDescription+Extension.swift in Sources */,
+				CE74715D1FC9009300F2515D /* ViewController.swift in Sources */,
+				CE747B9B1FC9153500F2515D /* RTMPChunk.swift in Sources */,
+				CE747BD11FC9353000F2515D /* NetStream+Extension.swift in Sources */,
+				CE747BA21FC9153500F2515D /* RTMPStream.swift in Sources */,
+				CE747B751FC9153500F2515D /* FLVSoundRate.swift in Sources */,
+				CE8767D120504445009F9FF8 /* SettingsViewController.swift in Sources */,
+				CE747B891FC9153500F2515D /* AudioIOComponent.swift in Sources */,
+				CE747BAD1FC9153500F2515D /* AnyUtil.swift in Sources */,
+				CE747B7E1FC9153500F2515D /* M3U.swift in Sources */,
+				CE747B711FC9153500F2515D /* FLVAudioCodec.swift in Sources */,
+				CE747B781FC9153500F2515D /* FLVTagType.swift in Sources */,
+				EB297E9F20CBBD5C00511099 /* HKView.swift in Sources */,
+				CE747BB01FC9153500F2515D /* CRC32.swift in Sources */,
+				4AFCD4BC22871F4600616402 /* AVRecorder.swift in Sources */,
+				CE747BB61FC9153500F2515D /* TimerDriver.swift in Sources */,
+				CE747B9C1FC9153500F2515D /* RTMPConnection.swift in Sources */,
+				CE747BD31FC9353000F2515D /* VideoIOComponent+Extension.swift in Sources */,
+				CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */,
+				CE747B9E1FC9153500F2515D /* RTMPMessage.swift in Sources */,
+				EB297E9E20CBBD5C00511099 /* MTHKView.swift in Sources */,
+				CE747B621FC9153500F2515D /* H264Encoder.swift in Sources */,
+				CE747BA01FC9153500F2515D /* RTMPSharedObject.swift in Sources */,
+				CE747B911FC9153500F2515D /* VideoIOComponent.swift in Sources */,
+				CE747BB31FC9153500F2515D /* MachUtil.swift in Sources */,
+				CE747B811FC9153500F2515D /* MP4Reader.swift in Sources */,
+				4AFCD4C422871F7300616402 /* Running.swift in Sources */,
+				CE747BAE1FC9153500F2515D /* ByteArray.swift in Sources */,
+				CE747BB21FC9153500F2515D /* EventDispatcher.swift in Sources */,
+				4AFCD4C022871F6800616402 /* Constants.swift in Sources */,
+				CE747BA41FC9153500F2515D /* RTMPTSocket.swift in Sources */,
+				CE747B7A1FC9153500F2515D /* HTTPRequest.swift in Sources */,
+				CE747B6B1FC9153500F2515D /* CVPixelBuffer+Extension.swift in Sources */,
+				CE747B6F1FC9153500F2515D /* URL+Extension.swift in Sources */,
+				EB297EA020CBBD5C00511099 /* GLHKView.swift in Sources */,
+				CE747B981FC9153500F2515D /* AMF0Serializer.swift in Sources */,
+				CE747B841FC9153500F2515D /* PacketizedElementaryStream.swift in Sources */,
+				CE747BD21FC9353000F2515D /* ScreenCaptureSession.swift in Sources */,
+				CE747B681FC9153500F2515D /* CMSampleBuffer+Extension.swift in Sources */,
+				CE747B861FC9153500F2515D /* TransportStream.swift in Sources */,
+				CE747B7B1FC9153500F2515D /* HTTPResponse.swift in Sources */,
+				EB297E9320C9E15300511099 /* MyExtension.swift in Sources */,
+				CE747B651FC9153500F2515D /* CMAudioFormatDescription+Extension.swift in Sources */,
+				CE747BCD1FC9353000F2515D /* DeviceUtil+Extenstion.swift in Sources */,
+				CE747B8D1FC9153500F2515D /* IOComponent.swift in Sources */,
+				CE747B831FC9153500F2515D /* NALUnit.swift in Sources */,
+				CE747B741FC9153500F2515D /* FLVReader.swift in Sources */,
+				CE747B901FC9153500F2515D /* SoundTransform.swift in Sources */,
+				CE747B8F1FC9153500F2515D /* SoundSpliter.swift in Sources */,
+				CE747B931FC9153500F2515D /* MIME.swift in Sources */,
+				CE747B941FC9153500F2515D /* NetClient.swift in Sources */,
+				CE747B821FC9153500F2515D /* MP4Sampler.swift in Sources */,
+				4AFCD4BE22871F6300616402 /* Atomic.swift in Sources */,
+				CE747B801FC9153500F2515D /* H264+AVC.swift in Sources */,
+				CE747B791FC9153500F2515D /* FLVVideoCodec.swift in Sources */,
+				CE747B611FC9153500F2515D /* H264Decoder.swift in Sources */,
+				CE747B701FC9153500F2515D /* FLVAACPacket.swift in Sources */,
+				4AF7E1762283295A006F0329 /* RTMPStreamDelegate.swift in Sources */,
+				CE747B731FC9153500F2515D /* FLVFrameType.swift in Sources */,
+				4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */,
+				CE747B961FC9153500F2515D /* NetSocket.swift in Sources */,
+				CE747B7D1FC9153500F2515D /* HTTPStream.swift in Sources */,
+				CE747B8B1FC9153500F2515D /* AVMixer.swift in Sources */,
+				CE747B851FC9153500F2515D /* ProgramSpecific.swift in Sources */,
+				4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */,
+				CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */,
+				CE747B7F1FC9153500F2515D /* AudioSpecificConfig.swift in Sources */,
+				CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */,
+				CE747B671FC9153500F2515D /* CMFormatDescription+Extension.swift in Sources */,
+				CE747B881FC9153500F2515D /* TSWriter.swift in Sources */,
+				CE747B9A1FC9153500F2515D /* ASClass.swift in Sources */,
+				CE747B991FC9153500F2515D /* AMF3Serializer.swift in Sources */,
+				CE747B9D1FC9153500F2515D /* RTMPHandshake.swift in Sources */,
+				CE747B971FC9153500F2515D /* NetStream.swift in Sources */,
+				4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */,
+				CE747B721FC9153500F2515D /* FLVAVCPacketType.swift in Sources */,
+				CE747B9F1FC9153500F2515D /* RTMPMuxer.swift in Sources */,
+				EB297E9A20CBBBD000511099 /* DisplayLinkedQueue.swift in Sources */,
+				CE747B951FC9153500F2515D /* NetService.swift in Sources */,
+				CE747BA11FC9153500F2515D /* RTMPSocket.swift in Sources */,
+				CE747BB11FC9153500F2515D /* DeviceUtil.swift in Sources */,
+				CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */,
+				CE747BB71FC9153500F2515D /* VideoGravityUtil.swift in Sources */,
+				CE747B771FC9153500F2515D /* FLVSoundType.swift in Sources */,
+				CE747B691FC9153500F2515D /* CMSampleTimingInfo+Extension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471671FC9009300F2515D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE7471701FC9009300F2515D /* MyLiveTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE7471721FC9009300F2515D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE74717B1FC9009300F2515D /* MyLiveUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE74716D1FC9009300F2515D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE7471561FC9009300F2515D /* MyLive */;
+			targetProxy = CE74716C1FC9009300F2515D /* PBXContainerItemProxy */;
+		};
+		CE7471781FC9009300F2515D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE7471561FC9009300F2515D /* MyLive */;
+			targetProxy = CE7471771FC9009300F2515D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE74715E1FC9009300F2515D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE74715F1FC9009300F2515D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE7471631FC9009300F2515D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE7471641FC9009300F2515D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CE8F88812041576A00E19633 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE8F88822041578300E19633 /* Base */,
+				CE8F88842041582A00E19633 /* ja */,
+			);
+			name = Localizable.strings;
+			path = MyLive;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE74717D1FC9009300F2515D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Debug;
+		};
+		CE74717E1FC9009300F2515D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE7471801FC9009300F2515D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9TD6G2FZN5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Checkouts/XCGLogger/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = MyLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE7471811FC9009300F2515D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 9TD6G2FZN5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Checkouts/XCGLogger/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = MyLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CE7471831FC9009300F2515D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyLiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLive.app/MyLive";
+			};
+			name = Debug;
+		};
+		CE7471841FC9009300F2515D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyLiveTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLive.app/MyLive";
+			};
+			name = Release;
+		};
+		CE7471861FC9009300F2515D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyLiveUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyLive;
+			};
+			name = Debug;
+		};
+		CE7471871FC9009300F2515D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MyLiveUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MyLive;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE7471521FC9009300F2515D /* Build configuration list for PBXProject "MyLive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE74717D1FC9009300F2515D /* Debug */,
+				CE74717E1FC9009300F2515D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE74717F1FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE7471801FC9009300F2515D /* Debug */,
+				CE7471811FC9009300F2515D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE7471821FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE7471831FC9009300F2515D /* Debug */,
+				CE7471841FC9009300F2515D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE7471851FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE7471861FC9009300F2515D /* Debug */,
+				CE7471871FC9009300F2515D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE74714F1FC9009300F2515D /* Project object */;
+}
