@@ -7,15 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A04C3AC22A6C11000CA624A /* libsrt-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */; };
+		4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AD22A6C1AC00CA624A /* libcrypto.a */; };
+		4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AF22A6C1DD00CA624A /* libc++.tbd */; };
 		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
+		4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */; };
+		4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */; };
 		4AF7E1762283295A006F0329 /* RTMPStreamDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF7E1752283295A006F0329 /* RTMPStreamDelegate.swift */; };
+		4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */; };
+		4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92096229ECDF5001C8E10 /* SRTSocket.swift */; };
+		4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */; };
+		4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92098229ECDF5001C8E10 /* SRTConnection.swift */; };
+		4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92099229ECDF5001C8E10 /* SRTError.swift */; };
+		4AF920A1229ECDF5001C8E10 /* SRTIncomingSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */; };
+		4AF920A2229ECDF5001C8E10 /* SRTOutgoingSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */; };
+		4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209C229ECDF5001C8E10 /* SRTStream.swift */; };
 		4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4B922871F2100616402 /* AudioConverter.swift */; };
 		4AFCD4BC22871F4600616402 /* AVRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BB22871F4600616402 /* AVRecorder.swift */; };
 		4AFCD4BE22871F6300616402 /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BD22871F6300616402 /* Atomic.swift */; };
 		4AFCD4C022871F6800616402 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BF22871F6800616402 /* Constants.swift */; };
 		4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C122871F6D00616402 /* DataConvertible.swift */; };
 		4AFCD4C422871F7300616402 /* Running.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C322871F7300616402 /* Running.swift */; };
-		4AFCD4C6228811A900616402 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */; };
 		CE6469271FD255D300A8FAB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7471661FC9009300F2515D /* Info.plist */; };
 		CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -156,15 +168,54 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsrt-iOS.a"; path = "MyLive/HaishinKit/Vendor/SRT/libsrt-iOS.a"; sourceTree = "<group>"; };
+		4A04C3AD22A6C1AC00CA624A /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
+		4A04C3AF22A6C1DD00CA624A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		4A05962E2281D4E60070B169 /* VisionAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionAdapter.swift; sourceTree = "<group>"; };
+		4A090B0422A003BA0029E3CE /* smoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoother.h; sourceTree = "<group>"; };
+		4A090B0522A003BA0029E3CE /* platform_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_sys.h; sourceTree = "<group>"; };
+		4A090B0622A003BA0029E3CE /* netinet_any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netinet_any.h; sourceTree = "<group>"; };
+		4A090B0722A003BA0029E3CE /* channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = channel.h; sourceTree = "<group>"; };
+		4A090B0822A003BA0029E3CE /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
+		4A090B0922A003BA0029E3CE /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		4A090B0A22A003BA0029E3CE /* threadname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadname.h; sourceTree = "<group>"; };
+		4A090B0B22A003BA0029E3CE /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
+		4A090B0C22A003BA0029E3CE /* epoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = epoll.h; sourceTree = "<group>"; };
+		4A090B0D22A003BA0029E3CE /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		4A090B0E22A003BA0029E3CE /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
+		4A090B0F22A003BA0029E3CE /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cache.h; sourceTree = "<group>"; };
+		4A090B1022A003BA0029E3CE /* window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		4A090B1122A003BA0029E3CE /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		4A090B1222A003BA0029E3CE /* srt_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt_compat.h; sourceTree = "<group>"; };
+		4A090B1322A003BA0029E3CE /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
+		4A090B1422A003BA0029E3CE /* api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = api.h; sourceTree = "<group>"; };
+		4A090B1522A003BA0029E3CE /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		4A090B1622A003BA0029E3CE /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
+		4A090B1722A003BA0029E3CE /* srt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt.h; sourceTree = "<group>"; };
+		4A090B1822A003BA0029E3CE /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		4A090B1922A003BA0029E3CE /* packet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packet.h; sourceTree = "<group>"; };
+		4A090B1A22A003BA0029E3CE /* logging_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging_api.h; sourceTree = "<group>"; };
+		4A090B1B22A003BA0029E3CE /* udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udt.h; sourceTree = "<group>"; };
+		4A090B1C22A003BA0029E3CE /* srt4udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt4udt.h; sourceTree = "<group>"; };
+		4A090B1D22A003BA0029E3CE /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-srt-iOS.sh"; sourceTree = "<group>"; };
+		4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
 		4AF7E1752283295A006F0329 /* RTMPStreamDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTMPStreamDelegate.swift; sourceTree = "<group>"; };
+		4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
+		4AF92096229ECDF5001C8E10 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
+		4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
+		4AF92098229ECDF5001C8E10 /* SRTConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTConnection.swift; sourceTree = "<group>"; };
+		4AF92099229ECDF5001C8E10 /* SRTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTError.swift; sourceTree = "<group>"; };
+		4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTIncomingSocket.swift; sourceTree = "<group>"; };
+		4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTOutgoingSocket.swift; sourceTree = "<group>"; };
+		4AF9209C229ECDF5001C8E10 /* SRTStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTStream.swift; sourceTree = "<group>"; };
+		4AF920A4229EDA85001C8E10 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4AFCD4B922871F2100616402 /* AudioConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioConverter.swift; sourceTree = "<group>"; };
 		4AFCD4BB22871F4600616402 /* AVRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVRecorder.swift; sourceTree = "<group>"; };
 		4AFCD4BD22871F6300616402 /* Atomic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		4AFCD4BF22871F6800616402 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4AFCD4C122871F6D00616402 /* DataConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConvertible.swift; sourceTree = "<group>"; };
 		4AFCD4C322871F7300616402 /* Running.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Running.swift; sourceTree = "<group>"; };
-		4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
 		4AFCD4C72288174A00616402 /* HaishinKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaishinKit.h; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +333,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */,
+				4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */,
+				4A04C3AC22A6C11000CA624A /* libsrt-iOS.a in Frameworks */,
 				EBBFB7A12079DF0400D71E70 /* Logboard.framework in Frameworks */,
 				CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */,
 				CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */,
@@ -310,6 +364,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A090B0122A003BA0029E3CE /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				4A090B0222A003BA0029E3CE /* SRT */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		4A090B0222A003BA0029E3CE /* SRT */ = {
+			isa = PBXGroup;
+			children = (
+				4A090B0322A003BA0029E3CE /* Includes */,
+				4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */,
+				4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */,
+			);
+			path = SRT;
+			sourceTree = "<group>";
+		};
+		4A090B0322A003BA0029E3CE /* Includes */ = {
+			isa = PBXGroup;
+			children = (
+				4A090B0422A003BA0029E3CE /* smoother.h */,
+				4A090B0522A003BA0029E3CE /* platform_sys.h */,
+				4A090B0622A003BA0029E3CE /* netinet_any.h */,
+				4A090B0722A003BA0029E3CE /* channel.h */,
+				4A090B0822A003BA0029E3CE /* core.h */,
+				4A090B0922A003BA0029E3CE /* version.h */,
+				4A090B0A22A003BA0029E3CE /* threadname.h */,
+				4A090B0B22A003BA0029E3CE /* handshake.h */,
+				4A090B0C22A003BA0029E3CE /* epoll.h */,
+				4A090B0D22A003BA0029E3CE /* md5.h */,
+				4A090B0E22A003BA0029E3CE /* utilities.h */,
+				4A090B0F22A003BA0029E3CE /* cache.h */,
+				4A090B1022A003BA0029E3CE /* window.h */,
+				4A090B1122A003BA0029E3CE /* logging.h */,
+				4A090B1222A003BA0029E3CE /* srt_compat.h */,
+				4A090B1322A003BA0029E3CE /* crypto.h */,
+				4A090B1422A003BA0029E3CE /* api.h */,
+				4A090B1522A003BA0029E3CE /* list.h */,
+				4A090B1622A003BA0029E3CE /* buffer.h */,
+				4A090B1722A003BA0029E3CE /* srt.h */,
+				4A090B1822A003BA0029E3CE /* common.h */,
+				4A090B1922A003BA0029E3CE /* packet.h */,
+				4A090B1A22A003BA0029E3CE /* logging_api.h */,
+				4A090B1B22A003BA0029E3CE /* udt.h */,
+				4A090B1C22A003BA0029E3CE /* srt4udt.h */,
+				4A090B1D22A003BA0029E3CE /* queue.h */,
+			);
+			path = Includes;
+			sourceTree = "<group>";
+		};
+		4AF92095229ECDF5001C8E10 /* SRT */ = {
+			isa = PBXGroup;
+			children = (
+				4AF92096229ECDF5001C8E10 /* SRTSocket.swift */,
+				4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */,
+				4AF92098229ECDF5001C8E10 /* SRTConnection.swift */,
+				4AF92099229ECDF5001C8E10 /* SRTError.swift */,
+				4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */,
+				4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */,
+				4AF9209C229ECDF5001C8E10 /* SRTStream.swift */,
+			);
+			path = SRT;
+			sourceTree = "<group>";
+		};
 		CE74714E1FC9009300F2515D = {
 			isa = PBXGroup;
 			children = (
@@ -338,7 +457,7 @@
 				CEA20C3B204821D50061E7EA /* Doc */,
 				EB05D133206A815700F17E98 /* HaishinKit */,
 				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
-				4AFCD4C5228811A900616402 /* VideoIOComponentEx.swift */,
+				4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */,
 				4A05962E2281D4E60070B169 /* VisionAdapter.swift */,
 				EB297E9120C9E15300511099 /* MyExtension.swift */,
 				CE74715C1FC9009300F2515D /* ViewController.swift */,
@@ -373,6 +492,7 @@
 		CE747AFB1FC9153500F2515D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4AF92095229ECDF5001C8E10 /* SRT */,
 				CE747AFC1FC9153500F2515D /* Codec */,
 				CE747B031FC9153500F2515D /* Extension */,
 				CE747B0F1FC9153500F2515D /* FLV */,
@@ -532,6 +652,9 @@
 		CE747BB81FC9275800F2515D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A04C3AF22A6C1DD00CA624A /* libc++.tbd */,
+				4A04C3AD22A6C1AC00CA624A /* libcrypto.a */,
+				4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */,
 				EBBFB7A02079DF0400D71E70 /* Logboard.framework */,
 				CE70DD361FEE659D000D45AC /* Eureka.framework */,
 				CE747BD81FC94A3400F2515D /* UIKit.framework */,
@@ -579,7 +702,9 @@
 		EB05D133206A815700F17E98 /* HaishinKit */ = {
 			isa = PBXGroup;
 			children = (
+				4AF920A4229EDA85001C8E10 /* module.modulemap */,
 				EB05D134206A81BA00F17E98 /* LICENSE.md */,
+				4A090B0122A003BA0029E3CE /* Vendor */,
 				CE747BC11FC9352F00F2515D /* Platforms */,
 				CE747AFB1FC9153500F2515D /* Sources */,
 			);
@@ -697,6 +822,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBD8A392205EA78B0011938A /* Settings.bundle in Resources */,
+				4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */,
 				EB05D135206A81BB00F17E98 /* LICENSE.md in Resources */,
 				CEA20C3F204821D60061E7EA /* help-ja.html in Resources */,
 				CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */,
@@ -705,6 +831,7 @@
 				CE7471621FC9009300F2515D /* Assets.xcassets in Resources */,
 				CE6469271FD255D300A8FAB8 /* Info.plist in Resources */,
 				CE7471601FC9009300F2515D /* Main.storyboard in Resources */,
+				4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,7 +876,6 @@
 				CE747BB41FC9153500F2515D /* MD5.swift in Sources */,
 				CE747B7C1FC9153500F2515D /* HTTPService.swift in Sources */,
 				EB297E9820CBBBC600511099 /* VTSession+Extension.swift in Sources */,
-				4AFCD4C6228811A900616402 /* VideoIOComponentEx.swift in Sources */,
 				CE747B871FC9153500F2515D /* TSReader.swift in Sources */,
 				CE747B761FC9153500F2515D /* FLVSoundSize.swift in Sources */,
 				CE747B8E1FC9153500F2515D /* ScalingMode.swift in Sources */,
@@ -766,9 +892,12 @@
 				CE747B711FC9153500F2515D /* FLVAudioCodec.swift in Sources */,
 				CE747B781FC9153500F2515D /* FLVTagType.swift in Sources */,
 				EB297E9F20CBBD5C00511099 /* HKView.swift in Sources */,
+				4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */,
 				CE747BB01FC9153500F2515D /* CRC32.swift in Sources */,
 				4AFCD4BC22871F4600616402 /* AVRecorder.swift in Sources */,
+				4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */,
 				CE747BB61FC9153500F2515D /* TimerDriver.swift in Sources */,
+				4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */,
 				CE747B9C1FC9153500F2515D /* RTMPConnection.swift in Sources */,
 				CE747BD31FC9353000F2515D /* VideoIOComponent+Extension.swift in Sources */,
 				CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */,
@@ -806,6 +935,7 @@
 				CE747B941FC9153500F2515D /* NetClient.swift in Sources */,
 				CE747B821FC9153500F2515D /* MP4Sampler.swift in Sources */,
 				4AFCD4BE22871F6300616402 /* Atomic.swift in Sources */,
+				4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */,
 				CE747B801FC9153500F2515D /* H264+AVC.swift in Sources */,
 				CE747B791FC9153500F2515D /* FLVVideoCodec.swift in Sources */,
 				CE747B611FC9153500F2515D /* H264Decoder.swift in Sources */,
@@ -819,13 +949,16 @@
 				CE747B851FC9153500F2515D /* ProgramSpecific.swift in Sources */,
 				4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */,
 				CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */,
+				4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */,
 				CE747B7F1FC9153500F2515D /* AudioSpecificConfig.swift in Sources */,
 				CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */,
+				4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */,
 				CE747B671FC9153500F2515D /* CMFormatDescription+Extension.swift in Sources */,
 				CE747B881FC9153500F2515D /* TSWriter.swift in Sources */,
 				CE747B9A1FC9153500F2515D /* ASClass.swift in Sources */,
 				CE747B991FC9153500F2515D /* AMF3Serializer.swift in Sources */,
 				CE747B9D1FC9153500F2515D /* RTMPHandshake.swift in Sources */,
+				4AF920A2229ECDF5001C8E10 /* SRTOutgoingSocket.swift in Sources */,
 				CE747B971FC9153500F2515D /* NetStream.swift in Sources */,
 				4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */,
 				CE747B721FC9153500F2515D /* FLVAVCPacketType.swift in Sources */,
@@ -835,6 +968,7 @@
 				CE747BA11FC9153500F2515D /* RTMPSocket.swift in Sources */,
 				CE747BB11FC9153500F2515D /* DeviceUtil.swift in Sources */,
 				CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */,
+				4AF920A1229ECDF5001C8E10 /* SRTIncomingSocket.swift in Sources */,
 				CE747BB71FC9153500F2515D /* VideoGravityUtil.swift in Sources */,
 				CE747B771FC9153500F2515D /* FLVSoundType.swift in Sources */,
 				CE747B691FC9153500F2515D /* CMSampleTimingInfo+Extension.swift in Sources */,
@@ -955,7 +1089,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1025,18 +1159,24 @@
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Checkouts/XCGLogger/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit",
 				);
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/inclides/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
 				SWIFT_VERSION = 5.0;
@@ -1053,18 +1193,24 @@
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit.swift-master/Carthage/Checkouts/XCGLogger/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/Carthage/Build/iOS",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/build/iOS",
+					"$(PROJECT_DIR)/MyLive/HaishinKit",
 				);
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
+					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
+				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/inclides/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
 				SWIFT_VERSION = 5.0;

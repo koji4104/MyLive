@@ -13,8 +13,10 @@ class ViewController: UIViewController {
 
     var rtmpConnection:RTMPConnection!
     var rtmpStream:RTMPStream!
-    var sharedObject:RTMPSharedObject!
     
+    var srtConnection:SRTConnection!
+    var srtStream:SRTStream!
+
     @IBOutlet weak var myView: GLHKView!
     
     @IBOutlet weak var segBps:UISegmentedControl!
@@ -57,6 +59,9 @@ class ViewController: UIViewController {
         } else if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
+        } else if (env.isSrt()) {
+            self.srtConnection = .init()
+            self.srtStream = SRTStream(srtConnection)
         }
         
         currentStream.syncOrientation = false
@@ -134,6 +139,9 @@ class ViewController: UIViewController {
         } else if (env.isRtmp()) {
             rtmpStream.close()
             rtmpStream.dispose()
+        } else if (env.isSrt()) {
+            srtStream.close()
+            srtStream.dispose()
         }
     }
     
@@ -142,6 +150,8 @@ class ViewController: UIViewController {
             let env = Environment()
             if (env.isRtmp()) {
                 return rtmpStream
+            } else if (env.isSrt()) {
+                return srtStream
             } else {
                 return httpStream
             }
@@ -221,6 +231,17 @@ class ViewController: UIViewController {
                 rtmpConnection.removeEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
                 changePublishControl(b:publish)
             }
+        } else if(env.isSrt()) {
+            if (publish == true) {
+                print("uri \(env.getUrl())")
+                srtConnection.connect(URL(string: env.getUrl()))
+                srtStream.publish("hoge")
+                changePublishControl(b:publish)
+            } else {
+                srtConnection.close()
+                changePublishControl(b:publish)
+            }
+            
         }
     }
 
@@ -434,7 +455,7 @@ class ViewController: UIViewController {
         let ly = Int(btnSettings.center.y)
         titleCpu.text = "CPU"
         titleFps.text = "FPS"
-        titleRps.text = "Rtmp"
+        titleRps.text = ""
         titleSec.text = "Elapsed"
         
         let lx1 = 120
@@ -532,13 +553,14 @@ class ViewController: UIViewController {
     var nDispCpu = 1
     @objc func onTimer(_ tm: Timer) {
         let env = Environment()
+       
         if (isPublish == true) {
             if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
-                // 自動低画質
+                // RTMP 自動低画質
                 let f:Int = Int(rtmpStream.currentFPS)
                 if (env.lowimageMode>0 && f>=2) {
                     aryFps.append(f)
-                    if (aryFps.count > 10) { 
+                    if (aryFps.count > 10) {
                         aryFps.removeFirst()
                         var sum:Int=0
                         for (_, element) in aryFps.enumerated() {
@@ -556,12 +578,11 @@ class ViewController: UIViewController {
                         }
                     }
                 }
-                // rtmp fps
-                labelRps.text = "\(rtmpStream.currentFPS)"
-                titleRps.isHidden = false
             }
-            
-            // 経過秒
+        }
+        
+        // 経過秒
+        if (isPublish == true) {
             let elapsed = Int32(Date().timeIntervalSince(date1))
             if elapsed<60 {
                 labelSec.text = "\(elapsed)" + "sec"
@@ -569,20 +590,42 @@ class ViewController: UIViewController {
                 labelSec.text = "\(elapsed/60)" + "min"
             }
             titleSec.isHidden = false
-            
             // 自動停止
             if (elapsed > env.publishTimeout) {
                 changePublish(publish:false) 
             }
         } else {
-            labelSec.text = ""
-            labelRps.text = ""
             titleSec.isHidden = true
-            titleRps.isHidden = true
+            labelSec.text = ""
+        }
+        
+        // 配信方式
+        if env.isHls() {
+            titleRps.text = "HLS"
+            labelRps.text = ""
+        } else if env.isRtmp() {
+            titleRps.text = "RTMP"
+            if rtmpStream != nil {
+                labelRps.text = "\(rtmpStream.readyState)"
+            } else {
+                labelRps.text = ""
+            }
+        } else if env.isSrt() {
+            titleRps.text = "SRT"
+            if srtStream != nil {
+                labelRps.text = "\(srtStream.readyState)"
+            } else {
+                labelRps.text = ""
+            }
         }
         
         // FPS
-        labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
+        if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
+            // rtmp fps
+            labelFps.text = "\(rtmpStream.currentFPS)"
+        } else {
+            labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
+        }
         
         // CPU
         nDispCpu += 1
@@ -591,7 +634,7 @@ class ViewController: UIViewController {
             labelCpu.text = "\(getCPUPer())" + "%"
         }
         
-        if (test==true) {
+        if (test == true) {
             labelFps.text = "30"
             labelCpu.text = "9%"
             labelSec.text = "12min"

@@ -13,20 +13,20 @@ import Eureka
 //------------------------------------------------------------
 open class Environment {
     
-    public let typeHls:Int   = 0
-    public let typeRtmp:Int  = 1
-    public let typeRtmp2:Int = 2
-    public let typeRtmp3:Int = 3
-    public let typeRtmp4:Int = 4
+    public let typeHls:Int  = 0
+    public let typeUrl1:Int = 1
+    public let typeUrl2:Int = 2
+    public let typeUrl3:Int = 3
+    public let typeUrl4:Int = 4
     
     public func getUrl() -> String {
         var r = ""
         switch publishType {
-        case typeHls:   r = "http://" + getWiFiAddress() + ":8080/my/playlist.m3u8"
-        case typeRtmp:  r = rtmp
-        case typeRtmp2: r = rtmp2
-        case typeRtmp3: r = rtmp3
-        case typeRtmp4: r = rtmp4
+        case typeHls:  r = "http://" + getWiFiAddress() + ":8080/my/playlist.m3u8"
+        case typeUrl1: r = url1
+        case typeUrl2: r = url2
+        case typeUrl3: r = url3
+        case typeUrl4: r = url4
         default: break
         }
         return r
@@ -35,11 +35,11 @@ open class Environment {
     public func getKey() -> String {
         var r = ""
         switch publishType {
-        case typeHls:   r = ""
-        case typeRtmp:  r = key
-        case typeRtmp2: r = key2
-        case typeRtmp3: r = key3
-        case typeRtmp4: r = key4
+        case typeHls:  r = ""
+        case typeUrl1: r = key1
+        case typeUrl2: r = key2
+        case typeUrl3: r = key3
+        case typeUrl4: r = key4
         default: break
         }
         return r
@@ -48,7 +48,10 @@ open class Environment {
         return (publishType==typeHls)
     }
     public func isRtmp() -> Bool {
-        return (publishType==typeRtmp || publishType==typeRtmp2 || publishType==typeRtmp3 || publishType==typeRtmp4)
+        return getUrl().lowercased().hasPrefix("rt")
+    }
+    public func isSrt() -> Bool {
+        return getUrl().lowercased().hasPrefix("srt")
     }
 
     public var publishType: Int {
@@ -56,36 +59,36 @@ open class Environment {
         set(val) { saveInt("publishType", val:val) }
     }
     
-    public var rtmp: String {
-        get { return readString("rtmp", def:"rtmp://") }
-        set(val) { saveString("rtmp", val:val) }
+    public var url1: String {
+        get { return readString("url1", def: readString("rtmp", def:"")) }
+        set(val) { saveString("url1", val:val) }
     }
-    public var key: String {
-        get { return readString("key", def:"") }
-        set(val) { saveString("key", val:val) }
+    public var key1: String {
+        get { return readString("key1", def: readString("key", def:"")) }
+        set(val) { saveString("key1", val:val) }
     }
     
-    public var rtmp2: String {
-        get { return readString("rtmp2", def:"rtmp://") }
-        set(val) { saveString("rtmp2", val:val) }
+    public var url2: String {
+        get { return readString("url2", def: readString("rtmp2", def:"")) }
+        set(val) { saveString("url2", val:val) }
     }
     public var key2: String {
         get { return readString("key2", def:"") }
         set(val) { saveString("key2", val:val) }
     }
     
-    public var rtmp3: String {
-        get { return readString("rtmp3", def:"rtmp://") }
-        set(val) { saveString("rtmp3", val:val) }
+    public var url3: String {
+        get { return readString("url3", def: readString("rtmp3", def:"")) }
+        set(val) { saveString("url3", val:val) }
     }
     public var key3: String {
         get { return readString("key3", def:"") }
         set(val) { saveString("key3", val:val) }
     }
         
-    public var rtmp4: String {
-        get { return readString("rtmp4", def:"rtmp://") }
-        set(val) { saveString("rtmp4", val:val) }
+    public var url4: String {
+        get { return readString("url4", def: readString("rtmp4", def:"")) }
+        set(val) { saveString("url4", val:val) }
     }
     public var key4: String {
         get { return readString("key4", def:"") }
@@ -224,11 +227,11 @@ class SettingsViewController: FormViewController {
 
         var typeStr:String = "HLS"
         switch env.publishType {
-        case env.typeHls:   typeStr = "HLS"
-        case env.typeRtmp:  typeStr = "RTMP1"
-        case env.typeRtmp2: typeStr = "RTMP2"
-        case env.typeRtmp3: typeStr = "RTMP3"
-        case env.typeRtmp4: typeStr = "RTMP4"
+        case env.typeHls:  typeStr = "HLS"
+        case env.typeUrl1: typeStr = "URL1"
+        case env.typeUrl2: typeStr = "URL2"
+        case env.typeUrl3: typeStr = "URL3"
+        case env.typeUrl4: typeStr = "URL4"
         default: break
         }
         
@@ -252,15 +255,15 @@ class SettingsViewController: FormViewController {
             +++ Section("MODE")
             <<< SegmentedRow<String>("set_type") {
                 $0.value = typeStr
-                $0.options = ["HLS", "RTMP1", "RTMP2", "RTMP3", "RTMP4"]
+                $0.options = ["HLS", "URL1", "URL2", "URL3", "URL4"]
                 $0.onChange{ row in
                 let v:String = row.value!
                 switch v {
                 case "HLS":   env.publishType = env.typeHls
-                case "RTMP1": env.publishType = env.typeRtmp
-                case "RTMP2": env.publishType = env.typeRtmp2
-                case "RTMP3": env.publishType = env.typeRtmp3
-                case "RTMP4": env.publishType = env.typeRtmp4
+                case "URL1": env.publishType = env.typeUrl1
+                case "URL2": env.publishType = env.typeUrl2
+                case "URL3": env.publishType = env.typeUrl3
+                case "URL4": env.publishType = env.typeUrl4
                 default: break
                 }
                 //self.form.rowBy(tag: "set_url")?.title = env.getUrl()
@@ -432,37 +435,37 @@ class RtmpController : SubFormViewController
         // form
         form
             +++ Section("")
-            +++ Section("RTMP1")
-            <<< TextRow("set_rtmp1"){
+            +++ Section("URL1")
+            <<< TextRow("set_url1"){
                 $0.title = "URL1"
-                $0.value = env.rtmp
+                $0.value = env.url1
             }
             <<< PasswordRow("set_key1"){
                 $0.title = "KEY1"
-                $0.value = env.key
+                $0.value = env.key1
             }
-            +++ Section("RTMP2")
-            <<< TextRow("set_rtmp2"){
+            +++ Section("URL2")
+            <<< TextRow("set_url2"){
                 $0.title = "URL2"
-                $0.value = env.rtmp2
+                $0.value = env.url2
             }
             <<< PasswordRow("set_key2"){
                 $0.title = "KEY2"
                 $0.value = env.key2
             }
-            +++ Section("RTMP3")
-            <<< TextRow("set_rtmp3"){
+            +++ Section("URL3")
+            <<< TextRow("set_url3"){
                 $0.title = "URL3"
-                $0.value = env.rtmp3
+                $0.value = env.url3
             }
             <<< PasswordRow("set_key3"){
                 $0.title = "KEY3"
                 $0.value = env.key3
             }
-            +++ Section("RTMP4")
-            <<< TextRow("set_rtmp4"){
+            +++ Section("URL4")
+            <<< TextRow("set_url4"){
                 $0.title = "URL4"
-                $0.value = env.rtmp4
+                $0.value = env.url4
             }
             <<< PasswordRow("set_key4"){
                 $0.title = "KEY4"
@@ -473,12 +476,12 @@ class RtmpController : SubFormViewController
     // DoneButton
     @objc override func onDoneClick(_ sender: UIButton) {
         let env = Environment()
-        env.rtmp  = self.form.rowBy(tag: "set_rtmp1")?.baseValue as! String
-        env.rtmp2 = self.form.rowBy(tag: "set_rtmp2")?.baseValue as! String
-        env.rtmp3 = self.form.rowBy(tag: "set_rtmp3")?.baseValue as! String
-        env.rtmp4 = self.form.rowBy(tag: "set_rtmp4")?.baseValue as! String
+        env.url1 = self.form.rowBy(tag: "set_url1")?.baseValue as! String
+        env.url2 = self.form.rowBy(tag: "set_url2")?.baseValue as! String
+        env.url3 = self.form.rowBy(tag: "set_url3")?.baseValue as! String
+        env.url4 = self.form.rowBy(tag: "set_url4")?.baseValue as! String
         
-        env.key  = self.form.rowBy(tag: "set_key1")?.baseValue as! String
+        env.key1 = self.form.rowBy(tag: "set_key1")?.baseValue as! String
         env.key2 = self.form.rowBy(tag: "set_key2")?.baseValue as! String
         env.key3 = self.form.rowBy(tag: "set_key3")?.baseValue as! String
         env.key4 = self.form.rowBy(tag: "set_key4")?.baseValue as! String
