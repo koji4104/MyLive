@@ -38,10 +38,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4N-Px-d2w" userLabel="btn Publish" customClass="CircleButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="514" y="147" width="80" height="80"/>
+                                        <rect key="frame" x="539" y="170" width="30" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" image="White"/>
                                         <connections>
                                             <action selector="publishTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RrI-mj-zgR"/>
                                         </connections>
@@ -162,6 +161,5 @@
         <image name="Loop" width="85.333335876464844" height="85.333335876464844"/>
         <image name="Option" width="85.333335876464844" height="85.333335876464844"/>
         <image name="Settings" width="85.333335876464844" height="85.333335876464844"/>
-        <image name="White" width="80" height="80"/>
     </resources>
 </document>

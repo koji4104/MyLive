@@ -36,8 +36,6 @@
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
 		CE7471621FC9009300F2515D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7471611FC9009300F2515D /* Assets.xcassets */; };
 		CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7471631FC9009300F2515D /* LaunchScreen.storyboard */; };
-		CE7471701FC9009300F2515D /* MyLiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74716F1FC9009300F2515D /* MyLiveTests.swift */; };
-		CE74717B1FC9009300F2515D /* MyLiveUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74717A1FC9009300F2515D /* MyLiveUITests.swift */; };
 		CE747B611FC9153500F2515D /* H264Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747AFE1FC9153500F2515D /* H264Decoder.swift */; };
 		CE747B621FC9153500F2515D /* H264Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747AFF1FC9153500F2515D /* H264Encoder.swift */; };
 		CE747B651FC9153500F2515D /* CMAudioFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */; };
@@ -135,23 +133,6 @@
 		EBD8A392205EA78B0011938A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A391205EA78B0011938A /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		CE74716C1FC9009300F2515D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE74714F1FC9009300F2515D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE7471561FC9009300F2515D;
-			remoteInfo = MyLive;
-		};
-		CE7471771FC9009300F2515D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE74714F1FC9009300F2515D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE7471561FC9009300F2515D;
-			remoteInfo = MyLive;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		CEAFC1401FCF095C000326CE /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -225,12 +206,6 @@
 		CE7471611FC9009300F2515D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7471641FC9009300F2515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE7471661FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE74716B1FC9009300F2515D /* MyLiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE74716F1FC9009300F2515D /* MyLiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLiveTests.swift; sourceTree = "<group>"; };
-		CE7471711FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE7471761FC9009300F2515D /* MyLiveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyLiveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE74717A1FC9009300F2515D /* MyLiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLiveUITests.swift; sourceTree = "<group>"; };
-		CE74717C1FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE747AFE1FC9153500F2515D /* H264Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H264Decoder.swift; sourceTree = "<group>"; };
 		CE747AFF1FC9153500F2515D /* H264Encoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = H264Encoder.swift; sourceTree = "<group>"; };
 		CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMAudioFormatDescription+Extension.swift"; sourceTree = "<group>"; };
@@ -347,20 +322,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE7471681FC9009300F2515D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE7471731FC9009300F2515D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -418,10 +379,10 @@
 		4AF92095229ECDF5001C8E10 /* SRT */ = {
 			isa = PBXGroup;
 			children = (
-				4AF92096229ECDF5001C8E10 /* SRTSocket.swift */,
-				4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */,
 				4AF92098229ECDF5001C8E10 /* SRTConnection.swift */,
+				4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */,
 				4AF92099229ECDF5001C8E10 /* SRTError.swift */,
+				4AF92096229ECDF5001C8E10 /* SRTSocket.swift */,
 				4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */,
 				4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */,
 				4AF9209C229ECDF5001C8E10 /* SRTStream.swift */,
@@ -434,8 +395,6 @@
 			children = (
 				CE8F88812041576A00E19633 /* Localizable.strings */,
 				CE7471591FC9009300F2515D /* MyLive */,
-				CE74716E1FC9009300F2515D /* MyLiveTests */,
-				CE7471791FC9009300F2515D /* MyLiveUITests */,
 				CE7471581FC9009300F2515D /* Products */,
 				CE747BB81FC9275800F2515D /* Frameworks */,
 			);
@@ -445,8 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				CE7471571FC9009300F2515D /* MyLive.app */,
-				CE74716B1FC9009300F2515D /* MyLiveTests.xctest */,
-				CE7471761FC9009300F2515D /* MyLiveUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -469,24 +426,6 @@
 				EBD8A391205EA78B0011938A /* Settings.bundle */,
 			);
 			path = MyLive;
-			sourceTree = "<group>";
-		};
-		CE74716E1FC9009300F2515D /* MyLiveTests */ = {
-			isa = PBXGroup;
-			children = (
-				CE74716F1FC9009300F2515D /* MyLiveTests.swift */,
-				CE7471711FC9009300F2515D /* Info.plist */,
-			);
-			path = MyLiveTests;
-			sourceTree = "<group>";
-		};
-		CE7471791FC9009300F2515D /* MyLiveUITests */ = {
-			isa = PBXGroup;
-			children = (
-				CE74717A1FC9009300F2515D /* MyLiveUITests.swift */,
-				CE74717C1FC9009300F2515D /* Info.plist */,
-			);
-			path = MyLiveUITests;
 			sourceTree = "<group>";
 		};
 		CE747AFB1FC9153500F2515D /* Sources */ = {
@@ -733,42 +672,6 @@
 			productReference = CE7471571FC9009300F2515D /* MyLive.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CE74716A1FC9009300F2515D /* MyLiveTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CE7471821FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveTests" */;
-			buildPhases = (
-				CE7471671FC9009300F2515D /* Sources */,
-				CE7471681FC9009300F2515D /* Frameworks */,
-				CE7471691FC9009300F2515D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CE74716D1FC9009300F2515D /* PBXTargetDependency */,
-			);
-			name = MyLiveTests;
-			productName = MyLiveTests;
-			productReference = CE74716B1FC9009300F2515D /* MyLiveTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		CE7471751FC9009300F2515D /* MyLiveUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CE7471851FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveUITests" */;
-			buildPhases = (
-				CE7471721FC9009300F2515D /* Sources */,
-				CE7471731FC9009300F2515D /* Frameworks */,
-				CE7471741FC9009300F2515D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CE7471781FC9009300F2515D /* PBXTargetDependency */,
-			);
-			name = MyLiveUITests;
-			productName = MyLiveUITests;
-			productReference = CE7471761FC9009300F2515D /* MyLiveUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -782,16 +685,6 @@
 					CE7471561FC9009300F2515D = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
-					};
-					CE74716A1FC9009300F2515D = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = CE7471561FC9009300F2515D;
-					};
-					CE7471751FC9009300F2515D = {
-						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = CE7471561FC9009300F2515D;
 					};
 				};
 			};
@@ -810,8 +703,6 @@
 			projectRoot = "";
 			targets = (
 				CE7471561FC9009300F2515D /* MyLive */,
-				CE74716A1FC9009300F2515D /* MyLiveTests */,
-				CE7471751FC9009300F2515D /* MyLiveUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -832,20 +723,6 @@
 				CE6469271FD255D300A8FAB8 /* Info.plist in Resources */,
 				CE7471601FC9009300F2515D /* Main.storyboard in Resources */,
 				4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE7471691FC9009300F2515D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE7471741FC9009300F2515D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -975,36 +852,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE7471671FC9009300F2515D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE7471701FC9009300F2515D /* MyLiveTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE7471721FC9009300F2515D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE74717B1FC9009300F2515D /* MyLiveUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		CE74716D1FC9009300F2515D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CE7471561FC9009300F2515D /* MyLive */;
-			targetProxy = CE74716C1FC9009300F2515D /* PBXContainerItemProxy */;
-		};
-		CE7471781FC9009300F2515D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CE7471561FC9009300F2515D /* MyLive */;
-			targetProxy = CE7471771FC9009300F2515D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CE74715E1FC9009300F2515D /* Main.storyboard */ = {
@@ -1218,68 +1066,6 @@
 			};
 			name = Release;
 		};
-		CE7471831FC9009300F2515D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyLiveTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLive.app/MyLive";
-			};
-			name = Debug;
-		};
-		CE7471841FC9009300F2515D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyLiveTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyLive.app/MyLive";
-			};
-			name = Release;
-		};
-		CE7471861FC9009300F2515D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyLiveUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MyLive;
-			};
-			name = Debug;
-		};
-		CE7471871FC9009300F2515D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = MyLiveUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.MyLiveUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = MyLive;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1297,24 +1083,6 @@
 			buildConfigurations = (
 				CE7471801FC9009300F2515D /* Debug */,
 				CE7471811FC9009300F2515D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CE7471821FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CE7471831FC9009300F2515D /* Debug */,
-				CE7471841FC9009300F2515D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CE7471851FC9009300F2515D /* Build configuration list for PBXNativeTarget "MyLiveUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CE7471861FC9009300F2515D /* Debug */,
-				CE7471871FC9009300F2515D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

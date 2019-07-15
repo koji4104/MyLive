@@ -53,6 +53,11 @@ class ViewController: UIViewController {
         initControl()
         
         let env = Environment()
+        
+        if test == true {
+            env.publishType = 0
+        }
+        
         if (env.isHls()) {
             self.httpService = HLSService(domain: "", type: "_http._tcp", name: "my", port: 8080)
             self.httpStream = HTTPStream()
@@ -62,6 +67,7 @@ class ViewController: UIViewController {
         } else if (env.isSrt()) {
             self.srtConnection = .init()
             self.srtStream = SRTStream(srtConnection)
+            self.srtConnection?.attachStream(srtStream)
         }
         
         currentStream.syncOrientation = false
@@ -85,8 +91,8 @@ class ViewController: UIViewController {
         currentStream.videoSettings = [
             "width": env.videoHeight/9 * 16,
             "height": env.videoHeight,
-            "profileLevel": kVTProfileLevel_H264_High_3_1,
-            "maxKeyFrameIntervalDuration": 2,
+            "profileLevel": kVTProfileLevel_H264_High_AutoLevel,
+            "maxKeyFrameIntervalDuration": 2.0,
             "bitrate": env.videoBitrate * 1024, // Average
             "dataRateLimits": [2000*1024 / 8, 1], // MaxBitrate
         ]
@@ -107,6 +113,7 @@ class ViewController: UIViewController {
         }
         
         currentStream.orientation = getOrientation()
+        
         myView?.attachStream(currentStream)
         
         NotificationCenter.default.addObserver(
@@ -126,7 +133,7 @@ class ViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         timer.invalidate()
-        changePublish(publish:false)
+        changePublish(false)
         
         NotificationCenter.default.removeObserver(
             self,
@@ -196,22 +203,24 @@ class ViewController: UIViewController {
 
     /// パブリッシュ
     @IBAction func publishTouchUpInside(_ sender: UIButton) {
-        let publish:Bool = !isPublish
-        changePublish(publish:publish)
+        if liveState == .publishing || liveState == .listening {
+            changePublish(false)
+        } else {
+            changePublish(true)
+        }
         
         self.btnPublish.isEnabled = false
-        self.btnPublish.layer.borderColor = UIColor(red:0.2,green:0.4,blue:0.8,alpha:1.0).cgColor
-        
+        self.btnPublish.layer.borderColor = UIColor.blue.cgColor
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             self.btnPublish.isEnabled = true
-            self.btnPublish.layer.borderColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.5).cgColor
+            self.btnPublish.layer.borderColor = UIColor.black.cgColor
         }
     }
         
-    func changePublish(publish: Bool) {
+    func changePublish(_ publish: Bool) {
         let env = Environment()
-        if (env.isHls()) {
-            if (publish == true) {
+        if env.isHls() {
+            if publish == true {
                 httpStream.publish("my")
                 httpService.startRunning()
                 httpService.addHTTPStream(httpStream)
@@ -220,28 +229,21 @@ class ViewController: UIViewController {
                 httpService.stopRunning()
                 httpService.removeHTTPStream(httpStream)
             }
-            changePublishControl(b:publish)
-        } else if(env.isRtmp()) {
-            if (publish == true) {
+        } else if env.isRtmp() {
+            if publish == true {
                 rtmpConnection.addEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
-                print("uri \(env.getUrl())")
                 rtmpConnection.connect(env.getUrl())
             } else {
                 rtmpConnection.close()
                 rtmpConnection.removeEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
-                changePublishControl(b:publish)
             }
-        } else if(env.isSrt()) {
-            if (publish == true) {
-                print("uri \(env.getUrl())")
+        } else if env.isSrt() {
+            if publish == true {
                 srtConnection.connect(URL(string: env.getUrl()))
-                srtStream.publish("hoge")
-                changePublishControl(b:publish)
+                srtStream.publish("my")
             } else {
                 srtConnection.close()
-                changePublishControl(b:publish)
             }
-            
         }
     }
 
@@ -253,23 +255,143 @@ class ViewController: UIViewController {
                 let env = Environment()
                 print("key \(env.getKey())")
                 rtmpStream!.publish(env.getKey())
-                changePublishControl(b:true)
             default:
                 break
             }
         }
     }
 
-    func changePublishControl(b:Bool) {
-        if (b == true) {
+    /// ボタンの状態
+    enum LiveState {
+        case closed
+        case publishing
+        case listening
+        case initialized
+    }
+    public var liveState:LiveState = .initialized
+    func changeButtonState(_ st: LiveState) {
+        if st == .publishing {
+            self.btnPublish.backgroundColor = UIColor.red
+            self.btnPublish.layer.borderColor = UIColor.black.cgColor
+            
+            if self.isPublish == false {
+                date1 = Date()
+                aryFps.removeAll(keepingCapacity: true)
+                isAutoLow = false
+            }
             self.isPublish = true
-            btnPublish.setImage(UIImage(named:"Red"), for:UIControl.State())
-            date1 = Date()
-            aryFps.removeAll(keepingCapacity: true)
-            isAutoLow = false
-        } else {
+        } else if st == .closed {
+            self.btnPublish.backgroundColor = UIColor.white
+            self.btnPublish.layer.borderColor = UIColor.black.cgColor
+            
+            if self.isPublish == true {
+                changePublish(false)
+            }
             self.isPublish = false
-            btnPublish.setImage(UIImage(named:"White"), for:UIControl.State())
+        } else if st == .listening {
+            self.btnPublish.backgroundColor = UIColor.white
+            self.btnPublish.layer.borderColor = UIColor.blue.cgColor
+        }
+        liveState = st
+    }   
+
+    /// タイマー
+    var aryFps:[Int] = []
+    var isAutoLow:Bool = false
+    var nDispCpu = 1
+    @objc func onTimer(_ tm: Timer) {
+        let env = Environment()
+        if (isPublish == true) {
+            if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
+                // RTMP 自動低画質
+                let f:Int = Int(rtmpStream.currentFPS)
+                if (env.lowimageMode>0 && f>=2) {
+                    aryFps.append(f)
+                    if (aryFps.count > 10) {
+                        aryFps.removeFirst()
+                        var sum:Int=0
+                        for (_, element) in aryFps.enumerated() {
+                            sum += element
+                        }
+                        let avg:Int = sum / aryFps.count
+                        if (isAutoLow==false && env.videoFramerate-avg >= 5) {
+                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate/2) * 1024
+                            aryFps.removeAll(keepingCapacity: true)
+                            isAutoLow = true
+                        } else if (isAutoLow==true && env.videoFramerate-avg <= 2) {
+                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate) * 1024
+                            aryFps.removeAll(keepingCapacity: true)
+                            isAutoLow = false
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 配信方式
+        var state:String = ""
+        if env.isHls() {
+            titleRps.text = "HLS  "
+            labelRps.text = ""
+            if httpService != nil && httpService.isRunning {
+                state = "publishing"
+            }
+        } else if env.isRtmp() {
+            titleRps.text = "RTMP"
+            if rtmpStream != nil {
+                state = "\(rtmpStream.readyState)"
+            }
+        } else if env.isSrt() {
+            titleRps.text = "SRT  "
+            if srtStream != nil && srtStream.readyState == .publishing {
+                state = "publishing"
+            } else if srtConnection != nil && srtConnection.listening {
+                state = "listening"
+            }    
+        }
+        labelRps.text = state
+        if state == "publishing" {
+            changeButtonState(.publishing)
+        } else if state == "listening" {
+            changeButtonState(.listening)
+        } else {
+            changeButtonState(.closed)
+        }
+
+        // 経過秒
+        if (isPublish == true) {
+            let elapsed = Int32(Date().timeIntervalSince(date1))
+            if elapsed<120 {
+                labelRps.text = labelRps.text! + "  \(elapsed)" + "sec"
+            } else {
+                labelRps.text = labelRps.text! + "  \(elapsed/60)" + "min"
+            }
+            
+            // 自動停止
+            if (elapsed > env.publishTimeout) {
+                changePublish(false) 
+            }
+        }
+        
+        // FPS
+        if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
+            labelFps.text = "\(rtmpStream.currentFPS)"
+        } else {
+            labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
+        }
+        
+        // CPU
+        nDispCpu += 1
+        if nDispCpu >= 2 {
+            nDispCpu = 0
+            labelCpu.text = "\(getCPUPer())" + "%"
+        }
+        
+        if (test == true) {
+            labelFps.text = "30"
+            labelCpu.text = "12%"
+            labelRps.text = "publishing 29min"
+            titleRps.text = "RTMP"
         }
     }
 
@@ -403,15 +525,13 @@ class ViewController: UIViewController {
     }
     
     var labelCpu:ValueLabel = ValueLabel()
-    var labelFps:ValueLabel = ValueLabel() // device fps
-    var labelRps:ValueLabel = ValueLabel() // rtmp fps
-    var labelSec:ValueLabel = ValueLabel()
+    var labelFps:ValueLabel = ValueLabel() 
+    var labelRps:ValueLabel = ValueLabel() 
     var labelBg1:ValueLabel = ValueLabel()
     
     var titleCpu:TitleLabel = TitleLabel()
     var titleFps:TitleLabel = TitleLabel()
     var titleRps:TitleLabel = TitleLabel()
-    var titleSec:TitleLabel = TitleLabel()
     
     /// ボタン位置
     override func viewDidLayoutSubviews() {
@@ -456,29 +576,25 @@ class ViewController: UIViewController {
         titleCpu.text = "CPU"
         titleFps.text = "FPS"
         titleRps.text = ""
-        titleSec.text = "Elapsed"
         
         let lx1 = 120
-        let lx2 = lx1 + 80
-        let lx3 = lx2 + 70
-        let lx4 = lx3 + 120
+        let lx2 = lx1 + 84
+        let lx3 = lx2 + 66
+        //let lx4 = lx3 + 120
         titleCpu.center = CGPoint(x:lx1, y:ly)
         titleFps.center = CGPoint(x:lx2, y:ly)
-        titleSec.center = CGPoint(x:lx3, y:ly)
-        titleRps.center = CGPoint(x:lx4, y:ly)
+        titleRps.center = CGPoint(x:lx3, y:ly)
         
-        labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-12, y:ly)
-        labelFps.center = CGPoint(x:Int(titleFps.center.x)-24, y:ly)
-        labelSec.center = CGPoint(x:Int(titleSec.center.x)+32, y:ly)
-        labelRps.center = CGPoint(x:Int(titleRps.center.x)-16, y:ly)
-
-        titleSec.isHidden = true
-        titleRps.isHidden = true
+        labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
+        labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
+        labelRps.center = CGPoint(x:Int(titleRps.center.x)+44, y:ly)
+        labelRps.textAlignment = .left
+        labelRps.frame.size = CGSize.init(width:220, height:25)
         
         let cpux1 = Int(titleCpu.frame.minX + 360/2)
-        labelBg1.frame.size = CGSize.init(width:360, height:25)
-        labelBg1.center = CGPoint(x:cpux1-10, y:ly)
-        labelBg1.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.3)
+        labelBg1.frame.size = CGSize.init(width:380, height:28)
+        labelBg1.center = CGPoint(x:cpux1, y:ly)
+        labelBg1.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.4)
         labelBg1.layer.cornerRadius = 4
         labelBg1.clipsToBounds = true
         
@@ -497,11 +613,9 @@ class ViewController: UIViewController {
         self.myView.addSubview(labelFps)
         self.myView.addSubview(labelRps)
         self.myView.addSubview(labelCpu)
-        self.myView.addSubview(labelSec)
         self.myView.addSubview(titleCpu)
         self.myView.addSubview(titleFps)
         self.myView.addSubview(titleRps)
-        self.myView.addSubview(titleSec)
         self.myView.addSubview(labelBg1)
         
         self.myView.bringSubviewToFront(btnSettings)
@@ -516,12 +630,10 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(labelFps)
         self.myView.bringSubviewToFront(labelRps)
         self.myView.bringSubviewToFront(labelCpu)
-        self.myView.bringSubviewToFront(labelSec)
         
         self.myView.bringSubviewToFront(titleCpu)
         self.myView.bringSubviewToFront(titleFps)
         self.myView.bringSubviewToFront(titleRps)
-        self.myView.bringSubviewToFront(titleSec)
         
         self.myView.bringSubviewToFront(segBps)
         self.myView.bringSubviewToFront(segFps)
@@ -545,103 +657,6 @@ class ViewController: UIViewController {
         segBps.hideLeft(b:hidden)
         segFps.hideLeft(b:hidden)
         segZoom.hideLeft(b:hidden)
-    }
-
-    /// タイマー
-    var aryFps:[Int] = []
-    var isAutoLow:Bool = false
-    var nDispCpu = 1
-    @objc func onTimer(_ tm: Timer) {
-        let env = Environment()
-       
-        if (isPublish == true) {
-            if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
-                // RTMP 自動低画質
-                let f:Int = Int(rtmpStream.currentFPS)
-                if (env.lowimageMode>0 && f>=2) {
-                    aryFps.append(f)
-                    if (aryFps.count > 10) {
-                        aryFps.removeFirst()
-                        var sum:Int=0
-                        for (_, element) in aryFps.enumerated() {
-                            sum += element
-                        }
-                        let avg:Int = sum / aryFps.count
-                        if (isAutoLow==false && env.videoFramerate-avg >= 5) {
-                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate/2) * 1024
-                            aryFps.removeAll(keepingCapacity: true)
-                            isAutoLow = true
-                        } else if (isAutoLow==true && env.videoFramerate-avg <= 2) {
-                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate) * 1024
-                            aryFps.removeAll(keepingCapacity: true)
-                            isAutoLow = false
-                        }
-                    }
-                }
-            }
-        }
-        
-        // 経過秒
-        if (isPublish == true) {
-            let elapsed = Int32(Date().timeIntervalSince(date1))
-            if elapsed<60 {
-                labelSec.text = "\(elapsed)" + "sec"
-            } else {
-                labelSec.text = "\(elapsed/60)" + "min"
-            }
-            titleSec.isHidden = false
-            // 自動停止
-            if (elapsed > env.publishTimeout) {
-                changePublish(publish:false) 
-            }
-        } else {
-            titleSec.isHidden = true
-            labelSec.text = ""
-        }
-        
-        // 配信方式
-        if env.isHls() {
-            titleRps.text = "HLS"
-            labelRps.text = ""
-        } else if env.isRtmp() {
-            titleRps.text = "RTMP"
-            if rtmpStream != nil {
-                labelRps.text = "\(rtmpStream.readyState)"
-            } else {
-                labelRps.text = ""
-            }
-        } else if env.isSrt() {
-            titleRps.text = "SRT"
-            if srtStream != nil {
-                labelRps.text = "\(srtStream.readyState)"
-            } else {
-                labelRps.text = ""
-            }
-        }
-        
-        // FPS
-        if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
-            // rtmp fps
-            labelFps.text = "\(rtmpStream.currentFPS)"
-        } else {
-            labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
-        }
-        
-        // CPU
-        nDispCpu += 1
-        if nDispCpu >= 2 {
-            nDispCpu = 0
-            labelCpu.text = "\(getCPUPer())" + "%"
-        }
-        
-        if (test == true) {
-            labelFps.text = "30"
-            labelCpu.text = "9%"
-            labelSec.text = "12min"
-            labelRps.text = "29"
-            titleRps.isHidden = false
-            titleSec.isHidden = false
-        }
     }
     
     /// CPU使用率（0-100%）
@@ -726,7 +741,7 @@ class TitleLabel: UILabel {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.font = UIFont.systemFont(ofSize:16)
+        self.font = UIFont.systemFont(ofSize:18)
         self.textAlignment = .left
         self.frame.size = CGSize.init(width:80, height:25)
         self.textColor = UIColor.green
@@ -739,7 +754,7 @@ class ValueLabel: UILabel {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.font = UIFont.systemFont(ofSize:16)
+        self.font = UIFont.systemFont(ofSize:18)
         self.textAlignment = .right
         self.frame.size = CGSize.init(width:80, height:25)
         self.textColor = UIColor.white
@@ -804,16 +819,16 @@ class RoundRectButton: MyButton {
 class CircleButton: MyButton {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
         self.myInit(width:60)
-        self.backgroundColor = UIColor.clear
-        self.layer.borderColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.5).cgColor
+        self.backgroundColor = UIColor.white
+        self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 8
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
 }
+
 /// セグメント
 class MySegmentedControl: UISegmentedControl {
     required init(coder aDecoder: NSCoder) {

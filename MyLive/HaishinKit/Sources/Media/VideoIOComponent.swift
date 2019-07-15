@@ -449,7 +449,6 @@ extension VideoIOComponent: AVCaptureVideoDataOutputSampleBufferDelegate {
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         //appendSampleBuffer(sampleBuffer)
-        
         // Koji4104
         appendSampleBufferEx(sampleBuffer)
     }

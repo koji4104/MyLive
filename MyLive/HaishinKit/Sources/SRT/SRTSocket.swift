@@ -17,10 +17,10 @@ class SRTSocket {
         }
     }
     private(set) var isRunning: Bool = false
-
-    private let lockQueue: DispatchQueue = DispatchQueue(label: "com.haishinkit.SRTHaishinKit.SRTSocket.lock")
-    private(set) var socket: SRTSOCKET = SRT_INVALID_SOCK
-    private(set) var status: SRT_SOCKSTATUS = SRTS_INIT {
+    private let lockQueue: DispatchQueue = DispatchQueue(label: "SRTSocket.lock")
+    var socket: SRTSOCKET = SRT_INVALID_SOCK 
+    
+    var status: SRT_SOCKSTATUS = SRTS_INIT { 
         didSet {
             guard status != oldValue else { return }
             delegate?.status(self, status: status)
@@ -72,13 +72,18 @@ class SRTSocket {
     }
 
     func close() {
+        self.status = SRTS_CLOSED
         guard socket != SRT_INVALID_SOCK else { return }
         srt_close(socket)
         socket = SRT_INVALID_SOCK
     }
 
     func configure(_ binding: SRTSocketOption.Binding) -> Bool {
-        let failures = SRTSocketOption.configure(socket, binding: binding, options: options)
+        return configure(binding, self.socket)
+    }
+
+    func configure(_ binding: SRTSocketOption.Binding, _ sock: SRTSOCKET) -> Bool {
+        let failures = SRTSocketOption.configure(sock, binding: binding, options: options)
         guard failures.isEmpty else { logger.error(failures); return false }
         return true
     }

@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit // ADD 2019-04
+import HaishinKit
 
 open class SRTConnection: NSObject {
     /// SRT Library version
@@ -10,8 +10,11 @@ open class SRTConnection: NSObject {
     /// This instance connect to server(true) or not(false)
     @objc dynamic public private(set) var connected: Bool = false
 
+    @objc dynamic public private(set) var listening: Bool = false
+
     var incomingSocket: SRTIncomingSocket?
     var outgoingSocket: SRTOutgoingSocket?
+    
     private var streams: [SRTStream] = []
 
     public override init() {
@@ -22,7 +25,7 @@ open class SRTConnection: NSObject {
         streams.removeAll()
     }
 
-    public func connect(_ uri: URL?) {
+    public func connect1(_ uri: URL?) {
         guard let uri = uri, let scheme = uri.scheme, let host = uri.host, let port = uri.port, scheme == "srt" else { return }
 
         self.uri = uri
@@ -37,7 +40,32 @@ open class SRTConnection: NSObject {
         incomingSocket?.delegate = self
         try? incomingSocket?.connect(addr, options: options)
     }
-
+    
+    public func connect(_ uri: URL?) {
+        guard let uri = uri, let scheme = uri.scheme, let port = uri.port, scheme == "srt" else { return }
+        var host = uri.host
+        if host == nil ||
+           host == "" ||
+           host == "localhost" ||
+           host == "127.0.0.1" {
+            host = "0.0.0.0"
+        }
+        
+        self.uri = uri
+        let options = SRTSocketOption.from(uri: uri)
+        let addr = sockaddr_in(host!, port: UInt16(port))
+        
+        if host == "0.0.0.0" {
+            outgoingSocket = SRTOutgoingSocket()
+            outgoingSocket?.delegate = self
+            try? outgoingSocket?.listen(addr, options: options)
+        } else {
+            outgoingSocket = SRTOutgoingSocket()
+            outgoingSocket?.delegate = self
+            try? outgoingSocket?.connect(addr, options: options)
+        }
+    }
+    
     public func close() {
         for stream in streams {
             stream.close()
@@ -68,8 +96,9 @@ open class SRTConnection: NSObject {
 extension SRTConnection: SRTSocketDelegate {
     // MARK: SRTSocketDelegate
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS) {
-        if let incomingSocket = incomingSocket, let outgoingSocket = outgoingSocket {
-            connected = incomingSocket.status == SRTS_CONNECTED && outgoingSocket.status == SRTS_CONNECTED
+        if let outgoingSocket = outgoingSocket {
+            connected = outgoingSocket.status == SRTS_CONNECTED
+            listening = outgoingSocket.status == SRTS_LISTENING
         }
     }
 }
