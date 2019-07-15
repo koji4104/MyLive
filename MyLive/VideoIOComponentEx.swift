@@ -4,10 +4,7 @@ import Vision
 import CoreML
 
 /*
- ソース修正
- Sources/Media/VideoIOComponent.swift
- 445行目 public var ex:VideoIOComponentEx = VideoIOComponentEx()
- 454行目 appendSampleBufferEx
+ Sources/Media/VideoIOComponent.swift line 444
  */
 class VideoIOComponentEx {
     var isDisplay:Bool = false

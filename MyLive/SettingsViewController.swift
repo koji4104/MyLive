@@ -29,7 +29,7 @@ open class Environment {
         case typeUrl4: r = url4
         default: break
         }
-        return r
+        return r.lowercased()
     }
     
     public func getKey() -> String {
