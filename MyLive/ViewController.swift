@@ -84,7 +84,7 @@ class ViewController: UIViewController {
             "sessionPreset": preset,
             "continuousAutofocus": true,
             "continuousExposure": true,
-            "fps": env.videoFramerate,
+            "fps": env.videoFramerate, // def=30
         ]
 
         // Codec/H264Encoder.swift
@@ -92,14 +92,14 @@ class ViewController: UIViewController {
             "width": env.videoHeight/9 * 16,
             "height": env.videoHeight,
             "profileLevel": kVTProfileLevel_H264_High_AutoLevel,
-            "maxKeyFrameIntervalDuration": 2.0,
+            "maxKeyFrameIntervalDuration": 2.0, // 2.0
             "bitrate": env.videoBitrate * 1024, // Average
             "dataRateLimits": [2000*1024 / 8, 1], // MaxBitrate
         ]
         currentStream.audioSettings = [
             "sampleRate": sampleRate,
             "bitrate": 32 * 1024,
-            "muted": (env.audioMode==0) ? true : false,
+            "muted": (env.audioMode == 0) ? true : false,
             //"profile": UInt32(MPEG4ObjectID.AAC_LC.rawValue), err ios12
         ]
         
@@ -239,8 +239,8 @@ class ViewController: UIViewController {
             }
         } else if env.isSrt() {
             if publish == true {
-                srtConnection.connect(URL(string: env.getUrl()))
                 srtStream.publish("my")
+                srtConnection.connect(URL(string: env.getUrl()))
             } else {
                 srtConnection.close()
             }
@@ -331,7 +331,7 @@ class ViewController: UIViewController {
         // 配信方式
         var state:String = ""
         if env.isHls() {
-            titleRps.text = "HLS  "
+            titleRps.text = "HLS"
             labelRps.text = ""
             if httpService != nil && httpService.isRunning {
                 state = "publishing"
@@ -342,7 +342,7 @@ class ViewController: UIViewController {
                 state = "\(rtmpStream.readyState)"
             }
         } else if env.isSrt() {
-            titleRps.text = "SRT  "
+            titleRps.text = "SRT"
             if srtStream != nil && srtStream.readyState == .publishing {
                 state = "publishing"
             } else if srtConnection != nil && srtConnection.listening {
@@ -587,7 +587,7 @@ class ViewController: UIViewController {
         
         labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
         labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
-        labelRps.center = CGPoint(x:Int(titleRps.center.x)+44, y:ly)
+        labelRps.center = CGPoint(x:Int(titleRps.center.x)+54, y:ly)
         labelRps.textAlignment = .left
         labelRps.frame.size = CGSize.init(width:220, height:25)
         

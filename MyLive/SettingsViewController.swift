@@ -235,12 +235,12 @@ class SettingsViewController: FormViewController {
         default: break
         }
         
-        var timeout = "120"
+        var timeout = "240"
         let t = env.publishTimeout/60
         if (t<=30) { timeout="30" }
         else if (t<=60) { timeout="60" }
-        else if (t<=90) { timeout="90" }
-        else { timeout="120" }
+        else if (t<=120) { timeout="120" }
+        else { timeout="240" }
         
         var size = "1920x1080"
         if (env.videoHeight<=540) {
@@ -341,12 +341,12 @@ class TimeoutController : SubFormViewController
         super.viewDidLoad()
         
         let env = Environment()
-        var timeout = "120"
+        var timeout = "240"
         let t = env.publishTimeout/60
         if (t<=30) { timeout="30" }
         else if (t<=60) { timeout="60" }
-        else if (t<=90) { timeout="90" }
-        else { timeout="120" }
+        else if (t<=120) { timeout="120" }
+        else { timeout="240" }
         
         form
             +++ Section("")
@@ -354,7 +354,7 @@ class TimeoutController : SubFormViewController
                 NSLocalizedString("Auto stop(min)", comment:""),
                 selectionType: .singleSelection(enableDeselection: false))
         
-        let list = ["30", "60", "90", "120"]
+        let list = ["30", "60", "120", "240"]
         for v in list {
             form.last! <<< ListCheckRow<String>(v){ listRow in
                 listRow.title = v
@@ -371,8 +371,8 @@ class TimeoutController : SubFormViewController
                 switch (row.section as! SelectableSection<ListCheckRow<String>>).selectedRow()?.baseValue as! String {
                 case  "30": env.publishTimeout =  30*60
                 case  "60": env.publishTimeout =  60*60
-                case  "90": env.publishTimeout =  90*60
                 case "120": env.publishTimeout = 120*60
+                case "240": env.publishTimeout = 240*60
                 default: break
                 }
             }

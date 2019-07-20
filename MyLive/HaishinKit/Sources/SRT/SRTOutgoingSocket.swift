@@ -7,14 +7,14 @@ final class SRTOutgoingSocket: SRTSocket {
     private var lostBytes: Int64 = 0
     private var wroteBytes: Int64 = 0
     private var pendingData: [Data] = []
-    private let writeQueue: DispatchQueue = DispatchQueue(label: "SRTOutgoingSocket.write")
+    private let writeQueue: DispatchQueue = DispatchQueue(label:"com.hSRTOutgoingSocket.write")
 
     private(set) var bindSocket: SRTSOCKET = SRT_INVALID_SOCK 
     var pollid: Int32 = -1 
     
     func listen(_ addr: sockaddr_in, options: [SRTSocketOption: Any] = SRTSocket.defaultOptions) throws {
         self.options = options
-        DispatchQueue(label:"SRTOutgoingSocket.listen").async {
+        DispatchQueue(label:"com.SRTOutgoingSocket.listen").async {
             self.listening(addr)
         }
     }
@@ -103,9 +103,9 @@ final class SRTOutgoingSocket: SRTSocket {
         self.status = srt_getsockstate(bindSocket)
         
         var count = 0
-        while count < 120 {
+        while count < 100000 {
             count += 1
-            usleep(500 * 1000)
+            usleep(200 * 1000)
              
             if bindSocket == SRT_INVALID_SOCK && socket == SRT_INVALID_SOCK {
                 logger.info("listening break")

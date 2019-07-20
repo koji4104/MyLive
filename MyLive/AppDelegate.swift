@@ -4,6 +4,7 @@ import AVFoundation
 //import HaishinKit
 import Logboard
 import UIKit
+import XCGLogger
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,4 +29,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 }
+
 
