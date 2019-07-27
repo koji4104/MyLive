@@ -108,6 +108,14 @@
                                             <action selector="faceTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IFu-VP-gzb"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJU-f0-7oi" userLabel="Btin RotLock" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                        <rect key="frame" x="224" y="268" width="52" height="49"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="RotLock"/>
+                                        <connections>
+                                            <action selector="rotlockTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hW7-XZ-z54"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -127,6 +135,7 @@
                         <outlet property="btnFace" destination="aOY-Kb-tFl" id="1A8-Lh-LvM"/>
                         <outlet property="btnOption" destination="JP2-Tc-mbZ" id="1kU-Fn-KaE"/>
                         <outlet property="btnPublish" destination="t4N-Px-d2w" id="84S-6I-Mtc"/>
+                        <outlet property="btnRotLock" destination="HJU-f0-7oi" id="ERe-R4-NH1"/>
                         <outlet property="btnSettings" destination="pYo-Dd-lQJ" id="tg9-a1-abZ"/>
                         <outlet property="btnTurn" destination="aKV-lI-NWY" id="fji-yS-gxF"/>
                         <outlet property="myView" destination="Kh1-PP-qaS" id="Ln7-9Q-xML"/>
@@ -160,6 +169,7 @@
         <image name="Face" width="80" height="80"/>
         <image name="Loop" width="85.333335876464844" height="85.333335876464844"/>
         <image name="Option" width="85.333335876464844" height="85.333335876464844"/>
+        <image name="RotLock" width="85.333335876464844" height="85.333335876464844"/>
         <image name="Settings" width="85.333335876464844" height="85.333335876464844"/>
     </resources>
 </document>

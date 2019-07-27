@@ -7,7 +7,7 @@
 */
 "local" = "ja";
 "Auto low-image" = "RTMP 自動低画質";
-"Auto stop(min)" = "RTMP 自動停止(分)";
+"Auto stop(min)" = "自動配信停止(分)";
 "Help" = "ヘルプ";
 "Camera" = "カメラ";
 

@@ -29,11 +29,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnOption:RoundRectButton!
     @IBOutlet weak var btnAudio:RoundRectButton!
     @IBOutlet weak var btnFace:RoundRectButton!
+    @IBOutlet weak var btnRotLock: RoundRectButton!
     
     var timer:Timer!
     var date1:Date = Date()
     var isPublish:Bool = false
     var isOption:Bool = false
+    var isOrientation = true
 
     /// 初期化
     override func viewDidLoad() {
@@ -112,8 +114,7 @@ class ViewController: UIViewController {
             logger.warn(error.description)
         }
         
-        currentStream.orientation = getOrientation()
-        
+        setOrientation()
         myView?.attachStream(currentStream)
         
         NotificationCenter.default.addObserver(
@@ -165,14 +166,11 @@ class ViewController: UIViewController {
         }
     }
 
-    /// 配信中は端末の回転を無効にする
+    /// 回転の有効無効
     override var shouldAutorotate: Bool {
         get {
-            if isPublish == false {
-                return true
-            } else {
-                return false
-            }
+            return self.isOrientation
+           
         }
     }
     
@@ -185,22 +183,23 @@ class ViewController: UIViewController {
 
     /// 端末の向きが変わったとき
     @objc func onOrientationChange(_ notification: Notification) {
-        if self.isPublish == false {
-            currentStream.orientation = getOrientation()
+        if self.isOrientation == true {
+            setOrientation()
         }
     }
 
-    func getOrientation() -> AVCaptureVideoOrientation {
-        let ori1:UIDeviceOrientation = UIDevice.current.orientation
-        var ori2:AVCaptureVideoOrientation = .landscapeLeft
-        if (ori1 == .landscapeRight) {
-            ori2 = .landscapeLeft
-        } else if (ori1 == .landscapeLeft) {
-            ori2 = .landscapeRight
-        } 
-        return ori2
+    func setOrientation() {
+        if (UIDevice.current.orientation == .landscapeRight) {
+            currentStream.orientation = .landscapeLeft
+        } else if (UIDevice.current.orientation == .landscapeLeft) {
+            currentStream.orientation = .landscapeRight
+        }
+        if currentStream.orientation == .portrait
+            || currentStream.orientation == .portraitUpsideDown {
+            currentStream.orientation = .landscapeRight
+        }
     }
-
+    
     /// パブリッシュ
     @IBAction func publishTouchUpInside(_ sender: UIButton) {
         if liveState == .publishing || liveState == .listening {
@@ -368,7 +367,7 @@ class ViewController: UIViewController {
             }
             
             // 自動停止
-            if (elapsed > env.publishTimeout) {
+            if (env.publishTimeout > 0 && elapsed > env.publishTimeout) {
                 changePublish(false) 
             }
         }
@@ -510,19 +509,26 @@ class ViewController: UIViewController {
         currentStream.audioSettings = [
             "muted": !b,
         ]
-        btnAudio.setSwitch(b:b)
-    }     
+        btnAudio.setSwitch(b)
+    }
+    
+    /// 回転無効
+    @IBAction func rotlockTouchUpInside(_ sender: Any) {
+        self.isOrientation = !self.isOrientation
+        btnRotLock.setSwitch(!self.isOrientation)
+    }
     
     /// 顔
     @IBAction func faceTouchUpInside(_ sender: UIButton) {
         if currentStream.mixer.videoIO.ex.detectType == .none {
             currentStream.mixer.videoIO.ex.detectType = .detectFace
-            btnFace.setSwitch(b:true)
+            btnFace.setSwitch(true)
         } else {
             currentStream.mixer.videoIO.ex.detectType = .none
-            btnFace.setSwitch(b:false)
+            btnFace.setSwitch(false)
         }
     }
+    
     
     var labelCpu:ValueLabel = ValueLabel()
     var labelFps:ValueLabel = ValueLabel() 
@@ -561,6 +567,9 @@ class ViewController: UIViewController {
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
         btnAudio.center  = CGPoint(x:btnx+bw*1, y:bottomy)
         btnFace.center   = CGPoint(x:btnx+bw*2, y:bottomy)
+        btnRotLock.center   = CGPoint(x:btnx+bw*3, y:bottomy)
+        
+        btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
         
         // セグメント
         let segw = Int(segBps.frame.width)
@@ -624,6 +633,7 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(btnAudio)
         self.myView.bringSubviewToFront(btnPublish)
         self.myView.bringSubviewToFront(btnFace)
+        self.myView.bringSubviewToFront(btnRotLock)
         
         self.myView.bringSubviewToFront(labelBg1)
 
@@ -640,7 +650,7 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(segZoom)
         
         let env = Environment()
-        btnAudio.setSwitch(b:env.audioMode==1)
+        btnAudio.setSwitch(env.audioMode==1)
         
         isOption = true
         optionButton(hidden:true)
@@ -654,6 +664,7 @@ class ViewController: UIViewController {
     func optionButton(hidden:Bool) {
         btnAudio.hideLeft(b:hidden)
         btnFace.hideLeft(b:hidden)
+        btnRotLock.hideLeft(b:hidden)
         segBps.hideLeft(b:hidden)
         segFps.hideLeft(b:hidden)
         segZoom.hideLeft(b:hidden)
@@ -797,21 +808,23 @@ class MyButton: UIButton {
 }
 
 class RoundRectButton: MyButton {
+    var colOn: UIColor = UIColor(red:0.2,green:0.4,blue:0.8,alpha:1.0)
+    var colOff: UIColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.5)
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.myInit(width:50)
-        self.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.5)
+        self.backgroundColor = colOff
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     public var isSwitch:Bool = true
-    public func setSwitch(b:Bool) {
+    public func setSwitch(_ b:Bool) {
         isSwitch = b
         if isSwitch == true {
-            self.backgroundColor = UIColor(red:0.2,green:0.4,blue:0.8,alpha:1.0)
+            self.backgroundColor = colOn
         } else {
-            self.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.5)
+            self.backgroundColor = colOff
         }
     }
 }

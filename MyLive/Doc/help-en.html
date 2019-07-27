@@ -17,16 +17,22 @@ td{ font-size: 10pt; padding: 0px 4px; border: 1px solid silver; border-width: 0
 
 <tr>
 <td class="idx">HLS
-<td>It can be watched in the browser on the home LAN (Wi-Fi).
+<td>Watch on your home network.
 <br>Microsoft Edge, MAC Safari
 
 <tr>
-<td class="idx">RTMP
-<td>It can be distributed to Youtube or USTREAM.
+<td class="idx">URL rtmp
+<td>It can be distributed to Youtube or AWS MediaLive.
+<br>e.g. rtmp://192.168.1.1/aaa/bbb -> url=rtmp://192.168.1.1/aaa, key=bbb
+
+<tr>
+<td class="idx">URL srt
+<td>Listener srt://:3000
+<br>Caller srt://(YourPC):3000
 
 <tr>
 <td class="idx">Camera
-<td>Vertical x horizontal pixels. (960x540, 1280x720)
+<td>Size of camera. (960x540, 1280x720)
 
 <tr>
 <td class="idx">Auto low-image
@@ -34,21 +40,31 @@ td{ font-size: 10pt; padding: 0px 4px; border: 1px solid silver; border-width: 0
 
 <tr>
 <td class="idx">Auto stop
-<td>RTMP distribution is automatically stopped.
+<td>Distribution is automatically stopped.
 
 <tr>
 <td class="idx">Bitrate
-<td>The higher the value, the better the quality. However, the amount of data increases. (250Kbps, 500Kbps, 1000Kbps, 2000Kbps)
+<td>Amount of data per second. (Kbps)
 
 <tr>
 <td class="idx">Framerate
-<td>Number of images per second. (5fps, 10fps, 15fps, 30fps)
+<td>Number of images per second. (fps)
 
 <tr>
-<td class="idx">Face tracker
+<td class="idx">Face button
 <td>Detect the face and hide eyes.
-
 </table>
+
+<p>SRT</p>
+MyLive srt://(YourPC):3000
+<br>FFPlay -i "srt://0.0.0.0:3000?mode=listener"
+<br>VLC not listener mode
+<br>
+<br>MyLive srt://:3000 or srt://localhost:3000
+<br>FFPlay -i "srt://(iOS):3000"
+<br>VLC "srt://(iOS):3000"
+<br>VLC try recording.
+
 </body>
 </html>
 

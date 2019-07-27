@@ -237,7 +237,8 @@ class SettingsViewController: FormViewController {
         
         var timeout = "240"
         let t = env.publishTimeout/60
-        if (t<=30) { timeout="30" }
+        if (t<=0) { timeout="0" }
+        else if (t<=30) { timeout="30" }
         else if (t<=60) { timeout="60" }
         else if (t<=120) { timeout="120" }
         else { timeout="240" }
@@ -343,7 +344,8 @@ class TimeoutController : SubFormViewController
         let env = Environment()
         var timeout = "240"
         let t = env.publishTimeout/60
-        if (t<=30) { timeout="30" }
+        if (t<=0) { timeout="0" }
+        else if (t<=30) { timeout="30" }
         else if (t<=60) { timeout="60" }
         else if (t<=120) { timeout="120" }
         else { timeout="240" }
@@ -354,7 +356,7 @@ class TimeoutController : SubFormViewController
                 NSLocalizedString("Auto stop(min)", comment:""),
                 selectionType: .singleSelection(enableDeselection: false))
         
-        let list = ["30", "60", "120", "240"]
+        let list = ["0", "30", "60", "120", "240"]
         for v in list {
             form.last! <<< ListCheckRow<String>(v){ listRow in
                 listRow.title = v
@@ -369,6 +371,7 @@ class TimeoutController : SubFormViewController
         if newValue != nil {
             if row.section === form[1] {
                 switch (row.section as! SelectableSection<ListCheckRow<String>>).selectedRow()?.baseValue as! String {
+                case   "0": env.publishTimeout =  0
                 case  "30": env.publishTimeout =  30*60
                 case  "60": env.publishTimeout =  60*60
                 case "120": env.publishTimeout = 120*60
@@ -498,7 +501,7 @@ class HelpController : SubFormViewController
         super.viewDidLoad()
         let scroll:UIScrollView = UIScrollView()
         let webView:UIWebView = UIWebView()
-        webView.frame = CGRect.init(x:10, y:10, width:view.frame.width-20, height:view.frame.height)
+        webView.frame = CGRect.init(x:2, y:2, width:view.frame.width-4, height:view.frame.height)
         
         var fileName: String = "help-en"
         let local = NSLocalizedString("local", comment:"")
@@ -508,7 +511,7 @@ class HelpController : SubFormViewController
         if let htmlData = Bundle.main.path(forResource: fileName, ofType: "html") {
             webView.loadRequest(URLRequest(url: URL(fileURLWithPath: htmlData)))
         }
-        scroll.frame = CGRect.init(x:10, y:60, width:view.frame.width-30, height:view.frame.height-60-10)
+        scroll.frame = CGRect.init(x:8, y:60, width:view.frame.width-20, height:view.frame.height-60-16)
         scroll.contentSize = webView.frame.size
         scroll.addSubview(webView)
         self.view.addSubview(scroll)

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>My Live</title>
 <style type="text/css">
-body{ font-size: 10pt; margin: 10px 10px; }
+body{ font-size: 10pt; margin: 8px 8px; }
 body{ font-family: "メイリオ","Meiryo",arial,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"ＭＳ Ｐゴシック","MS PGothic",Sans-Serif; }
 table{ border: 1px solid silver; border-spacing: 0; border-collapse: collapse; width:95%; }
 th{ font-size: 10pt; color: black; padding: 0px 8px; border: 1px solid silver; border-width: 0 0 1px 0px; }
@@ -19,37 +19,53 @@ td{ font-size: 10pt; padding: 0px 4px; border: 1px solid silver; border-width: 0
 
 <tr>
 <td class="idx">HLS
-<td>家庭内LAN(Wi-Fi)にてブラウザで視聴できます。
+<td>家庭内LANでブラウザで視聴できます。
 <br>対応ブラウザ Microsoft Edge, MAC Safari
 
 <tr>
-<td class="idx">RTMP
-<td>YoutubeやUSTREAMへ配信ができます。
+<td class="idx">URL rtmp
+<td>Youtube や AWS MediaLive へ配信ができます。
+<br>e.g. rtmp://192.168.1.1/aaa/bbb -> url=rtmp://192.168.1.1/aaa, key=bbb
+
+<tr>
+<td class="idx">URL srt
+<td>Listener srt://:3000
+<br>Caller srt://(YourPC):3000
 
 <tr>
 <td class="idx">カメラ
-<td>縦x横ピクセル。(960x540, 1280x720)
+<td>カメラサイズ。(960x540, 1280x720)
 
 <tr>
 <td class="idx">自動低画質
-<td>RTMP配信が間に合わないとき、ビットレートを自動的に下げます。
+<td>RTMP配信が間に合わないときビットレートを自動的に下げます。
 
 <tr>
 <td class="idx">自動停止
-<td>RTMP配信を自動的に停止します。
+<td>配信を自動的に停止します。
 
 <tr>
 <td class="idx">ビットレート
-<td>値が大きいほど画質が上がります。しかしテータ量も増えます。(250Kbps, 500Kbps, 1000Kbps, 2000Kbps)
+<td>１秒間のデータ量。(Kbps)
 
 <tr>
 <td class="idx">フレームレート
-<td>1秒間に描画する枚数。(5fps, 10fps, 15fps, 30fps)
+<td>１秒間に描画する枚数。(fps)
     
 <tr>
-<td class="idx">顔追跡
+<td class="idx">顔ボタン
 <td>顔を認識して目線を隠します。
-
 </table>
+
+<p>SRT</p>
+MyLive srt://(YourPC):3000
+<br>FFPlay -i "srt://0.0.0.0:3000?mode=listener"
+<br>VLC not listener
+<br>
+<br>MyLive srt://:3000 or srt://localhost:3000
+<br>FFPlay -i "srt://(iOS):3000"
+<br>VLC "srt://(iOS):3000"
+<br>VLCはレコーディングを試してください
+
 </body>
 </html>

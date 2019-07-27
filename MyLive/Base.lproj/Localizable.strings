@@ -7,7 +7,7 @@
 */
 "local" = "en";
 "Auto low-image" = "Rtmp auto low-image";
-"Auto stop(min)" = "Rtmp auto stop(min)";
+"Auto stop(min)" = "Auto stop(min)";
 "Help" = "Help";
 "Camera" = "Camera";
 
