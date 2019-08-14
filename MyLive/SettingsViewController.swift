@@ -3,7 +3,7 @@
 //  MyLive
 //
 //  Created by User on 2017/12/22.
-//  Copyright c 2017年 User. All rights reserved.
+//  Copyright c 2017 Koji4104. All rights reserved.
 //
 import UIKit
 import Eureka

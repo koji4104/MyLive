@@ -7,6 +7,7 @@ let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
     let test:Bool = false // キャプチャー用に静止画を表示
+    let recv:Bool = false
     
     var httpStream:HTTPStream!
     var httpService:HLSService!
@@ -37,6 +38,8 @@ class ViewController: UIViewController {
     var isOption:Bool = false
     var isOrientation = true
 
+    var timer2:Timer!
+    
     /// 初期化
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,20 +59,20 @@ class ViewController: UIViewController {
         
         let env = Environment()
         
-        if test == true {
-            env.publishType = 0
-        }
+        //if test == true {
+        //    env.publishType = 0
+        //}
         
-        if (env.isHls()) {
-            self.httpService = HLSService(domain: "", type: "_http._tcp", name: "my", port: 8080)
-            self.httpStream = HTTPStream()
-        } else if (env.isRtmp()) {
+        if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
         } else if (env.isSrt()) {
             self.srtConnection = .init()
             self.srtStream = SRTStream(srtConnection)
             self.srtConnection?.attachStream(srtStream)
+        } else {
+            self.httpService = HLSService(domain: "", type: "_http._tcp", name: "my", port: 8080)
+            self.httpStream = HTTPStream()
         }
         
         currentStream.syncOrientation = false
@@ -105,14 +108,16 @@ class ViewController: UIViewController {
             //"profile": UInt32(MPEG4ObjectID.AAC_LC.rawValue), err ios12
         ]
         
-        let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
-        currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
-            logger.warn(error.description)
-        }
-        currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
+        //if recv == false && test == false {
+            let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
+            currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
+                logger.warn(error.description)
+            }
+            currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
                 automaticallyConfiguresApplicationAudioSession: true) { error in
-            logger.warn(error.description)
-        }
+                logger.warn(error.description)
+            }
+        //}
         
         setOrientation()
         myView?.attachStream(currentStream)
@@ -126,6 +131,12 @@ class ViewController: UIViewController {
         // タイマー
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTimer(_:)), userInfo: nil, repeats: true)
         timer.fire()
+        
+        // タイマー
+        if test == true {
+            timer2 = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector:#selector(self.onTimer2(_:)), userInfo: nil, repeats: true)
+            timer2.fire()
+        }
     }
     
     /// 画面消去
@@ -142,14 +153,17 @@ class ViewController: UIViewController {
             object: nil)
  
         let env = Environment()
-        if (env.isHls()) {
-            httpStream.dispose()
-        } else if (env.isRtmp()) {
+        if (env.isRtmp()) {
             rtmpStream.close()
             rtmpStream.dispose()
+            rtmpStream = nil
         } else if (env.isSrt()) {
             srtStream.close()
             srtStream.dispose()
+            srtStream = nil
+        } else {
+            httpStream.dispose()
+            httpStream = nil
         }
     }
     
@@ -245,21 +259,37 @@ class ViewController: UIViewController {
             }
         }
     }
-
+    
     @objc func rtmpStatusHandler(_ notification:Notification) {
         let e:Event = Event.from(notification)
-        if let data:ASObject = e.data as? ASObject, let code:String = data["code"] as? String {
+        if recv == false {
+            if let data:ASObject = e.data as? ASObject, let code:String = data["code"] as? String {
+                switch code {
+                case RTMPConnection.Code.connectSuccess.rawValue:
+                    let env = Environment()
+                    print("key \(env.getKey())")
+                    rtmpStream!.publish(env.getKey())
+                default:
+                    break
+                }
+            }
+        } else {
+            guard
+                let data: ASObject = e.data as? ASObject,
+                let code: String = data["code"] as? String else {
+                    return
+            }
+            
             switch code {
             case RTMPConnection.Code.connectSuccess.rawValue:
                 let env = Environment()
-                print("key \(env.getKey())")
-                rtmpStream!.publish(env.getKey())
+                rtmpStream!.play(env.getKey())
             default:
                 break
             }
         }
     }
-
+    
     /// ボタンの状態
     enum LiveState {
         case closed
@@ -386,14 +416,46 @@ class ViewController: UIViewController {
             labelCpu.text = "\(getCPUPer())" + "%"
         }
         
+        // Test
         if (test == true) {
-            labelFps.text = "30"
-            labelCpu.text = "12%"
-            labelRps.text = "publishing 29min"
-            titleRps.text = "RTMP"
+            //labelFps.text = "30"
+            //labelCpu.text = "12%"
+            //labelRps.text = "publishing 29min"
+            //titleRps.text = "RTMP"
         }
     }
 
+    var isTestCreated:Bool = false
+    var ciTestImage:CIImage!
+    var pxTestBuffer:CVPixelBuffer!
+    
+    @objc func onTimer2(_ tm: Timer) {
+        if (test == true) {
+            if isTestCreated == false {
+                isTestCreated = true
+                let rect = CGRect(x:0, y:0, width:1280, height:720)
+                let uiTestImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
+                                                     w:Int(rect.width),
+                                                     h:Int(rect.height))
+                ciTestImage = CIImage(cgImage:uiTestImage.cgImage!)
+                pxTestBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
+            }
+            
+            let msec = Date().timeIntervalSince(date1) * 1000
+            if (isPublish == true) {
+                currentStream.mixer.videoIO.encoder.encodeImageBuffer(
+                    pxTestBuffer,
+                    presentationTimeStamp: CMTimeMake(value: Int64(msec), timescale: 1000),
+                    duration: CMTimeMake(value: 0, timescale: 0)
+                )
+            }
+            if currentStream != nil {
+                currentStream.mixer.videoIO.ex.test = true
+                currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
+            }
+        }
+    }
+    
     /// フレームレート
     @IBAction func onFpsChanged(_ sender: UISegmentedControl) {
         var fps:Double = 5.0
@@ -608,7 +670,8 @@ class ViewController: UIViewController {
         labelBg1.clipsToBounds = true
         
         // テスト用背景
-        if (test==true) {
+        //if (test==true) {
+        if (false) {
             let rect = CGRect(x:0, y:(viewh-(vieww*9/16))/2, width:vieww, height:vieww*9/16)
             let testImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
                                w:Int(rect.width),
@@ -735,6 +798,32 @@ class ViewController: UIViewController {
         let cropRef   = resizeImage!.cgImage!.cropping(to: cropRect)
         let cropImage = UIImage(cgImage: cropRef!)
         return cropImage
+    }
+    
+    private func convertFromCIImageToCVPixelBuffer (ciImage:CIImage) -> CVPixelBuffer? {
+        let size:CGSize = ciImage.extent.size
+        var pixelBuffer:CVPixelBuffer?
+        let options = [
+            kCVPixelBufferCGImageCompatibilityKey as String: true,
+            kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
+            kCVPixelBufferIOSurfacePropertiesKey as String: [:]
+            ] as [String : Any]
+        
+        let status:CVReturn = CVPixelBufferCreate(kCFAllocatorDefault,
+                                                  Int(size.width),
+                                                  Int(size.height),
+                                                  kCVPixelFormatType_32BGRA,
+                                                  options as CFDictionary,
+                                                  &pixelBuffer)
+        
+        
+        let ciContext = CIContext()
+        
+        if (status == kCVReturnSuccess && pixelBuffer != nil) {
+            ciContext.render(ciImage, to: pixelBuffer!)
+        }
+        
+        return pixelBuffer
     }
     
     override func didReceiveMemoryWarning() {

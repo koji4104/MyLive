@@ -19,13 +19,16 @@ class VideoIOComponentEx {
     var fpsCount:Int = 0
     var fpsDate:Date = Date()
     public var fps = 0
-    
+    public var test:Bool = false
     public var vision = VisionAdapter()
 }
 
 extension VideoIOComponent {
     /// フレーム毎に呼ばれる
     func appendSampleBufferEx(_ sampleBuffer: CMSampleBuffer) {
+        if ex.test == true {
+            return
+        }
         guard var buffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
