@@ -6,7 +6,7 @@ import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = false // キャプチャー用に静止画を表示
+    let test:Bool = false // テストソース
     let recv:Bool = false
     
     var httpStream:HTTPStream!
@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     var isOrientation = true
 
     var timer2:Timer!
+    var frameCount:Int = 0
     
     /// 初期化
     override func viewDidLoad() {
@@ -58,11 +59,6 @@ class ViewController: UIViewController {
         initControl()
         
         let env = Environment()
-        
-        //if test == true {
-        //    env.publishType = 0
-        //}
-        
         if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
@@ -108,16 +104,14 @@ class ViewController: UIViewController {
             //"profile": UInt32(MPEG4ObjectID.AAC_LC.rawValue), err ios12
         ]
         
-        //if recv == false && test == false {
-            let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
-            currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
-                logger.warn(error.description)
-            }
-            currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
-                automaticallyConfiguresApplicationAudioSession: true) { error in
-                logger.warn(error.description)
-            }
-        //}
+        let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
+        currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
+            logger.warn(error.description)
+        }
+        currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
+            automaticallyConfiguresApplicationAudioSession: true) { error in
+            logger.warn(error.description)
+        }
         
         setOrientation()
         myView?.attachStream(currentStream)
@@ -134,7 +128,7 @@ class ViewController: UIViewController {
         
         // タイマー
         if test == true {
-            timer2 = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector:#selector(self.onTimer2(_:)), userInfo: nil, repeats: true)
+            timer2 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
             timer2.fire()
         }
     }
@@ -184,7 +178,6 @@ class ViewController: UIViewController {
     override var shouldAutorotate: Bool {
         get {
             return self.isOrientation
-           
         }
     }
     
@@ -253,7 +246,11 @@ class ViewController: UIViewController {
         } else if env.isSrt() {
             if publish == true {
                 srtStream.publish("my")
-                srtConnection.connect(URL(string: env.getUrl()))
+                if recv == false {
+                    srtConnection.connect(URL(string: env.getUrl()))
+                } else {
+                    srtConnection.connect2(URL(string: env.getUrl()))
+                }
             } else {
                 srtConnection.close()
             }
@@ -302,7 +299,6 @@ class ViewController: UIViewController {
         if st == .publishing {
             self.btnPublish.backgroundColor = UIColor.red
             self.btnPublish.layer.borderColor = UIColor.black.cgColor
-            
             if self.isPublish == false {
                 date1 = Date()
                 aryFps.removeAll(keepingCapacity: true)
@@ -312,7 +308,6 @@ class ViewController: UIViewController {
         } else if st == .closed {
             self.btnPublish.backgroundColor = UIColor.white
             self.btnPublish.layer.borderColor = UIColor.black.cgColor
-            
             if self.isPublish == true {
                 changePublish(false)
             }
@@ -395,7 +390,6 @@ class ViewController: UIViewController {
             } else {
                 labelRps.text = labelRps.text! + "  \(elapsed/60)" + "min"
             }
-            
             // 自動停止
             if (env.publishTimeout > 0 && elapsed > env.publishTimeout) {
                 changePublish(false) 
@@ -415,44 +409,49 @@ class ViewController: UIViewController {
             nDispCpu = 0
             labelCpu.text = "\(getCPUPer())" + "%"
         }
-        
-        // Test
-        if (test == true) {
-            //labelFps.text = "30"
-            //labelCpu.text = "12%"
-            //labelRps.text = "publishing 29min"
-            //titleRps.text = "RTMP"
-        }
     }
 
     var isTestCreated:Bool = false
-    var ciTestImage:CIImage!
-    var pxTestBuffer:CVPixelBuffer!
-    
-    @objc func onTimer2(_ tm: Timer) {
-        if (test == true) {
-            if isTestCreated == false {
-                isTestCreated = true
-                let rect = CGRect(x:0, y:0, width:1280, height:720)
-                let uiTestImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
-                                                     w:Int(rect.width),
-                                                     h:Int(rect.height))
-                ciTestImage = CIImage(cgImage:uiTestImage.cgImage!)
-                pxTestBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
-            }
+    var uiTestImage:UIImage!
+    @objc func onTestTimer(_ tm: Timer) {
+        if test == false {
+            return
+        }
+        let tw = 960
+        let th = 540
+        if isTestCreated == false {
+            isTestCreated = true
+            uiTestImage = cropThumbnailImage(image:UIImage(named:"TestImage")!, w:tw, h:th)
+        }
+        frameCount += 1
             
-            let msec = Date().timeIntervalSince(date1) * 1000
-            if (isPublish == true) {
-                currentStream.mixer.videoIO.encoder.encodeImageBuffer(
-                    pxTestBuffer,
-                    presentationTimeStamp: CMTimeMake(value: Int64(msec), timescale: 1000),
-                    duration: CMTimeMake(value: 0, timescale: 0)
-                )
-            }
-            if currentStream != nil {
-                currentStream.mixer.videoIO.ex.test = true
-                currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
-            }
+        UIGraphicsBeginImageContext(CGSize(width:tw, height:th))
+        let context1 = UIGraphicsGetCurrentContext()!
+        uiTestImage.draw(in:CGRect(x:0, y:0, width:tw, height:th))
+
+        let font = UIFont.systemFont(ofSize: 30)
+        let attrs = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: UIColor.blue
+        ]
+        let text:String = String(frameCount)
+        text.draw(at: CGPoint(x:100,y:100), withAttributes: attrs)
+
+        UIGraphicsEndImageContext()
+        let ciTestImage:CIImage = CIImage(cgImage: context1.makeImage()!)
+
+        if isPublish == true {
+            var pts = CMTimeMake(value: Int64(frameCount), timescale: 1)
+            pts.flags = CMTimeFlags.init(rawValue: 3)
+            let pxTestBuffer:CVPixelBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
+            currentStream.mixer.videoIO.encoder.encodeImageBuffer(
+                pxTestBuffer,
+                presentationTimeStamp: pts,
+                duration: CMTimeMake(value: 0, timescale: 0))
+        }
+        if currentStream != nil {
+            currentStream.mixer.videoIO.ex.test = true
+            currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
         }
     }
     

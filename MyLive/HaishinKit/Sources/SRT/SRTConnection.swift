@@ -65,6 +65,27 @@ open class SRTConnection: NSObject {
             try? outgoingSocket?.connect(addr, options: options)
         }
     }
+
+    public func connect2(_ uri: URL?) {
+        
+        guard let uri = uri, let scheme = uri.scheme, let host = uri.host, let port = uri.port, scheme == "srt" else { return }
+        
+        
+        self.uri = uri
+        let options = SRTSocketOption.from(uri: uri)
+        let addr = sockaddr_in(host, port: UInt16(port))
+        
+        //outgoingSocket = SRTOutgoingSocket()
+        //outgoingSocket?.delegate = self
+        //try? outgoingSocket?.connect(addr, options: options)
+        
+      
+   
+        
+        incomingSocket = SRTIncomingSocket()
+        incomingSocket?.delegate = self
+        incomingSocket?.run(addr, options: options)
+    }
     
     public func close() {
         for stream in streams {

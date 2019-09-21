@@ -93,7 +93,9 @@ public class TSWriter: Running {
 
     // swiftlint:disable function_parameter_count
     final func writeSampleBuffer(_ PID: UInt16, streamID: UInt8, bytes: UnsafePointer<UInt8>?, count: UInt32, presentationTimeStamp: CMTime, decodeTimeStamp: CMTime, randomAccessIndicator: Bool) {
-        guard canWriteFor else { return }
+        
+        //koji4104 comment
+        //guard canWriteFor else { return }
 
         switch PID {
         case TSWriter.defaultAudioPID:

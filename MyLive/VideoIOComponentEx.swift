@@ -5,6 +5,7 @@ import CoreML
 
 /*
  Sources/Media/VideoIOComponent.swift line 444
+ Sources/ISO/TSWriter.swift line 97
  */
 class VideoIOComponentEx {
     var isDisplay:Bool = false
