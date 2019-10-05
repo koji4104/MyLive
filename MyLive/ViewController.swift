@@ -7,7 +7,7 @@ let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
     let test:Bool = false // テストソース
-    let recv:Bool = false
+    let recv:Bool = true
     
     var httpStream:HTTPStream!
     var httpService:HLSService!

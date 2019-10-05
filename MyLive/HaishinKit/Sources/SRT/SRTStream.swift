@@ -24,8 +24,6 @@ open class SRTStream: NetStream {
         return tsWriter
     }()
 
-    //var tsReader: TSReader
-   
     public private(set) var readyState: ReadyState = .initialized {
         didSet {
             guard oldValue != readyState else { return }
