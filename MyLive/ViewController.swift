@@ -514,38 +514,7 @@ class ViewController: UIViewController {
             currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
         }
     }
-    
-    func makeSampleBuffer(from pixelBuffer: CVPixelBuffer, at frameTime: CMTime) -> CMSampleBuffer?
-    {
-        // CVPixelBufferからのCMVideoFormatDescriptionの作成
-        var description:CMVideoFormatDescription?
-        var status = CMVideoFormatDescriptionCreateForImageBuffer(
-            allocator: kCFAllocatorDefault,
-            imageBuffer: pixelBuffer,
-            formatDescriptionOut: &description)
 
-        guard let _description:CMVideoFormatDescription = description else {
-            return nil
-        }
-
-        // CVPixelBufferからのCMSampleBufferの作成
-        var sampleBuffer:CMSampleBuffer?
-        var timing:CMSampleTimingInfo = CMSampleTimingInfo()
-        timing.presentationTimeStamp = frameTime
-        status = CMSampleBufferCreateForImageBuffer(
-            allocator: kCFAllocatorDefault,
-            imageBuffer: pixelBuffer,
-            dataReady: true,
-            makeDataReadyCallback: nil,
-            refcon: nil,
-            formatDescription: _description,
-            sampleTiming: &timing,
-            sampleBufferOut: &sampleBuffer
-        )
-
-        return sampleBuffer
-    }
-    
     /// フレームレート
     @IBAction func onFpsChanged(_ sender: UISegmentedControl) {
         var fps:Double = 5.0
@@ -860,59 +829,6 @@ class ViewController: UIViewController {
             .reduce(0, +)
     }
 
-    /// クロップ
-    func cropThumbnailImage(image :UIImage, w:Int, h:Int) ->UIImage {
-        // リサイズ処理
-        let origRef    = image.cgImage
-        let origWidth  = Int(origRef!.width)
-        let origHeight = Int(origRef!.height)
-        var resizeWidth:Int = 0, resizeHeight:Int = 0
-        
-        if (origWidth < origHeight) {
-            resizeWidth = w
-            resizeHeight = origHeight * resizeWidth / origWidth
-        } else {
-            resizeHeight = h
-            resizeWidth = origWidth * resizeHeight / origHeight
-        }
-        
-        let resizeSize = CGSize.init(width: CGFloat(resizeWidth), height: CGFloat(resizeHeight))
-        UIGraphicsBeginImageContext(resizeSize)
-        image.draw(in: CGRect.init(x: 0, y: 0, width: CGFloat(resizeWidth), height: CGFloat(resizeHeight)))
-        let resizeImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        // 切り抜き処理
-        let cropRect  = CGRect.init(x: CGFloat((resizeWidth - w) / 2), y: CGFloat((resizeHeight - h) / 2), width: CGFloat(w), height: CGFloat(h))
-        let cropRef   = resizeImage!.cgImage!.cropping(to: cropRect)
-        let cropImage = UIImage(cgImage: cropRef!)
-        return cropImage
-    }
-    
-    private func convertFromCIImageToCVPixelBuffer (ciImage:CIImage) -> CVPixelBuffer? {
-        let size:CGSize = ciImage.extent.size
-        var pixelBuffer:CVPixelBuffer?
-        let options = [
-            kCVPixelBufferCGImageCompatibilityKey as String: true,
-            kCVPixelBufferCGBitmapContextCompatibilityKey as String: true,
-            kCVPixelBufferIOSurfacePropertiesKey as String: [:]
-            ] as [String : Any]
-        
-        let status:CVReturn = CVPixelBufferCreate(
-            kCFAllocatorDefault,
-            Int(size.width),
-            Int(size.height),
-            kCVPixelFormatType_32BGRA,
-            options as CFDictionary,
-            &pixelBuffer)
-        
-        let ciContext = CIContext()
-        if (status == kCVReturnSuccess && pixelBuffer != nil) {
-            ciContext.render(ciImage, to: pixelBuffer!)
-        }
-        return pixelBuffer
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -1030,22 +946,6 @@ class MySegmentedControl: UISegmentedControl {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-}
-
-extension UIDevice {
-    // Return Cpu Cores
-    var cpuCores: Int {
-        var r = Int(self.getSysInfo(typeSpecifier:HW_NCPU))
-        if (r==0) { r=1 }
-        return r
-    }
-    func getSysInfo(typeSpecifier: Int32) -> Int {
-        var size: size_t = MemoryLayout<Int>.size
-        var results: Int = 0
-        var mib: [Int32] = [CTL_HW, typeSpecifier]
-        sysctl(&mib, 2, &results, &size, nil,0)
-        return results
     }
 }
 
