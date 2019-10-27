@@ -1004,6 +1004,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.3.1;
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1020,6 +1021,7 @@
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
+				MARKETING_VERSION = 1.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1038,6 +1040,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.3.1;
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1054,6 +1057,7 @@
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
+				MARKETING_VERSION = 1.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";

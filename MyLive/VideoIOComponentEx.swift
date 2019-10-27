@@ -58,7 +58,8 @@ extension VideoIOComponent {
         )
         let image: CIImage = CIImage(cvPixelBuffer: buffer)
         drawable?.draw(image: image)
-        //mixer?.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
+        
+        mixer?.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
     }
     
     /// 検出（顔）

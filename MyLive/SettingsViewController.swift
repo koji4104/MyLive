@@ -332,6 +332,7 @@ class SettingsViewController: FormViewController {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller:UIViewController = storyboard.instantiateViewController(withIdentifier: "PopUpLive")
         present(controller, animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
     }
 }
 

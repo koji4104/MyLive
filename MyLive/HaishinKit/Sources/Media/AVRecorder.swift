@@ -78,8 +78,9 @@ open class AVRecorder: NSObject {
             guard let delegate: AVRecorderDelegate = self.delegate, self.isRunning else {
                 return
             }
-
+            
             delegate.rotateFile(self, withPresentationTimeStamp: withPresentationTime, mediaType: .video)
+            
             guard
                 let writer = self.writer,
                 let input = delegate.getWriterInput(self, mediaType: .video, sourceFormatHint: CMVideoFormatDescription.create(pixelBuffer: pixelBuffer)),
@@ -87,7 +88,7 @@ open class AVRecorder: NSObject {
                 self.isReadyForStartWriting else {
                 return
             }
-
+         
             switch writer.status {
             case .unknown:
                 writer.startWriting()
@@ -178,6 +179,12 @@ extension DefaultAVRecorderDelegate: AVRecorderDelegate {
             withPresentationTimeStamp,
             CMTimeMake(value: duration == 0 ? .max : duration * Int64(withPresentationTimeStamp.timescale), timescale: withPresentationTimeStamp.timescale)
         )
+        
+        // koji4104
+        if rotateTime.value < 1 {
+            rotateTime.value = 4612014746598208313
+        }
+        
         recorder.sourceTime = withPresentationTimeStamp
     }
 

@@ -6,9 +6,10 @@ import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = false // テストソース
-    let recv:Bool = true
-    
+    let test:Bool = true // テストソース
+    let recv:Bool = false
+    let record:Bool = true
+        
     var httpStream:HTTPStream!
     var httpService:HLSService!
 
@@ -18,6 +19,8 @@ class ViewController: UIViewController {
     var srtConnection:SRTConnection!
     var srtStream:SRTStream!
 
+    var netStream:NetStream!
+    
     @IBOutlet weak var myView: GLHKView!
     
     @IBOutlet weak var segBps:UISegmentedControl!
@@ -59,7 +62,9 @@ class ViewController: UIViewController {
         initControl()
         
         let env = Environment()
-        if (env.isRtmp()) {
+        if (record == true) {
+            self.netStream = NetStream()
+        }else if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
         } else if (env.isSrt()) {
@@ -115,6 +120,38 @@ class ViewController: UIViewController {
         
         setOrientation()
         myView?.attachStream(currentStream)
+         
+        if (record == true) {
+            if test == true {
+                currentStream.recorderSettings = [
+                    AVMediaType.video: [
+                        AVVideoCodecKey: AVVideoCodecType.h264,
+                        AVVideoHeightKey: 0,
+                        AVVideoWidthKey: 0,
+                    ]
+                ]
+            } else {
+                currentStream.recorderSettings = [
+                    AVMediaType.audio: [
+                        AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                        AVSampleRateKey: 0,
+                        AVNumberOfChannelsKey: 0,
+                        // AVEncoderBitRateKey: 128000,
+                    ],
+                    AVMediaType.video: [
+                        AVVideoCodecKey: AVVideoCodecType.h264,
+                        AVVideoHeightKey: 0,
+                        AVVideoWidthKey: 0,
+                        //AVVideoCompressionPropertiesKey: [
+                        //    AVVideoMaxKeyFrameIntervalDurationKey: 2,
+                        //    AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline30,
+                        //    AVVideoAverageBitRateKey: 512000
+                        //]
+                    ],
+                ]
+            }
+            currentStream.mixer.recorder.delegate = ExampleRecorderDelegate.default
+        }
         
         NotificationCenter.default.addObserver(
             self,
@@ -139,6 +176,7 @@ class ViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         timer.invalidate()
+        timer2.invalidate()
         changePublish(false)
         
         NotificationCenter.default.removeObserver(
@@ -164,7 +202,9 @@ class ViewController: UIViewController {
     var currentStream: NetStream! {
         get {
             let env = Environment()
-            if (env.isRtmp()) {
+            if (record == true) {
+                return netStream
+            } else if (env.isRtmp()) {
                 return rtmpStream
             } else if (env.isSrt()) {
                 return srtStream
@@ -225,7 +265,14 @@ class ViewController: UIViewController {
         
     func changePublish(_ publish: Bool) {
         let env = Environment()
-        if env.isHls() {
+        if (record == true) {
+            if publish == true {
+                currentStream.mixer.recorder.fileName = "mylive"
+                currentStream.mixer.recorder.startRunning()
+            } else {
+                currentStream.mixer.recorder.stopRunning()
+            }
+        } else if env.isHls() {
             if publish == true {
                 httpStream.publish("my")
                 httpService.startRunning()
@@ -354,7 +401,13 @@ class ViewController: UIViewController {
         
         // 配信方式
         var state:String = ""
-        if env.isHls() {
+        if record == true {
+            titleRps.text = "REC"
+            labelRps.text = ""
+            if currentStream != nil && currentStream.mixer.recorder.isRunning {
+                state = "publishing"
+            }
+        }else if env.isHls() {
             titleRps.text = "HLS"
             labelRps.text = ""
             if httpService != nil && httpService.isRunning {
@@ -405,7 +458,7 @@ class ViewController: UIViewController {
         
         // CPU
         nDispCpu += 1
-        if nDispCpu >= 2 {
+        if nDispCpu >= 3 {
             nDispCpu = 0
             labelCpu.text = "\(getCPUPer())" + "%"
         }
@@ -443,16 +496,54 @@ class ViewController: UIViewController {
         if isPublish == true {
             var pts = CMTimeMake(value: Int64(frameCount), timescale: 1)
             pts.flags = CMTimeFlags.init(rawValue: 3)
+            
             let pxTestBuffer:CVPixelBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
+            
             currentStream.mixer.videoIO.encoder.encodeImageBuffer(
                 pxTestBuffer,
                 presentationTimeStamp: pts,
                 duration: CMTimeMake(value: 0, timescale: 0))
+            
+            //let sampleBuffer = makeSampleBuffer(from: pxTestBuffer, at: pts)!
+            //currentStream.mixer.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
+
+            currentStream.mixer.recorder.appendPixelBuffer(pxTestBuffer, withPresentationTime: pts)
         }
         if currentStream != nil {
             currentStream.mixer.videoIO.ex.test = true
             currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
         }
+    }
+    
+    func makeSampleBuffer(from pixelBuffer: CVPixelBuffer, at frameTime: CMTime) -> CMSampleBuffer?
+    {
+        // CVPixelBufferからのCMVideoFormatDescriptionの作成
+        var description:CMVideoFormatDescription?
+        var status = CMVideoFormatDescriptionCreateForImageBuffer(
+            allocator: kCFAllocatorDefault,
+            imageBuffer: pixelBuffer,
+            formatDescriptionOut: &description)
+
+        guard let _description:CMVideoFormatDescription = description else {
+            return nil
+        }
+
+        // CVPixelBufferからのCMSampleBufferの作成
+        var sampleBuffer:CMSampleBuffer?
+        var timing:CMSampleTimingInfo = CMSampleTimingInfo()
+        timing.presentationTimeStamp = frameTime
+        status = CMSampleBufferCreateForImageBuffer(
+            allocator: kCFAllocatorDefault,
+            imageBuffer: pixelBuffer,
+            dataReady: true,
+            makeDataReadyCallback: nil,
+            refcon: nil,
+            formatDescription: _description,
+            sampleTiming: &timing,
+            sampleBufferOut: &sampleBuffer
+        )
+
+        return sampleBuffer
     }
     
     /// フレームレート
@@ -589,7 +680,6 @@ class ViewController: UIViewController {
             btnFace.setSwitch(false)
         }
     }
-    
     
     var labelCpu:ValueLabel = ValueLabel()
     var labelFps:ValueLabel = ValueLabel() 
@@ -808,20 +898,18 @@ class ViewController: UIViewController {
             kCVPixelBufferIOSurfacePropertiesKey as String: [:]
             ] as [String : Any]
         
-        let status:CVReturn = CVPixelBufferCreate(kCFAllocatorDefault,
-                                                  Int(size.width),
-                                                  Int(size.height),
-                                                  kCVPixelFormatType_32BGRA,
-                                                  options as CFDictionary,
-                                                  &pixelBuffer)
-        
+        let status:CVReturn = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            Int(size.width),
+            Int(size.height),
+            kCVPixelFormatType_32BGRA,
+            options as CFDictionary,
+            &pixelBuffer)
         
         let ciContext = CIContext()
-        
         if (status == kCVReturnSuccess && pixelBuffer != nil) {
             ciContext.render(ciImage, to: pixelBuffer!)
         }
-        
         return pixelBuffer
     }
     
@@ -961,13 +1049,27 @@ extension UIDevice {
     }
 }
 
+//------------------------------------------------------------
+// Recorder
+//------------------------------------------------------------
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
     static let `default` = ExampleRecorderDelegate()
+    static let albumName = "MyLive"
+    
+    override func didStartRunning(_ recorder: AVRecorder) {
+        ExampleRecorderDelegate.createAlbum()
+    }
     
     override func didFinishWriting(_ recorder: AVRecorder) {
         guard let writer: AVAssetWriter = recorder.writer else { return }
         PHPhotoLibrary.shared().performChanges({() -> Void in
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: writer.outputURL)
+            if let album = ExampleRecorderDelegate.self.findAlbum() {
+                let assetReq = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: writer.outputURL)
+                if let asset = assetReq?.placeholderForCreatedAsset {
+                    let request = PHAssetCollectionChangeRequest(for: album)
+                    request?.addAssets([asset] as NSArray)
+                }
+            }
         }, completionHandler: { _, error -> Void in
             do {
                 try FileManager.default.removeItem(at: writer.outputURL)
@@ -976,4 +1078,27 @@ final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
             }
         })
     }
+
+    static func createAlbum() -> PHAssetCollection? {
+        if let album = self.findAlbum() {
+            return album
+        } else {
+            do {
+                try PHPhotoLibrary.shared().performChangesAndWait({
+                    PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
+                })
+            } catch {
+                print("Problem finding/creating album: ".appending(albumName))
+                print(error)
+            }
+            return self.findAlbum()
+        }
+    }
+    
+    static func findAlbum() -> PHAssetCollection? {
+        let options = PHFetchOptions()
+        options.predicate = NSPredicate(format: "title = %@", albumName)
+        let findAlbumResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
+        return findAlbumResult.firstObject
+    }    
 }
