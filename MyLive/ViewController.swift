@@ -82,8 +82,7 @@ class ViewController: UIViewController {
     }
         
     /// コントロール初期値
-    public func initControl()
-    {
+    public func initControl() {
         let env = Environment()
         if (record == true) {
             self.netStream = NetStream()
@@ -269,9 +268,9 @@ class ViewController: UIViewController {
     }
 
     func setOrientation() {
-        if (UIDevice.current.orientation == .landscapeRight) {
+        if (UIApplication.shared.statusBarOrientation == .landscapeLeft) {
             currentStream.orientation = .landscapeLeft
-        } else if (UIDevice.current.orientation == .landscapeLeft) {
+        } else if (UIApplication.shared.statusBarOrientation == .landscapeRight) {
             currentStream.orientation = .landscapeRight
         }
         if currentStream.orientation == .portrait
