@@ -58,7 +58,7 @@ extension VideoIOComponent {
         )
         let image: CIImage = CIImage(cvPixelBuffer: buffer)
         drawable?.draw(image: image)
-        
+
         mixer?.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
     }
     

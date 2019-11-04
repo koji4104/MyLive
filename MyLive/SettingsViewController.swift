@@ -208,6 +208,8 @@ open class Environment {
 // Settings
 //------------------------------------------------------------
 class SettingsViewController: FormViewController {
+    public var mainView:UIViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -260,7 +262,7 @@ class SettingsViewController: FormViewController {
                 $0.onChange{ row in
                 let v:String = row.value!
                 switch v {
-                case "HLS":   env.publishType = env.typeHls
+                case "HLS":  env.publishType = env.typeHls
                 case "URL1": env.publishType = env.typeUrl1
                 case "URL2": env.publishType = env.typeUrl2
                 case "URL3": env.publishType = env.typeUrl3
@@ -329,10 +331,8 @@ class SettingsViewController: FormViewController {
     
     // DoneButton
     @objc func onDoneClick(_ sender: UIButton) {
-        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller:UIViewController = storyboard.instantiateViewController(withIdentifier: "PopUpLive")
-        present(controller, animated: true, completion: nil)
-        //self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
+        mainView.viewWillAppear(true)
     }
 }
 
@@ -490,8 +490,7 @@ class RtmpController : SubFormViewController
         env.key3 = self.form.rowBy(tag: "set_key3")?.baseValue as! String
         env.key4 = self.form.rowBy(tag: "set_key4")?.baseValue as! String
         
-        let vc: UIViewController = SettingsViewController()
-        self.present(vc, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -533,7 +532,6 @@ class SubFormViewController : FormViewController {
     }
     /// 完了ボタン
     @objc open func onDoneClick(_ sender: UIButton) {
-        let vc: UIViewController = SettingsViewController()
-        self.present(vc, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }

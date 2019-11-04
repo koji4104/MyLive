@@ -53,6 +53,7 @@ class TSReader2 {
             PMT[channel] = ProgramMapSpecific(packet.payload)
             return
         }
+        
         //if let data: ElementaryStreamSpecificData = dictionaryForESSpecData[packet.PID] {
         if let data: ElementaryStreamSpecificData = dictionaryForESSpecData[3840] {
             readPacketizedElementaryStream(data, packet: packet)
@@ -83,15 +84,14 @@ extension SRTIncomingSocket: TSReader2Delegate {
         
         // func enqueueSampleBuffer(_ stream: RTMPStream) {
         
-        self.timestamp += 1
+        self.timestamp += 33
         let compositionTimeoffset = 0
+                
+        var pts = CMTimeMake(value: Int64(timestamp), timescale: 1000)
+        pts.flags = CMTimeFlags.init(rawValue: 3)
+        var timing:CMSampleTimingInfo = CMSampleTimingInfo()
+        timing.presentationTimeStamp = pts
         
-        var timing = CMSampleTimingInfo(
-            duration: CMTimeMake(value: Int64(timestamp), timescale: 1000),
-            presentationTimeStamp: CMTimeMake(value: Int64(timestamp) + Int64(compositionTimeoffset), timescale: 1000),
-            decodeTimeStamp: CMTime.invalid
-        )
-
         let data: Data = PES.data
         var localData = data
         localData.withUnsafeMutableBytes { (bytes: UnsafeMutablePointer<UInt8>) -> Void in
@@ -124,7 +124,12 @@ extension SRTIncomingSocket: TSReader2Delegate {
                 sampleBufferOut: &sampleBuffer) == noErr else {
                 return
             }
-            var status = stream?.mixer.videoIO.decoder.decodeSampleBuffer(sampleBuffer!)
+            
+            guard var buffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer!) else {
+                return
+            }
+            let image: CIImage = CIImage(cvPixelBuffer: buffer)
+            stream?.mixer.videoIO.drawable?.draw(image: image)
         }
     }
 }

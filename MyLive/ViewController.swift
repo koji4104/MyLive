@@ -6,9 +6,9 @@ import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = true // テストソース
+    let test:Bool = false // テストソース
     let recv:Bool = false
-    let record:Bool = true
+    let record:Bool = false
         
     var httpStream:HTTPStream!
     var httpService:HLSService!
@@ -58,9 +58,32 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         logger.info("viewWillAppear")
         super.viewWillAppear(animated)
- 
+
         initControl()
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector:#selector(self.onOrientationChange(_:)),
+            name: UIDevice.orientationDidChangeNotification, // swift4.2
+            object: nil)
+    }
+    
+    /// 画面消去
+    override func viewWillDisappear(_ animated: Bool) {
+        logger.info("viewWillDisappear")
+        super.viewWillDisappear(animated)
+        
+        closeStream()
+        
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIDevice.orientationDidChangeNotification, // swift4.2
+            object: nil)
+    }
+        
+    /// コントロール初期値
+    public func initControl()
+    {
         let env = Environment()
         if (record == true) {
             self.netStream = NetStream()
@@ -104,7 +127,7 @@ class ViewController: UIViewController {
         ]
         currentStream.audioSettings = [
             "sampleRate": sampleRate,
-            "bitrate": 32 * 1024,
+            "bitrate": 64 * 1024,
             "muted": (env.audioMode == 0) ? true : false,
             //"profile": UInt32(MPEG4ObjectID.AAC_LC.rawValue), err ios12
         ]
@@ -153,39 +176,49 @@ class ViewController: UIViewController {
             currentStream.mixer.recorder.delegate = ExampleRecorderDelegate.default
         }
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector:#selector(self.onOrientationChange(_:)),
-            name: UIDevice.orientationDidChangeNotification, // swift4.2
-            object: nil)
+        switch env.videoBitrate {
+        case  250: segBps.selectedSegmentIndex = 0
+        case  500: segBps.selectedSegmentIndex = 1
+        case 1000: segBps.selectedSegmentIndex = 2
+        case 2000: segBps.selectedSegmentIndex = 3
+        default: break
+        }
+        switch env.videoFramerate {
+        case  5: segFps.selectedSegmentIndex = 0
+        case 10: segFps.selectedSegmentIndex = 1
+        case 15: segFps.selectedSegmentIndex = 2
+        case 30: segFps.selectedSegmentIndex = 3
+        default: break
+        }
+        switch env.zoom {
+        case 100: segZoom.selectedSegmentIndex = 0
+        case 200: segZoom.selectedSegmentIndex = 1
+        case 300: segZoom.selectedSegmentIndex = 2
+        case 400: segZoom.selectedSegmentIndex = 3
+        default: break
+        }
         
         // タイマー
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTimer(_:)), userInfo: nil, repeats: true)
         timer.fire()
         
         // タイマー
+        timer2 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
         if test == true {
-            timer2 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
             timer2.fire()
         }
     }
     
-    /// 画面消去
-    override func viewWillDisappear(_ animated: Bool) {
-        logger.info("viewWillDisappear")
-        super.viewWillDisappear(animated)
-        
-        timer.invalidate()
-        timer2.invalidate()
+    func closeStream() {
+        if timer.isValid == true { timer.invalidate() }
+        if timer2.isValid == true { timer2.invalidate() }
         changePublish(false)
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIDevice.orientationDidChangeNotification, // swift4.2
-            object: nil)
- 
+
         let env = Environment()
-        if (env.isRtmp()) {
+        if (record == true) {
+            netStream.dispose()
+            netStream = nil
+        } else if (env.isRtmp()) {
             rtmpStream.close()
             rtmpStream.dispose()
             rtmpStream = nil
@@ -267,10 +300,10 @@ class ViewController: UIViewController {
         let env = Environment()
         if (record == true) {
             if publish == true {
-                currentStream.mixer.recorder.fileName = "mylive"
-                currentStream.mixer.recorder.startRunning()
+                netStream.mixer.recorder.fileName = "mylive"
+                netStream.mixer.recorder.startRunning()
             } else {
-                currentStream.mixer.recorder.stopRunning()
+                netStream.mixer.recorder.stopRunning()
             }
         } else if env.isHls() {
             if publish == true {
@@ -323,7 +356,6 @@ class ViewController: UIViewController {
                 let code: String = data["code"] as? String else {
                     return
             }
-            
             switch code {
             case RTMPConnection.Code.connectSuccess.rawValue:
                 let env = Environment()
@@ -579,36 +611,13 @@ class ViewController: UIViewController {
         currentStream.setZoomFactor(CGFloat(Double(zoom)/100.0), ramping: true, withRate: 2.0)
     }
     
-    /// コントロール初期値
-    func initControl()
-    {
-        let env = Environment()
-        switch env.videoBitrate {
-        case  250: segBps.selectedSegmentIndex = 0
-        case  500: segBps.selectedSegmentIndex = 1
-        case 1000: segBps.selectedSegmentIndex = 2
-        case 2000: segBps.selectedSegmentIndex = 3
-        default: break
-        }
-        switch env.videoFramerate {
-        case  5: segFps.selectedSegmentIndex = 0
-        case 10: segFps.selectedSegmentIndex = 1
-        case 15: segFps.selectedSegmentIndex = 2
-        case 30: segFps.selectedSegmentIndex = 3
-        default: break
-        }
-        switch env.zoom {
-        case 100: segZoom.selectedSegmentIndex = 0
-        case 200: segZoom.selectedSegmentIndex = 1
-        case 300: segZoom.selectedSegmentIndex = 2
-        case 400: segZoom.selectedSegmentIndex = 3
-        default: break
-        }
-    }
-    
     /// 設定画面
+    // MARK: Settings
     @IBAction func settingsTouchUpInside(_ sender: UIButton) {
-        let vc: UIViewController = SettingsViewController()
+        viewWillDisappear(true)
+        
+        let vc: SettingsViewController = SettingsViewController()
+        vc.mainView = self
         self.present(vc, animated: true, completion: nil)
     }
 
