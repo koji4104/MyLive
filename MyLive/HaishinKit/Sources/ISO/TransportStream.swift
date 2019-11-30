@@ -290,7 +290,7 @@ extension TSAdaptationField: DataConvertible {
                     buffer.position -= 1
                     adaptationExtension = TSAdaptationExtensionField(data: try buffer.readBytes(length + 1))
                 }
-                stuffingBytes = try buffer.readBytes(buffer.bytesAvailable)
+                stuffingBytes = try buffer.readBytes(buffer.bytesAvailable) 
             } catch {
                 logger.error("\(buffer)")
             }

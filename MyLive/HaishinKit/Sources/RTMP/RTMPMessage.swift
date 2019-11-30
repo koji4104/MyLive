@@ -631,7 +631,7 @@ final class RTMPVideoMessage: RTMPMessage {
         }
     }
 
-    func enqueueSampleBuffer(_ stream: RTMPStream) {
+    func enqueueSampleBuffer(_ stream: RTMPStream) {     
         stream.videoTimestamp += Double(timestamp)
 
         let compositionTimeoffset = Int32(data: [0] + payload[2..<5]).bigEndian
@@ -640,9 +640,9 @@ final class RTMPVideoMessage: RTMPMessage {
             presentationTimeStamp: CMTimeMake(value: Int64(stream.videoTimestamp) + Int64(compositionTimeoffset), timescale: 1000),
             decodeTimeStamp: CMTime.invalid
         )
-
+ 
         var data: Data = payload.advanced(by: FLVTagType.video.headerSize)
-        var localData = data
+        var localData = data        
         localData.withUnsafeMutableBytes { (bytes: UnsafeMutablePointer<UInt8>) -> Void in
             var blockBuffer: CMBlockBuffer?
             guard CMBlockBufferCreateWithMemoryBlock(

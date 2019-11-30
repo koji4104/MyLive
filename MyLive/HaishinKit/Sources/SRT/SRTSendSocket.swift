@@ -1,13 +1,13 @@
 import Foundation
 import HaishinKit
 
-final class SRTOutgoingSocket: SRTSocket {
+final class SRTSendSocket: SRTSocket {
     static let payloadSize: Int = 1316
 
     private var lostBytes: Int64 = 0
     private var wroteBytes: Int64 = 0
     private var pendingData: [Data] = []
-    private let writeQueue: DispatchQueue = DispatchQueue(label:"com.SRTOutgoingSocket.write")
+    private let writeQueue: DispatchQueue = DispatchQueue(label:"com.SRTSendSocket.write")
 
     override func configure(_ binding: SRTSocketOption.Binding, _ sock: SRTSOCKET) -> Bool {
         switch binding {
@@ -24,7 +24,7 @@ final class SRTOutgoingSocket: SRTSocket {
 
     func write(_ data: Data) {
         writeQueue.async {
-            self.pendingData.append(contentsOf: data.chunk(SRTOutgoingSocket.payloadSize))
+            self.pendingData.append(contentsOf: data.chunk(SRTSendSocket.payloadSize))
             repeat {
                 if let data = self.pendingData.first {
                     data.withUnsafeBytes { (buffer: UnsafePointer<Int8>) -> Void in

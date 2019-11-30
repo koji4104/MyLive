@@ -120,7 +120,7 @@ extension SRTStream: TSWriterDelegate {
     // MARK: TSWriterDelegate
     final public func didOutput(_ data: Data) {
         guard readyState == .publishing else { return }
-        connection?.outgoingSocket?.write(data)
+        connection?.sendSocket?.write(data)
     }
 }
 

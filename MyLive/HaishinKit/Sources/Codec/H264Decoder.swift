@@ -119,7 +119,7 @@ final class H264Decoder {
             imageBuffer: imageBuffer,
             formatDescriptionOut: &videoFormatDescription
         )
-
+        
         var sampleBuffer: CMSampleBuffer?
         self.status = CMSampleBufferCreateForImageBuffer(
             allocator: kCFAllocatorDefault,
@@ -135,7 +135,7 @@ final class H264Decoder {
         guard let buffer: CMSampleBuffer = sampleBuffer else {
             return
         }
-
+    
         if isBaseline {
             delegate?.sampleOutput(video: buffer)
         } else {

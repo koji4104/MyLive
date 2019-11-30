@@ -12,8 +12,8 @@ open class SRTConnection: NSObject {
 
     @objc dynamic public private(set) var listening: Bool = false
 
-    var incomingSocket: SRTIncomingSocket?
-    var outgoingSocket: SRTOutgoingSocket?
+    var recvSocket: SRTRecvSocket?
+    var sendSocket: SRTSendSocket?
     
     private var streams: [SRTStream] = []
 
@@ -25,22 +25,6 @@ open class SRTConnection: NSObject {
         streams.removeAll()
     }
 
-    public func connect1(_ uri: URL?) {
-        guard let uri = uri, let scheme = uri.scheme, let host = uri.host, let port = uri.port, scheme == "srt" else { return }
-
-        self.uri = uri
-        let options = SRTSocketOption.from(uri: uri)
-        let addr = sockaddr_in(host, port: UInt16(port))
-
-        outgoingSocket = SRTOutgoingSocket()
-        outgoingSocket?.delegate = self
-        try? outgoingSocket?.connect(addr, options: options)
-
-        incomingSocket = SRTIncomingSocket()
-        incomingSocket?.delegate = self
-        try? incomingSocket?.connect(addr, options: options)
-    }
-    
     public func connect(_ uri: URL?) {
         guard let uri = uri, let scheme = uri.scheme, let port = uri.port, scheme == "srt" else { return }
         var host = uri.host
@@ -56,35 +40,41 @@ open class SRTConnection: NSObject {
         let addr = sockaddr_in(host!, port: UInt16(port))
         
         if host == "0.0.0.0" {
-            outgoingSocket = SRTOutgoingSocket()
-            outgoingSocket?.delegate = self
-            try? outgoingSocket?.listen(addr, options: options)
+            sendSocket = SRTSendSocket()
+            sendSocket?.delegate = self
+            try? sendSocket?.listen(addr, options: options)
         } else {
-            outgoingSocket = SRTOutgoingSocket()
-            outgoingSocket?.delegate = self
-            try? outgoingSocket?.connect(addr, options: options)
+            sendSocket = SRTSendSocket()
+            sendSocket?.delegate = self
+            try? sendSocket?.connect(addr, options: options)
         }
     }
 
-    public func connect2(_ uri: URL?) {  
+    public func play(_ uri: URL?) {  
         guard let uri = uri, let scheme = uri.scheme, let host = uri.host, let port = uri.port, scheme == "srt" else { return }
         
         self.uri = uri
         let options = SRTSocketOption.from(uri: uri)
         let addr = sockaddr_in(host, port: UInt16(port))
-
-        incomingSocket = SRTIncomingSocket()
-        incomingSocket?.delegate = self
-        incomingSocket?.stream = streams[0]
-        incomingSocket?.run(addr, options: options)
+        
+        recvSocket = SRTRecvSocket()
+        recvSocket?.delegate = self
+        recvSocket?.stream = streams[0]
+        
+        recvSocket?.stream?.mixer.stopEncoding()
+        //recvSocket?.mixer.startPlaying(srtConnection.audioEngine)
+        recvSocket?.stream?.mixer.startRunning()
+        recvSocket?.stream?.mixer.videoIO.queue.startRunning()
+        
+        recvSocket?.call(addr, options: options)
     }
     
     public func close() {
         for stream in streams {
             stream.close()
         }
-        outgoingSocket?.close()
-        incomingSocket?.close()
+        sendSocket?.close()
+        recvSocket?.close()
     }
 
     public func attachStream(_ stream: SRTStream) {
@@ -107,11 +97,10 @@ open class SRTConnection: NSObject {
 }
 
 extension SRTConnection: SRTSocketDelegate {
-    // MARK: SRTSocketDelegate
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS) {
-        if let outgoingSocket = outgoingSocket {
-            connected = outgoingSocket.status == SRTS_CONNECTED
-            listening = outgoingSocket.status == SRTS_LISTENING
+        if let sendSocket = sendSocket {
+            connected = sendSocket.status == SRTS_CONNECTED
+            listening = sendSocket.status == SRTS_LISTENING
         }
     }
 }

@@ -19,8 +19,6 @@
 		4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */; };
 		4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92098229ECDF5001C8E10 /* SRTConnection.swift */; };
 		4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92099229ECDF5001C8E10 /* SRTError.swift */; };
-		4AF920A1229ECDF5001C8E10 /* SRTIncomingSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */; };
-		4AF920A2229ECDF5001C8E10 /* SRTOutgoingSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */; };
 		4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209C229ECDF5001C8E10 /* SRTStream.swift */; };
 		4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4B922871F2100616402 /* AudioConverter.swift */; };
 		4AFCD4BC22871F4600616402 /* AVRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BB22871F4600616402 /* AVRecorder.swift */; };
@@ -28,6 +26,8 @@
 		4AFCD4C022871F6800616402 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4BF22871F6800616402 /* Constants.swift */; };
 		4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C122871F6D00616402 /* DataConvertible.swift */; };
 		4AFCD4C422871F7300616402 /* Running.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCD4C322871F7300616402 /* Running.swift */; };
+		CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */; };
+		CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */; };
 		CE6469271FD255D300A8FAB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7471661FC9009300F2515D /* Info.plist */; };
 		CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -187,8 +187,6 @@
 		4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
 		4AF92098229ECDF5001C8E10 /* SRTConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTConnection.swift; sourceTree = "<group>"; };
 		4AF92099229ECDF5001C8E10 /* SRTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTError.swift; sourceTree = "<group>"; };
-		4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTIncomingSocket.swift; sourceTree = "<group>"; };
-		4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTOutgoingSocket.swift; sourceTree = "<group>"; };
 		4AF9209C229ECDF5001C8E10 /* SRTStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTStream.swift; sourceTree = "<group>"; };
 		4AF920A4229EDA85001C8E10 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4AFCD4B922871F2100616402 /* AudioConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioConverter.swift; sourceTree = "<group>"; };
@@ -198,6 +196,8 @@
 		4AFCD4C122871F6D00616402 /* DataConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConvertible.swift; sourceTree = "<group>"; };
 		4AFCD4C322871F7300616402 /* Running.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Running.swift; sourceTree = "<group>"; };
 		4AFCD4C72288174A00616402 /* HaishinKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaishinKit.h; sourceTree = "<group>"; };
+		CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTRecvSocket.swift; sourceTree = "<group>"; };
+		CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSendSocket.swift; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE74715A1FC9009300F2515D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -379,12 +379,12 @@
 		4AF92095229ECDF5001C8E10 /* SRT */ = {
 			isa = PBXGroup;
 			children = (
+				CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */,
+				CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */,
 				4AF92098229ECDF5001C8E10 /* SRTConnection.swift */,
 				4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */,
 				4AF92099229ECDF5001C8E10 /* SRTError.swift */,
 				4AF92096229ECDF5001C8E10 /* SRTSocket.swift */,
-				4AF9209A229ECDF5001C8E10 /* SRTIncomingSocket.swift */,
-				4AF9209B229ECDF5001C8E10 /* SRTOutgoingSocket.swift */,
 				4AF9209C229ECDF5001C8E10 /* SRTStream.swift */,
 			);
 			path = SRT;
@@ -775,6 +775,7 @@
 				4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */,
 				CE747BB61FC9153500F2515D /* TimerDriver.swift in Sources */,
 				4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */,
+				CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */,
 				CE747B9C1FC9153500F2515D /* RTMPConnection.swift in Sources */,
 				CE747BD31FC9353000F2515D /* VideoIOComponent+Extension.swift in Sources */,
 				CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */,
@@ -823,6 +824,7 @@
 				CE747B961FC9153500F2515D /* NetSocket.swift in Sources */,
 				CE747B7D1FC9153500F2515D /* HTTPStream.swift in Sources */,
 				CE747B8B1FC9153500F2515D /* AVMixer.swift in Sources */,
+				CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */,
 				CE747B851FC9153500F2515D /* ProgramSpecific.swift in Sources */,
 				4AFCD4C222871F6D00616402 /* DataConvertible.swift in Sources */,
 				CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */,
@@ -835,7 +837,6 @@
 				CE747B9A1FC9153500F2515D /* ASClass.swift in Sources */,
 				CE747B991FC9153500F2515D /* AMF3Serializer.swift in Sources */,
 				CE747B9D1FC9153500F2515D /* RTMPHandshake.swift in Sources */,
-				4AF920A2229ECDF5001C8E10 /* SRTOutgoingSocket.swift in Sources */,
 				CE747B971FC9153500F2515D /* NetStream.swift in Sources */,
 				4AFCD4BA22871F2100616402 /* AudioConverter.swift in Sources */,
 				CE747B721FC9153500F2515D /* FLVAVCPacketType.swift in Sources */,
@@ -845,7 +846,6 @@
 				CE747BA11FC9153500F2515D /* RTMPSocket.swift in Sources */,
 				CE747BB11FC9153500F2515D /* DeviceUtil.swift in Sources */,
 				CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */,
-				4AF920A1229ECDF5001C8E10 /* SRTIncomingSocket.swift in Sources */,
 				CE747BB71FC9153500F2515D /* VideoGravityUtil.swift in Sources */,
 				CE747B771FC9153500F2515D /* FLVSoundType.swift in Sources */,
 				CE747B691FC9153500F2515D /* CMSampleTimingInfo+Extension.swift in Sources */,
@@ -1004,7 +1004,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.3.1;
+				CURRENT_PROJECT_VERSION = 1.4.0;
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1021,7 +1021,7 @@
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1040,7 +1040,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.3.1;
+				CURRENT_PROJECT_VERSION = 1.4.0;
 				DEVELOPMENT_TEAM = 9TD6G2FZN5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1057,7 +1057,7 @@
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";

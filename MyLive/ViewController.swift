@@ -7,7 +7,7 @@ let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
     let test:Bool = false // テストソース
-    let recv:Bool = false
+    let recv:Bool = true
     let record:Bool = false
         
     var httpStream:HTTPStream!
@@ -328,7 +328,15 @@ class ViewController: UIViewController {
                 if recv == false {
                     srtConnection.connect(URL(string: env.getUrl()))
                 } else {
-                    srtConnection.connect2(URL(string: env.getUrl()))
+                    self.srtConnection?.attachStream(srtStream)
+                    
+                    srtStream.mixer.stopEncoding()
+                    //stream?.mixer.startPlaying(rtmpConnection.audioEngine)
+                    srtStream.mixer.startRunning()
+                    srtStream.mixer.videoIO.queue.startRunning()
+
+                    srtConnection.play(URL(string: env.getUrl()))
+                    
                 }
             } else {
                 srtConnection.close()

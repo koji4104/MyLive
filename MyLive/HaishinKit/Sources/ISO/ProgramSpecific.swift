@@ -257,8 +257,10 @@ extension ElementaryStreamSpecificData: DataConvertible {
             let buffer = ByteArray(data: newValue)
             do {
                 streamType = try buffer.readUInt8()
-                elementaryPID = try buffer.readUInt16() & 0x0fff
-                ESInfoLength = try buffer.readUInt16() & 0x01ff
+                //elementaryPID = try buffer.readUInt16() & 0x0fff
+                //ESInfoLength = try buffer.readUInt16() & 0x01ff
+                elementaryPID = try buffer.readUInt16() & 0x1fff //(3+13) koji4104
+                ESInfoLength = try buffer.readUInt16() & 0x03ff //(4+2+10)
                 ESDescriptors = try buffer.readBytes(Int(ESInfoLength))
             } catch {
                 logger.error("\(buffer)")
