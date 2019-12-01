@@ -27,9 +27,9 @@ class VideoIOComponentEx {
 extension VideoIOComponent {
     /// フレーム毎に呼ばれる
     func appendSampleBufferEx(_ sampleBuffer: CMSampleBuffer) {
-        //if ex.test == true {
+        if ex.test == true {
           return
-        //}
+        }
         guard var buffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }

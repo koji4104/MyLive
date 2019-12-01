@@ -7,7 +7,7 @@ let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
     let test:Bool = false // テストソース
-    let recv:Bool = true
+    let recv:Bool = false
     let record:Bool = false
         
     var httpStream:HTTPStream!
@@ -173,6 +173,10 @@ class ViewController: UIViewController {
                 ]
             }
             currentStream.mixer.recorder.delegate = ExampleRecorderDelegate.default
+        }
+        
+        if test || recv {
+            currentStream.mixer.videoIO.ex.test = true
         }
         
         switch env.videoBitrate {
