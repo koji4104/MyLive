@@ -16,7 +16,10 @@ class SRTRecvSocket: SRTSocket {
     }()
 
     var stream: SRTStream?
+    
     var timestamp: UInt32 = 0
+    var olddts: UInt64 = 0
+    var framesec: UInt64 = 33
     
     override func configure(_ binding: SRTSocketOption.Binding) -> Bool {
         switch binding {
@@ -106,17 +109,31 @@ class SRTRecvSocket: SRTSocket {
 }
 
 extension SRTRecvSocket: TSReader2Delegate {
-    // func enqueueSampleBuffer(_ stream: RTMPStream) {
+    // func enqueueSampleBuffer(_ stream: RTMPStream)
     final public func didReadPacketizedElementaryStream(_ data1: ElementaryStreamSpecificData, PES: PacketizedElementaryStream) {
 
-        // PES.optionalPESHeader.PTSDTSIndicator
-        let pts = Int32(data: PES.optionalPESHeader!.optionalFields[1..<4]).bigEndian
+        let pts: UInt64 = PES.optionalPESHeader!.PTS
+        if pts < 1 {
+            logger.error("no PTS")
+            return
+        }
+        
+        let dts: UInt64 = PES.optionalPESHeader!.DTS
+        if dts > 0 {
+            if olddts > 0 {
+                framesec = dts - olddts
+            }
+            olddts = dts
+        } else {
+            olddts += framesec
+        }
+         
         var timing = CMSampleTimingInfo(
-            duration: CMTimeMake(value: Int64(33), timescale: 1000),
+            duration: CMTimeMake(value: Int64(framesec), timescale: 1000),
             presentationTimeStamp: CMTimeMake(value: Int64(pts), timescale: 1000),
             decodeTimeStamp: CMTime.invalid
         )
-        
+
         let len = (PES.data[10] == 103) ? 49 : 10
         var data: Data = Data()
         data.append(0)
@@ -127,7 +144,7 @@ extension SRTRecvSocket: TSReader2Delegate {
         
         var localData = data
         
-        if stream?.mixer.videoIO.decoder.formatDescription == nil {             
+        if stream?.mixer.videoIO.decoder.formatDescription == nil {
             var formatDescription: CMFormatDescription?
             var config = AVCConfigurationRecord()
             config.setData(PES.data.subdata(in: 6..<PES.data.count))
@@ -165,7 +182,7 @@ extension SRTRecvSocket: TSReader2Delegate {
                 sampleBufferOut: &sampleBuffer) == noErr else {
                 return
             }
-            let status = (stream?.mixer.videoIO.decoder.decodeSampleBuffer(sampleBuffer!))!
+            _ = (stream?.mixer.videoIO.decoder.decodeSampleBuffer(sampleBuffer!))!
         }
     }
 }
@@ -176,25 +193,7 @@ protocol TSReader2Delegate: class {
 
 class TSReader2 {
     weak var delegate: TSReader2Delegate?
-    private(set) var PAT: ProgramAssociationSpecific? {
-        didSet {
-            guard let PAT: ProgramAssociationSpecific = PAT else {
-                return
-            }
-            for (channel, PID) in PAT.programs {
-                dictionaryForPrograms[PID] = channel
-            }
-        }
-    }
-    private(set) var PMT: [UInt16: ProgramMapSpecific] = [: ] {
-        didSet {
-            for (_, pmt) in PMT {
-                  for data in pmt.elementaryStreamSpecificData {
-                    dictionaryForESSpecData[data.elementaryPID] = data
-                }
-            }
-        }
-    }
+
     private(set) var numberOfPackets: Int = 0
 
     private var eof: UInt64 = 0
@@ -203,6 +202,8 @@ class TSReader2 {
     private var dictionaryForPrograms: [UInt16: UInt16] = [: ]
     private var dictionaryForESSpecData: [UInt16: ElementaryStreamSpecificData] = [: ]
     private var packetizedElementaryStreams: [UInt16: PacketizedElementaryStream] = [: ]
+    
+    var PCR: UInt64 = 0
     
     init() {
     }
@@ -220,9 +221,20 @@ class TSReader2 {
         if let data: ElementaryStreamSpecificData = dictionaryForESSpecData[packet.PID] {
             readPacketizedElementaryStream(data, packet: packet)
         }
+
+        // PCR (Program Clock Reference)
+        if packet.adaptationFieldFlag && packet.adaptationField!.PCRFlag {
+            let buf = ByteArray(data: packet.adaptationField!.PCR)
+            do {
+                let pcr = TSProgramClockReference.decode(try buf.readBytes(buf.length))
+                PCR = pcr.0 * 1000 / UInt64(TSProgramClockReference.resolutionForBase)
+            } catch {
+                logger.error("\(buf)")
+            }
+        }
     }
     
-    func readPacketizedElementaryStream(_ data: ElementaryStreamSpecificData, packet: TSPacket) {        
+    func readPacketizedElementaryStream(_ data: ElementaryStreamSpecificData, packet: TSPacket) {
         if packet.payloadUnitStartIndicator {
             if let PES: PacketizedElementaryStream = packetizedElementaryStreams[packet.PID] {
                 delegate?.didReadPacketizedElementaryStream(data, PES: PES)
@@ -231,6 +243,27 @@ class TSReader2 {
             return
         }
         _ = packetizedElementaryStreams[packet.PID]?.append(packet.payload)
+    }
+    
+    private(set) var PAT: ProgramAssociationSpecific? {
+        didSet {
+            guard let PAT: ProgramAssociationSpecific = PAT else {
+                return
+            }
+            for (channel, PID) in PAT.programs {
+                dictionaryForPrograms[PID] = channel
+            }
+        }
+    }
+    
+    private(set) var PMT: [UInt16: ProgramMapSpecific] = [: ] {
+        didSet {
+            for (_, pmt) in PMT {
+                  for data in pmt.elementaryStreamSpecificData {
+                    dictionaryForESSpecData[data.elementaryPID] = data
+                }
+            }
+        }
     }
     
     func close() {
@@ -242,7 +275,7 @@ extension AVCConfigurationRecord {
     mutating func setData(_ data:Data) {
         let buffer = ByteArray(data: data)
         do {
-            // 1, 100, 8, 31, 255, 225(0x0E=1), [0,26], 103,
+            // 1, 100, 8, 31, 255, 225(0x0E=1), [0,26]
             self.configurationVersion = 1
             self.AVCProfileIndication = 100
             self.profileCompatibility = 8
@@ -262,4 +295,32 @@ extension AVCConfigurationRecord {
             logger.error("\(buffer)")
         }
     }
+}
+
+extension PESOptionalHeader {
+    var PTS: UInt64 {
+        get {
+            var pts: UInt64 = 0
+            do {
+                let buffer = ByteArray(data: optionalFields)
+                if (PTSDTSIndicator & 0x02) == 0x02 {
+                    pts = TSTimestamp.decode(try buffer.readBytes(5)) * 1000 / UInt64(TSTimestamp.resolution)
+                }
+            } catch { }
+            return pts
+        }
+    }
+    var DTS: UInt64 {
+        get {
+            var dts: UInt64 = 0
+            do {
+                let buffer = ByteArray(data: optionalFields)
+                if (PTSDTSIndicator & 0x01) == 0x01 {
+                    _ = TSTimestamp.decode(try buffer.readBytes(5))
+                    dts = TSTimestamp.decode(try buffer.readBytes(5)) * 1000 / UInt64(TSTimestamp.resolution)
+                }
+            } catch { }
+            return dts
+        }
+    }    
 }
