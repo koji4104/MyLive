@@ -217,19 +217,21 @@ class ViewController: UIViewController {
         if timer2.isValid == true { timer2.invalidate() }
         changePublish(false)
 
-        let env = Environment()
-        if (record == true) {
+        if netStream != nil {
             netStream.dispose()
             netStream = nil
-        } else if (env.isRtmp()) {
+        }
+        if rtmpStream != nil {
             rtmpStream.close()
             rtmpStream.dispose()
             rtmpStream = nil
-        } else if (env.isSrt()) {
+        }
+        if srtStream != nil {
             srtStream.close()
             srtStream.dispose()
             srtStream = nil
-        } else {
+        }
+        if httpStream != nil {
             httpStream.dispose()
             httpStream = nil
         }
@@ -301,14 +303,14 @@ class ViewController: UIViewController {
         
     func changePublish(_ publish: Bool) {
         let env = Environment()
-        if (record == true) {
+        if record == true && netStream != nil {
             if publish == true {
                 netStream.mixer.recorder.fileName = "mylive"
                 netStream.mixer.recorder.startRunning()
             } else {
                 netStream.mixer.recorder.stopRunning()
             }
-        } else if env.isHls() {
+        } else if env.isHls() && httpStream != nil {
             if publish == true {
                 httpStream.publish("my")
                 httpService.startRunning()
@@ -318,7 +320,7 @@ class ViewController: UIViewController {
                 httpService.stopRunning()
                 httpService.removeHTTPStream(httpStream)
             }
-        } else if env.isRtmp() {
+        } else if env.isRtmp() && rtmpStream != nil {
             if publish == true {
                 rtmpConnection.addEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
                 rtmpConnection.connect(env.getUrl())
@@ -326,7 +328,7 @@ class ViewController: UIViewController {
                 rtmpConnection.close()
                 rtmpConnection.removeEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
             }
-        } else if env.isSrt() {
+        } else if env.isSrt() && srtStream != nil {
             if publish == true {
                 srtStream.publish("my")
                 if recv == false {
@@ -340,7 +342,6 @@ class ViewController: UIViewController {
                     srtStream.mixer.videoIO.queue.startRunning()
 
                     srtConnection.play(URL(string: env.getUrl()))
-                    
                 }
             } else {
                 srtConnection.close()
@@ -414,6 +415,9 @@ class ViewController: UIViewController {
     var isAutoLow:Bool = false
     var nDispCpu = 1
     @objc func onTimer(_ tm: Timer) {
+        if currentStream == nil {
+            return
+        }
         let env = Environment()
         if (isPublish == true) {
             if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
