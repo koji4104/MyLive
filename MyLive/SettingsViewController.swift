@@ -212,6 +212,11 @@ class SettingsViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // ダークモード対応
+        SwitchRow.defaultCellUpdate = { cell, row in
+            cell.textLabel?.textColor = .systemGray
+        }
         
         // ツールバー
         let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.onDoneClick(_:)))
@@ -436,7 +441,6 @@ class RtmpController : SubFormViewController
 {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let env = Environment()
         // form
         form
@@ -531,6 +535,20 @@ class SubFormViewController : FormViewController {
         )
         toolbar.items = [btnDone]
         self.view.addSubview(toolbar)
+
+        // ダークモード対応
+        TextRow.defaultCellUpdate = { cell, row in
+            cell.textField.textColor = .systemGray
+            cell.textLabel?.textColor = .systemGray
+        }
+        PasswordRow.defaultCellUpdate = { cell, row in
+            cell.textField.textColor = .systemGray
+            cell.textLabel?.textColor = .systemGray
+        }
+        ListCheckRow<String>.defaultCellUpdate = { cell, row in
+            //cell.textField.textColor = .systemGray
+            cell.textLabel?.textColor = .systemGray
+        }
     }
     /// 完了ボタン
     @objc open func onDoneClick(_ sender: UIButton) {
