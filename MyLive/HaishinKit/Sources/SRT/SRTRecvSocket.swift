@@ -283,10 +283,6 @@ extension AVCConfigurationRecord {
             self.lengthSizeMinusOneWithReserved = 255
             self.numOfSequenceParameterSetsWithReserved = 225
                 
-            //0, 0, 0, 1,
-            //103, 100, 8, 31, 172, 217, 64, 240, 17, 126, 240, 17, 0, 0, 3, 0, 1, 0, 0, 3, 0, 60, 15, 24, 49, 150,
-            //0, 0, 0, 1,
-            //104, 235, 227, 203, 34, 192
             _ = try buffer.readBytes(4)
             self.sequenceParameterSets.append(try buffer.readBytes(26).bytes)
             _ = try buffer.readBytes(4)

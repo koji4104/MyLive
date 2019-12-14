@@ -411,6 +411,7 @@ class ViewController: UIViewController {
     }   
 
     /// タイマー
+    // MARK: onTimer
     var aryFps:[Int] = []
     var isAutoLow:Bool = false
     var nDispCpu = 1
@@ -454,7 +455,7 @@ class ViewController: UIViewController {
             if currentStream != nil && currentStream.mixer.recorder.isRunning {
                 state = "publishing"
             }
-        }else if env.isHls() {
+        } else if env.isHls() {
             titleRps.text = "HLS"
             labelRps.text = ""
             if httpService != nil && httpService.isRunning {
@@ -732,17 +733,17 @@ class ViewController: UIViewController {
         
         let lx1 = 120
         let lx2 = lx1 + 84
-        let lx3 = lx2 + 66
-        //let lx4 = lx3 + 120
+        let lx3 = lx2 + 76
         titleCpu.center = CGPoint(x:lx1, y:ly)
         titleFps.center = CGPoint(x:lx2, y:ly)
         titleRps.center = CGPoint(x:lx3, y:ly)
         
-        labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
-        labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
-        labelRps.center = CGPoint(x:Int(titleRps.center.x)+54, y:ly)
         labelRps.textAlignment = .left
         labelRps.frame.size = CGSize.init(width:220, height:25)
+        
+        labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
+        labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
+        labelRps.center = CGPoint(x:Int(titleRps.center.x)+130, y:ly)
         
         let cpux1 = Int(titleCpu.frame.minX + 360/2)
         labelBg1.frame.size = CGSize.init(width:380, height:28)

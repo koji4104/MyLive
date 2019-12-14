@@ -333,7 +333,7 @@ class SettingsViewController: FormViewController {
     @objc func onDoneClick(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }    
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         mainView.viewWillAppear(true)
     }
 }
