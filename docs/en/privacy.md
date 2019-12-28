@@ -14,6 +14,10 @@ For a better experience, while using our Service, I may require you to provide u
 
 The app does use third party services that may collect information used to identify you.
 
+**Camera Data**
+
+The app gets face coordinates. No data is saved. If another person is shown, You can hide the person by filling it from above.
+
 **Log Data**
 
 I want to inform you that whenever you use my Service, in a case of an error in the app I collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing my Service, the time and date of your use of the Service, and other statistics.
