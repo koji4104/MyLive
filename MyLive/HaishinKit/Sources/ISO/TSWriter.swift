@@ -2,6 +2,10 @@ import AVFoundation
 import CoreMedia
 import Foundation
 
+#if canImport(SwiftPMSupport)
+import SwiftPMSupport
+#endif
+
 /// MPEG-2 TS (Transport Stream) Writer delegate
 public protocol TSWriterDelegate: class {
     func didOutput(_ data: Data)
@@ -14,12 +18,12 @@ public class TSWriter: Running {
     public static let defaultVideoPID: UInt16 = 256
     public static let defaultAudioPID: UInt16 = 257
 
-    static let defaultSegmentDuration: Double = 2
+    public static let defaultSegmentDuration: Double = 2
 
     /// The delegate instance.
     public weak var delegate: TSWriterDelegate?
     /// This instance is running to process(true) or not(false).
-    public internal(set) var isRunning: Bool = false
+    public internal(set) var isRunning: Atomic<Bool> = .init(false)
     /// The exptected medias = [.video, .audio].
     public var expectedMedias: Set<AVMediaType> = []
 
@@ -63,18 +67,19 @@ public class TSWriter: Running {
         return false
     }
 
-    public init() {
+    public init(segmentDuration: Double = TSWriter.defaultSegmentDuration) {
+        self.segmentDuration = segmentDuration
     }
 
     public func startRunning() {
-        guard isRunning else {
+        guard isRunning.value else {
             return
         }
-        isRunning = true
+        isRunning.mutate { $0 = true }
     }
 
     public func stopRunning() {
-        guard !isRunning else {
+        guard !isRunning.value else {
             return
         }
         audioContinuityCounter = 0
@@ -88,14 +93,14 @@ public class TSWriter: Running {
         videoTimestamp = .invalid
         audioTimestamp = .invalid
         PCRTimestamp = .invalid
-        isRunning = false
+        isRunning.mutate { $0 = false }
     }
 
     // swiftlint:disable function_parameter_count
     final func writeSampleBuffer(_ PID: UInt16, streamID: UInt8, bytes: UnsafePointer<UInt8>?, count: UInt32, presentationTimeStamp: CMTime, decodeTimeStamp: CMTime, randomAccessIndicator: Bool) {
         
         //guard canWriteFor else { return } koji4104
-
+        
         switch PID {
         case TSWriter.defaultAudioPID:
             guard audioTimestamp == .invalid else { break }
@@ -127,7 +132,7 @@ public class TSWriter: Running {
         PES.streamID = streamID
 
         let timestamp = decodeTimeStamp == .invalid ? presentationTimeStamp : decodeTimeStamp
-        var packets: [TSPacket] = split(PID, PES: PES, timestamp: timestamp)
+        let packets: [TSPacket] = split(PID, PES: PES, timestamp: timestamp)
         rotateFileHandle(timestamp)
 
         packets[0].adaptationField?.randomAccessIndicator = randomAccessIndicator
@@ -211,7 +216,7 @@ extension TSWriter: AudioConverterDelegate {
     }
 
     public func sampleOutput(audio data: UnsafeMutableAudioBufferListPointer, presentationTimeStamp: CMTime) {
-        guard !data.isEmpty else { return }
+        guard !data.isEmpty && 0 < data[0].mDataByteSize else { return }
         writeSampleBuffer(
             TSWriter.defaultAudioPID,
             streamID: 192,
@@ -259,7 +264,7 @@ extension TSWriter: VideoEncoderDelegate {
             count: UInt32(length),
             presentationTimeStamp: sampleBuffer.presentationTimeStamp,
             decodeTimeStamp: sampleBuffer.decodeTimeStamp,
-            randomAccessIndicator: !sampleBuffer.dependsOnOthers
+            randomAccessIndicator: !sampleBuffer.isNotSync
         )
     }
 }
@@ -361,7 +366,7 @@ class TSFileWriter: TSWriter {
     }
 
     override func stopRunning() {
-        guard !isRunning else {
+        guard !isRunning.value else {
             return
         }
         currentFileURL = nil
@@ -371,7 +376,7 @@ class TSFileWriter: TSWriter {
     }
 
     func getFilePath(_ fileName: String) -> String? {
-        return files.first { $0.url.absoluteString.contains(fileName) }?.url.path
+        files.first { $0.url.absoluteString.contains(fileName) }?.url.path
     }
 
     private func removeFiles() {

@@ -1,3 +1,5 @@
+#if os(iOS)
+
 import AVFoundation
 import UIKit
 
@@ -5,17 +7,21 @@ open class HKView: UIView {
     public static var defaultBackgroundColor: UIColor = .black
 
     override open class var layerClass: AnyClass {
-        return AVCaptureVideoPreviewLayer.self
+        AVCaptureVideoPreviewLayer.self
     }
 
     override open var layer: AVCaptureVideoPreviewLayer {
-        return super.layer as! AVCaptureVideoPreviewLayer
+        super.layer as! AVCaptureVideoPreviewLayer
     }
 
     public var videoGravity: AVLayerVideoGravity = .resizeAspect {
         didSet {
             layer.videoGravity = videoGravity
         }
+    }
+
+    public var videoFormatDescription: CMVideoFormatDescription? {
+        currentStream?.mixer.videoIO.formatDescription
     }
 
     var orientation: AVCaptureVideoOrientation = .portrait {
@@ -28,10 +34,11 @@ open class HKView: UIView {
         }
     }
     var position: AVCaptureDevice.Position = .front
+    var displayImage: CIImage?
 
     private weak var currentStream: NetStream? {
         didSet {
-            oldValue?.mixer.videoIO.drawable = nil
+            oldValue?.mixer.videoIO.renderer = nil
         }
     }
 
@@ -68,15 +75,17 @@ open class HKView: UIView {
         stream.mixer.session.commitConfiguration()
 
         stream.lockQueue.async {
-            stream.mixer.videoIO.drawable = self
+            stream.mixer.videoIO.renderer = self
             self.currentStream = stream
             stream.mixer.startRunning()
         }
     }
 }
 
-extension HKView: NetStreamDrawable {
-    // MARK: NetStreamDrawable
-    func draw(image: CIImage) {
+extension HKView: NetStreamRenderer {
+    // MARK: NetStreamRenderer
+    func draw(image: CIImage?) {
     }
 }
+
+#endif

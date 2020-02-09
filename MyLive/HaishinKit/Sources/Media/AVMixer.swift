@@ -6,54 +6,80 @@ import AVFoundation
     }
 #endif
 
-public class AVMixer: NSObject {
+protocol AVMixerDelegate: class {
+    func didOutputAudio(_ buffer: AVAudioPCMBuffer, presentationTimeStamp: CMTime)
+    func didOutputVideo(_ buffer: CMSampleBuffer)
+}
+
+public class AVMixer {
+    public static let bufferEmpty: Notification.Name = .init("AVMixerBufferEmpty")
+
     public static let defaultFPS: Float64 = 30
     public static let defaultVideoSettings: [NSString: AnyObject] = [
         kCVPixelBufferPixelFormatTypeKey: NSNumber(value: kCVPixelFormatType_32BGRA)
     ]
 
-    #if os(iOS)
-    static let supportedSettingsKeys: [String] = [
-        "fps",
-        "sessionPreset",
-        "continuousAutofocus",
-        "continuousExposure",
-        "preferredVideoStabilizationMode"
-    ]
+    #if os(iOS) || os(macOS)
+    public enum Option: String, KeyPathRepresentable, CaseIterable {
+        case fps
+        case sessionPreset
+        case continuousAutofocus
+        case continuousExposure
 
-    @objc var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode {
-        get { return videoIO.preferredVideoStabilizationMode }
+        #if os(iOS)
+        case preferredVideoStabilizationMode
+        #endif
+
+        public var keyPath: AnyKeyPath {
+            switch self {
+            case .fps:
+                return \AVMixer.fps
+            case .sessionPreset:
+                return \AVMixer.sessionPreset
+            case .continuousAutofocus:
+                return \AVMixer.continuousAutofocus
+            case .continuousExposure:
+                return \AVMixer.continuousExposure
+            #if os(iOS)
+            case .preferredVideoStabilizationMode:
+                return \AVMixer.preferredVideoStabilizationMode
+            #endif
+            }
+        }
+    }
+    #else
+    public struct Option: KeyPathRepresentable {
+        public static var allCases: [AVMixer.Option] = []
+        public var keyPath: AnyKeyPath
+        // swiftlint:disable nesting
+        public typealias AllCases = [Option]
+    }
+    #endif
+
+    #if os(iOS)
+    var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode {
+        get { videoIO.preferredVideoStabilizationMode }
         set { videoIO.preferredVideoStabilizationMode = newValue }
     }
-    #elseif os(macOS)
-    static let supportedSettingsKeys: [String] = [
-        "fps",
-        "sessionPreset",
-        "continuousAutofocus",
-        "continuousExposure"
-    ]
-    #else
-    static let supportedSettingsKeys: [String] = [
-    ]
     #endif
 
     #if os(iOS) || os(macOS)
-    @objc var fps: Float64 {
-        get { return videoIO.fps }
+    var fps: Float64 {
+        get { videoIO.fps }
         set { videoIO.fps = newValue }
     }
 
-    @objc var continuousExposure: Bool {
-        get { return videoIO.continuousExposure }
+    var continuousExposure: Bool {
+        get { videoIO.continuousExposure }
         set { videoIO.continuousExposure = newValue }
     }
 
-    @objc var continuousAutofocus: Bool {
-        get { return videoIO.continuousAutofocus }
+    var continuousAutofocus: Bool {
+        get { videoIO.continuousAutofocus }
         set { videoIO.continuousAutofocus = newValue }
     }
 
-    @objc var sessionPreset: AVCaptureSession.Preset = .default {
+    var sessionPreset: AVCaptureSession.Preset = .default {
         didSet {
             guard sessionPreset != oldValue else {
                 return
@@ -69,7 +95,7 @@ public class AVMixer: NSObject {
         get {
             if _session == nil {
                 _session = AVCaptureSession()
-                _session!.sessionPreset = .default
+                _session?.sessionPreset = .default
             }
             return _session!
         }
@@ -78,6 +104,14 @@ public class AVMixer: NSObject {
         }
     }
     #endif
+
+    var settings: Setting<AVMixer, Option> = [:] {
+        didSet {
+            settings.observer = self
+        }
+    }
+
+    weak var delegate: AVMixerDelegate?
 
     private var _recorder: AVRecorder?
     /// The recorder instance.
@@ -108,6 +142,10 @@ public class AVMixer: NSObject {
         dispose()
     }
 
+    public init() {
+        settings.observer = self
+    }
+
     public func dispose() {
 #if os(iOS) || os(macOS)
         if let session = _session, session.isRunning {
@@ -118,6 +156,10 @@ public class AVMixer: NSObject {
         _audioIO = nil
         _videoIO?.dispose()
         _videoIO = nil
+    }
+
+    func didBufferEmpty(_ component: IOComponent) {
+        NotificationCenter.default.post(.init(name: AVMixer.bufferEmpty))
     }
 }
 
@@ -138,28 +180,26 @@ extension AVMixer {
 }
 
 extension AVMixer {
-    public func startPlaying(_ audioEngine: AVAudioEngine?) {
-        audioIO.audioEngine = audioEngine
-        audioIO.encoder.delegate = audioIO
-        videoIO.queue.startRunning()
+    public func startDecoding(_ audioEngine: AVAudioEngine?) {
+        audioIO.startDecoding(audioEngine)
+        videoIO.startDecoding()
     }
 
-    public func stopPlaying() {
-        audioIO.audioEngine = nil
-        audioIO.encoder.delegate = nil
-        videoIO.queue.stopRunning()
+    public func stopDecoding() {
+        audioIO.stopDecoding()
+        videoIO.stopDecoding()
     }
 }
 
 #if os(iOS) || os(macOS)
 extension AVMixer: Running {
     // MARK: Running
-    public var isRunning: Bool {
-        return session.isRunning
+    public var isRunning: Atomic<Bool> {
+        .init(session.isRunning)
     }
 
     public func startRunning() {
-        guard !isRunning else {
+        guard !isRunning.value else {
             return
         }
         DispatchQueue.global(qos: .userInteractive).async {
@@ -168,7 +208,7 @@ extension AVMixer: Running {
     }
 
     public func stopRunning() {
-        guard isRunning else {
+        guard isRunning.value else {
             return
         }
         session.stopRunning()
@@ -177,8 +217,8 @@ extension AVMixer: Running {
 #else
 extension AVMixer: Running {
     // MARK: Running
-    public var isRunning: Bool {
-        return false
+    public var isRunning: Atomic<Bool> {
+        .init(false)
     }
 
     public func startRunning() {

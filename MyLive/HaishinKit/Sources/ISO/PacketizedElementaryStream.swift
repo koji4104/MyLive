@@ -55,11 +55,11 @@ struct PESOptionalHeader {
         if decodeTimeStamp != CMTime.invalid {
             PTSDTSIndicator |= 0x01
         }
-        if PTSDTSIndicator & 0x02 == 0x02 {
+        if (PTSDTSIndicator & 0x02) == 0x02 {
             let PTS = UInt64((presentationTimeStamp.seconds - base) * Double(TSTimestamp.resolution))
             optionalFields += TSTimestamp.encode(PTS, PTSDTSIndicator << 4)
         }
-        if PTSDTSIndicator & 0x01 == 0x01 {
+        if (PTSDTSIndicator & 0x01) == 0x01 {
             let DTS = UInt64((decodeTimeStamp.seconds - base) * Double(TSTimestamp.resolution))
             optionalFields += TSTimestamp.encode(DTS, 0x01 << 4)
         }
@@ -95,26 +95,33 @@ extension PESOptionalHeader: DataConvertible {
         set {
             let buffer = ByteArray(data: newValue)
             do {
-                var bytes: Data = try buffer.readBytes(PESOptionalHeader.fixedSectionSize)
+                let bytes: Data = try buffer.readBytes(PESOptionalHeader.fixedSectionSize)
                 markerBits = (bytes[0] & 0b11000000) >> 6
                 scramblingControl = bytes[0] & 0b00110000 >> 4
-                priority = bytes[0] & 0b00001000 == 0b00001000
-                dataAlignmentIndicator = bytes[0] & 0b00000100 == 0b00000100
-                copyright = bytes[0] & 0b00000010 == 0b00000010
-                originalOrCopy = bytes[0] & 0b00000001 == 0b00000001
+                priority = (bytes[0] & 0b00001000) == 0b00001000
+                dataAlignmentIndicator = (bytes[0] & 0b00000100) == 0b00000100
+                copyright = (bytes[0] & 0b00000010) == 0b00000010
+                originalOrCopy = (bytes[0] & 0b00000001) == 0b00000001
                 PTSDTSIndicator = (bytes[1] & 0b11000000) >> 6
-                ESCRFlag = bytes[1] & 0b00100000 == 0b00100000
-                ESRateFlag = bytes[1] & 0b00010000 == 0b00010000
-                DSMTrickModeFlag = bytes[1] & 0b00001000 == 0b00001000
-                additionalCopyInfoFlag = bytes[1] & 0b00000100 == 0b00000100
-                CRCFlag = bytes[1] & 0b00000010 == 0b00000010
-                extentionFlag = bytes[1] & 0b00000001 == 0b00000001
+                ESCRFlag = (bytes[1] & 0b00100000) == 0b00100000
+                ESRateFlag = (bytes[1] & 0b00010000) == 0b00010000
+                DSMTrickModeFlag = (bytes[1] & 0b00001000) == 0b00001000
+                additionalCopyInfoFlag = (bytes[1] & 0b00000100) == 0b00000100
+                CRCFlag = (bytes[1] & 0b00000010) == 0b00000010
+                extentionFlag = (bytes[1] & 0b00000001) == 0b00000001
                 PESHeaderLength = bytes[2]
                 optionalFields = try buffer.readBytes(Int(PESHeaderLength))
             } catch {
                 logger.error("\(buffer)")
             }
         }
+    }
+}
+
+extension PESOptionalHeader: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }
 
@@ -142,7 +149,7 @@ struct PacketizedElementaryStream: PESPacketHeader {
 
     var payload: Data {
         get {
-            return ByteArray()
+            ByteArray()
                 .writeBytes(startCode)
                 .writeUInt8(streamID)
                 .writeUInt16(packetLength)
@@ -290,5 +297,12 @@ struct PacketizedElementaryStream: PESPacketHeader {
     mutating func append(_ data: Data) -> Int {
         self.data.append(data)
         return data.count
+    }
+}
+
+extension PacketizedElementaryStream: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }

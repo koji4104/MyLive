@@ -5,7 +5,7 @@ public protocol TimerDriverDelegate: class {
 }
 
 // MARK: -
-public class TimerDriver: NSObject {
+public class TimerDriver {
     public var interval: UInt64 = MachUtil.nanosToAbs(10 * MachUtil.nanosPerMsec)
 
     var queue: DispatchQueue?
@@ -28,7 +28,7 @@ public class TimerDriver: NSObject {
     }
 
     @objc
-    func on(timer: Timer) {
+    private func on(timer: Timer) {
         guard nextFire <= mach_absolute_time() else {
             return
         }
@@ -45,8 +45,8 @@ public class TimerDriver: NSObject {
 
 extension TimerDriver: Running {
     // MARK: Running
-    public var isRunning: Bool {
-        return runloop != nil
+    public var isRunning: Atomic<Bool> {
+        .init(runloop != nil)
     }
 
     public func startRunning() {

@@ -3,12 +3,22 @@ import CoreFoundation
 import CoreVideo
 import VideoToolbox
 
+#if os(iOS)
+import UIKit
+#endif
+
 protocol VideoDecoderDelegate: class {
     func sampleOutput(video sampleBuffer: CMSampleBuffer)
 }
 
 // MARK: -
 final class H264Decoder {
+    static let defaultDecodeFlags: VTDecodeFrameFlags = [
+        ._EnableAsynchronousDecompression,
+        ._EnableTemporalProcessing
+    ]
+    static let defaultMinimumGroupOfPictures: Int = 12
+
     #if os(iOS)
     static let defaultAttributes: [NSString: AnyObject] = [
         kCVPixelBufferPixelFormatTypeKey: NSNumber(value: kCVPixelFormatType_32BGRA),
@@ -32,14 +42,17 @@ final class H264Decoder {
             invalidateSession = true
         }
     }
+    var isRunning: Atomic<Bool> = .init(false)
     weak var delegate: VideoDecoderDelegate?
+    var lockQueue = DispatchQueue(label: "com.haishinkit.HaishinKit.H264Decoder.lock")
 
-    private var isBaseline: Bool = true
+    var needsSync: Atomic<Bool> = .init(true)
+    var isBaseline = true
     private var buffers: [CMSampleBuffer] = []
     private var attributes: [NSString: AnyObject] {
-        return H264Decoder.defaultAttributes
+        H264Decoder.defaultAttributes
     }
-    private var minimumGroupOfPictures: Int = 12
+    private var minimumGroupOfPictures: Int = H264Decoder.defaultMinimumGroupOfPictures
     private(set) var status: OSStatus = noErr {
         didSet {
             if status != noErr {
@@ -93,13 +106,24 @@ final class H264Decoder {
     }
 
     func decodeSampleBuffer(_ sampleBuffer: CMSampleBuffer) -> OSStatus {
-        guard let session: VTDecompressionSession = session else {
+        if invalidateSession {
+            session = nil
+            needsSync.mutate { $0 = true }
+        }
+        if !sampleBuffer.isNotSync {
+            needsSync.mutate { $0 = false }
+        }
+        guard let session: VTDecompressionSession = session, !needsSync.value else {
             return kVTInvalidSessionErr
         }
         var flagsOut: VTDecodeInfoFlags = []
-        let decodeFlags: VTDecodeFrameFlags = [._EnableAsynchronousDecompression,
-                                               ._EnableTemporalProcessing]
-        return VTDecompressionSessionDecodeFrame(session, sampleBuffer: sampleBuffer, flags: decodeFlags, frameRefcon: nil, infoFlagsOut: &flagsOut)
+        return VTDecompressionSessionDecodeFrame(
+            session,
+            sampleBuffer: sampleBuffer,
+            flags: H264Decoder.defaultDecodeFlags,
+            frameRefcon: nil,
+            infoFlagsOut: &flagsOut
+        )
     }
 
     func didOutputForSession(_ status: OSStatus, infoFlags: VTDecodeInfoFlags, imageBuffer: CVImageBuffer?, presentationTimeStamp: CMTime, duration: CMTime) {
@@ -119,7 +143,7 @@ final class H264Decoder {
             imageBuffer: imageBuffer,
             formatDescriptionOut: &videoFormatDescription
         )
-        
+
         var sampleBuffer: CMSampleBuffer?
         self.status = CMSampleBufferCreateForImageBuffer(
             allocator: kCFAllocatorDefault,
@@ -135,7 +159,7 @@ final class H264Decoder {
         guard let buffer: CMSampleBuffer = sampleBuffer else {
             return
         }
-    
+
         if isBaseline {
             delegate?.sampleOutput(video: buffer)
         } else {
@@ -149,7 +173,63 @@ final class H264Decoder {
         }
     }
 
-    func clear() {
-        buffers.removeAll()
+    #if os(iOS)
+    @objc
+    private func applicationWillEnterForeground(_ notification: Notification) {
+        invalidateSession = true
+    }
+
+    @objc
+    private func didAudioSessionInterruption(_ notification: Notification) {
+        guard
+            let userInfo: [AnyHashable: Any] = notification.userInfo,
+            let value: NSNumber = userInfo[AVAudioSessionInterruptionTypeKey] as? NSNumber,
+            let type: AVAudioSession.InterruptionType = AVAudioSession.InterruptionType(rawValue: value.uintValue) else {
+            return
+        }
+        switch type {
+        case .ended:
+            invalidateSession = true
+        default:
+            break
+        }
+    }
+    #endif
+}
+
+extension H264Decoder: Running {
+    // MARK: Running
+    func startRunning() {
+        lockQueue.async {
+            self.isRunning.mutate { $0 = true }
+            #if os(iOS)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(self.didAudioSessionInterruption),
+                name: AVAudioSession.interruptionNotification,
+                object: nil
+            )
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(self.applicationWillEnterForeground),
+                name: UIApplication.willEnterForegroundNotification,
+                object: nil
+            )
+            #endif
+        }
+    }
+
+    func stopRunning() {
+        lockQueue.async {
+            self.session = nil
+            self.needsSync.mutate { $0 = true }
+            self.invalidateSession = true
+            self.buffers.removeAll()
+            self.formatDescription = nil
+            #if os(iOS)
+            NotificationCenter.default.removeObserver(self)
+            #endif
+            self.isRunning.mutate { $0 = false }
+        }
     }
 }

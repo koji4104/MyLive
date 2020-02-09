@@ -18,7 +18,7 @@ class TSReader {
             }
         }
     }
-    private(set) var PMT: [UInt16: ProgramMapSpecific] = [: ] {
+    private(set) var PMT: [UInt16: ProgramMapSpecific] = [:] {
         didSet {
             for (_, pmt) in PMT {
                 for data in pmt.elementaryStreamSpecificData {
@@ -32,9 +32,9 @@ class TSReader {
     private var eof: UInt64 = 0
     private var cursor: Int = 0
     private var fileHandle: FileHandle?
-    private var dictionaryForPrograms: [UInt16: UInt16] = [: ]
-    private var dictionaryForESSpecData: [UInt16: ElementaryStreamSpecificData] = [: ]
-    private var packetizedElementaryStreams: [UInt16: PacketizedElementaryStream] = [: ]
+    private var dictionaryForPrograms: [UInt16: UInt16] = [:]
+    private var dictionaryForESSpecData: [UInt16: ElementaryStreamSpecificData] = [:]
+    private var packetizedElementaryStreams: [UInt16: PacketizedElementaryStream] = [:]
 
     init(url: URL) throws {
         fileHandle = try FileHandle(forReadingFrom: url)
@@ -85,5 +85,12 @@ extension TSReader: IteratorProtocol {
         }
         fileHandle.seek(toFileOffset: UInt64(cursor * TSPacket.size))
         return TSPacket(data: fileHandle.readData(ofLength: TSPacket.size))
+    }
+}
+
+extension TSReader: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }

@@ -6,7 +6,7 @@ public typealias ASObject = [String: Any?]
 
 public final class ASUndefined: NSObject {
     override public var description: String {
-        return "undefined"
+        "undefined"
     }
 
     override fileprivate init() {
@@ -14,13 +14,42 @@ public final class ASUndefined: NSObject {
     }
 }
 
+public struct ASTypedObject {
+    public typealias TypedObjectDecoder = (_ type: String, _ data: ASObject) throws -> Any
+
+    static var decoders: [String: TypedObjectDecoder] = [:]
+
+    static func decode(typeName: String, data: ASObject) throws -> Any {
+        let decoder = decoders[typeName] ?? { ASTypedObject(typeName: $0, data: $1) }
+        return try decoder(typeName, data)
+    }
+
+    var typeName: String
+    var data: ASObject
+
+    public static func register(typeNamed name: String, decoder: @escaping TypedObjectDecoder) {
+        decoders[name] = decoder
+    }
+
+    public static func register<T: Decodable>(type: T.Type, named name: String) {
+        decoders[name] = {
+            let jsonData = try JSONSerialization.data(withJSONObject: $1, options: [])
+            return try JSONDecoder().decode(type, from: jsonData)
+        }
+    }
+
+    public static func unregister(typeNamed name: String) {
+        decoders.removeValue(forKey: name)
+    }
+}
+
 // MARK: -
 public struct ASArray {
     private(set) var data: [Any?]
-    private(set) var dict: [String: Any?] = [: ]
+    private(set) var dict: [String: Any?] = [:]
 
     public var length: Int {
-        return data.count
+        data.count
     }
 
     public init(count: Int) {
@@ -72,17 +101,17 @@ extension ASArray: ExpressibleByArrayLiteral {
     }
 }
 
-extension ASArray: CustomStringConvertible {
-    // MARK: CustomStringConvertible
-    public var description: String {
-        return data.description
+extension ASArray: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    public var debugDescription: String {
+        data.description
     }
 }
 
 extension ASArray: Equatable {
     // MARK: Equatable
     public static func == (lhs: ASArray, rhs: ASArray) -> Bool {
-        return (lhs.data.description == rhs.data.description) && (lhs.dict.description == rhs.dict.description)
+        (lhs.data.description == rhs.data.description) && (lhs.dict.description == rhs.dict.description)
     }
 }
 
@@ -96,7 +125,7 @@ extension ASArray: Equatable {
  */
 public final class ASXMLDocument: NSObject {
     override public var description: String {
-        return data
+        data
     }
 
     private var data: String
@@ -114,7 +143,7 @@ public final class ASXMLDocument: NSObject {
  */
 public final class ASXML: NSObject {
     override public var description: String {
-        return data
+        data
     }
 
     private var data: String

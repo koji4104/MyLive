@@ -1,11 +1,18 @@
 import Foundation
 
-protocol HTTPRequestCompatible {
+protocol HTTPRequestCompatible: CustomStringConvertible {
     var uri: String { get set }
     var method: String { get set }
     var version: String { get set }
     var headerFields: [String: String] { get set }
     var body: Data? { get set }
+}
+
+extension HTTPRequestCompatible {
+    // MARK: CustomStringConvertible
+    public var description: String {
+        Mirror(reflecting: self).debugDescription
+    }
 }
 
 extension HTTPRequestCompatible {
@@ -59,7 +66,7 @@ public struct HTTPRequest: HTTPRequestCompatible {
     public var uri: String = "/"
     public var method: String = ""
     public var version: String = HTTPVersion.version11.description
-    public var headerFields: [String: String] = [: ]
+    public var headerFields: [String: String] = [:]
     public var body: Data?
 
     init?(data: Data) {

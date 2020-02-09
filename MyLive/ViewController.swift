@@ -6,7 +6,7 @@ import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = false // テストソース
+    let test:Bool = true // テストソース
     let recv:Bool = false
     let record:Bool = false
         
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
             self.httpStream = HTTPStream()
         }
         
-        currentStream.syncOrientation = false
+        //currentStream.syncOrientation = false / Haishin 1.0.3
         
         print("env.videoHeight \(env.videoHeight)")
         var preset:String = AVCaptureSession.Preset.hd1920x1080.rawValue
@@ -109,25 +109,25 @@ class ViewController: UIViewController {
         }
         
         currentStream.captureSettings = [
-            "sessionPreset": preset,
-            "continuousAutofocus": true,
-            "continuousExposure": true,
-            "fps": env.videoFramerate, // def=30
+            .sessionPreset: preset,
+            .continuousAutofocus: true,
+            .continuousExposure: true,
+            .fps: env.videoFramerate, // def=30
         ]
 
         // Codec/H264Encoder.swift
         currentStream.videoSettings = [
-            "width": env.videoHeight/9 * 16,
-            "height": env.videoHeight,
-            "profileLevel": kVTProfileLevel_H264_High_AutoLevel,
-            "maxKeyFrameIntervalDuration": 2.0, // 2.0
-            "bitrate": env.videoBitrate * 1024, // Average
-            "dataRateLimits": [2000*1024 / 8, 1], // MaxBitrate
+            .width: env.videoHeight/9 * 16,
+            .height: env.videoHeight,
+            .profileLevel: kVTProfileLevel_H264_High_AutoLevel,
+            .maxKeyFrameIntervalDuration: 2.0, // 2.0
+            .bitrate: env.videoBitrate * 1024, // Average
+            //.dataRateLimits: [2000*1024 / 8, 1], // MaxBitrate / Haishin 1.0.3
         ]
         currentStream.audioSettings = [
-            "sampleRate": sampleRate,
-            "bitrate": 64 * 1024,
-            "muted": (env.audioMode == 0) ? true : false,
+            .sampleRate: sampleRate,
+            .bitrate: 64 * 1024,
+            .muted: (env.audioMode == 0) ? true : false,
             //"profile": UInt32(MPEG4ObjectID.AAC_LC.rawValue), err ios12
         ]
         
@@ -322,11 +322,31 @@ class ViewController: UIViewController {
             }
         } else if env.isRtmp() && rtmpStream != nil {
             if publish == true {
-                rtmpConnection.addEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
+                
+                //rtmpConnection.addEventListener(
+                //    Event.RTMP_STATUS,
+                //    selector:#selector(self.rtmpStatusHandler(_:)),
+                //    observer: self)
+                
+                rtmpConnection.addEventListener(
+                    .rtmpStatus,
+                    selector:#selector(self.rtmpStatusHandler(_:)),
+                    observer: self)
+                
                 rtmpConnection.connect(env.getUrl())
             } else {
                 rtmpConnection.close()
-                rtmpConnection.removeEventListener(Event.RTMP_STATUS, selector:#selector(self.rtmpStatusHandler(_:)), observer: self)
+                
+                //rtmpConnection.removeEventListener(
+                //    Event.RTMP_STATUS,
+                //    selector:#selector(self.rtmpStatusHandler(_:)),
+                //    observer: self)
+            
+                rtmpConnection.removeEventListener(
+                    .rtmpStatus,
+                    selector:#selector(self.rtmpStatusHandler(_:)),
+                    observer: self)
+                    
             }
         } else if env.isSrt() && srtStream != nil {
             if publish == true {
@@ -434,11 +454,15 @@ class ViewController: UIViewController {
                         }
                         let avg:Int = sum / aryFps.count
                         if (isAutoLow==false && env.videoFramerate-avg >= 5) {
-                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate/2) * 1024
+                            //rtmpStream.videoSettings["bitrate"] = (env.videoBitrate/2) * 1024
+                            rtmpStream.videoSettings = [.bitrate: (env.videoBitrate/2) * 1024]
+                                
                             aryFps.removeAll(keepingCapacity: true)
                             isAutoLow = true
                         } else if (isAutoLow==true && env.videoFramerate-avg <= 2) {
-                            rtmpStream.videoSettings["bitrate"] = (env.videoBitrate) * 1024
+                            //rtmpStream.videoSettings["bitrate"] = (env.videoBitrate) * 1024
+                            rtmpStream.videoSettings = [.bitrate: (env.videoBitrate) * 1024]
+                            
                             aryFps.removeAll(keepingCapacity: true)
                             isAutoLow = false
                         }
@@ -452,13 +476,13 @@ class ViewController: UIViewController {
         if record == true {
             titleRps.text = "REC"
             labelRps.text = ""
-            if currentStream != nil && currentStream.mixer.recorder.isRunning {
+            if currentStream != nil && currentStream.mixer.recorder.isRunning.value {
                 state = "publishing"
             }
         } else if env.isHls() {
             titleRps.text = "HLS"
             labelRps.text = ""
-            if httpService != nil && httpService.isRunning {
+            if httpService != nil && httpService.isRunning.value {
                 state = "publishing"
             }
         } else if env.isRtmp() {
@@ -559,7 +583,8 @@ class ViewController: UIViewController {
         }
         if currentStream != nil {
             currentStream.mixer.videoIO.ex.test = true
-            currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
+            //currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
+            currentStream.mixer.videoIO.renderer?.render(image: ciTestImage)
         }
     }
 
@@ -575,7 +600,8 @@ class ViewController: UIViewController {
         }
         let env = Environment()
         env.videoFramerate = Int(fps)
-        currentStream.captureSettings["fps"] = fps
+        //currentStream.captureSettings["fps"] = fps
+        currentStream.captureSettings = [.fps: fps]
     }
     
     /// ビットレート
@@ -590,7 +616,8 @@ class ViewController: UIViewController {
         }
         let env = Environment()
         env.videoBitrate = bps
-        currentStream.videoSettings["bitrate"] = bps * 1024
+        //currentStream.videoSettings["bitrate"] = bps * 1024
+        currentStream.videoSettings = [.bitrate: bps * 1024]
         aryFps.removeAll(keepingCapacity: true)
     }
     
@@ -608,7 +635,8 @@ class ViewController: UIViewController {
         w = (h/9) * 16
         let env = Environment()
         env.videoHeight = h
-        currentStream.videoSettings = ["width":w, "height":h]
+        //currentStream.videoSettings = ["width":w, "height":h]
+        currentStream.videoSettings = [.width:w, .height:h]
     }
   
     /// ズーム
@@ -652,9 +680,8 @@ class ViewController: UIViewController {
         let env = Environment()
         env.audioMode = (env.audioMode==1) ? 0 : 1
         let b:Bool = (env.audioMode==1) ? true : false
-        currentStream.audioSettings = [
-            "muted": !b,
-        ]
+        //currentStream.audioSettings = ["muted": !b]
+        currentStream.audioSettings = [.muted: !b]
         btnAudio.setSwitch(b)
     }
     

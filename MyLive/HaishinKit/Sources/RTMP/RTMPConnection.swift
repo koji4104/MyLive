@@ -4,8 +4,7 @@ import Foundation
 /**
  flash.net.Responder for Swift
  */
-open class Responder: NSObject {
-
+open class Responder {
     public typealias Handler = (_ data: [Any?]) -> Void
 
     private var result: Handler
@@ -37,7 +36,7 @@ open class RTMPConnection: EventDispatcher {
     public static let defaultFlashVer: String = "FMLE/3.0 (compatible; FMSc/1.0)"
     public static let defaultChunkSizeS: Int = 1024 * 8
     public static let defaultCapabilities: Int = 239
-    public static let defaultObjectEncoding: UInt8 = 0x00
+    public static let defaultObjectEncoding: RTMPObjectEncoding = .amf0
 
     /**
      NetStatusEvent#info.code for NetConnection
@@ -83,7 +82,7 @@ open class RTMPConnection: EventDispatcher {
         }
 
         func data(_ description: String) -> ASObject {
-            return [
+            [
                 "code": rawValue,
                 "level": level,
                 "description": description
@@ -131,7 +130,7 @@ open class RTMPConnection: EventDispatcher {
         }
 
         let query = String(description[description.index(index, offsetBy: 1)...])
-        let challenge = String(format: "%08x", arc4random())
+        let challenge = String(format: "%08x", UInt32.random(in: 0...UInt32.max))
         let dictionary: [String: String] = URL(string: "http://localhost?" + query)!.dictionaryFromQuery()
 
         var response: String = MD5.base64("\(url.user!)\(dictionary["salt"]!)\(url.password!)")
@@ -153,9 +152,13 @@ open class RTMPConnection: EventDispatcher {
     /// The URL of an HTTP referer.
     open var pageUrl: String?
     /// The time to wait for TCP/IP Handshake done.
-    open var timeout: Int64 {
-        get { return socket.timeout }
+    open var timeout: Int {
+        get { socket.timeout }
         set { socket.timeout = newValue }
+    }
+    open var qualityOfService: DispatchQoS {
+        get { socket.qualityOfService }
+        set { socket.qualityOfService = newValue }
     }
     /// The name of application.
     open var flashVer: String = RTMPConnection.defaultFlashVer
@@ -164,34 +167,38 @@ open class RTMPConnection: EventDispatcher {
     /// The URI passed to the RTMPConnection.connect() method.
     open private(set) var uri: URL?
     /// This instance connected to server(true) or not(false).
-    open private(set) var connected: Bool = false
+    open private(set) var connected = false
+    /// This instance requires Network.framework if possible.
+    open var requireNetworkFramework = false
+    /// The socket optional parameters.
+    open var parameters: Any?
     /// The object encoding for this RTMPConnection instance.
-    open var objectEncoding: UInt8 = RTMPConnection.defaultObjectEncoding
+    open var objectEncoding: RTMPObjectEncoding = RTMPConnection.defaultObjectEncoding
     /// The statistics of total incoming bytes.
     open var totalBytesIn: Int64 {
-        return socket.totalBytesIn
+        socket.totalBytesIn
     }
     /// The statistics of total outgoing bytes.
     open var totalBytesOut: Int64 {
-        return socket.totalBytesOut
+        socket.totalBytesOut
     }
     /// The statistics of total RTMPStream counts.
     open var totalStreamsCount: Int {
-        return streams.count
+        streams.count
     }
     /// The statistics of outgoing queue bytes per second.
-    @objc open dynamic private(set) var previousQueueBytesOut: [Int64] = []
+    @objc open private(set) dynamic var previousQueueBytesOut: [Int64] = []
     /// The statistics of incoming bytes per second.
-    @objc open dynamic private(set) var currentBytesInPerSecond: Int32 = 0
+    @objc open private(set) dynamic var currentBytesInPerSecond: Int32 = 0
     /// The statistics of outgoing bytes per second.
-    @objc open dynamic private(set) var currentBytesOutPerSecond: Int32 = 0
+    @objc open private(set) dynamic var currentBytesOutPerSecond: Int32 = 0
 
     var socket: RTMPSocketCompatible!
-    var streams: [UInt32: RTMPStream] = [: ]
+    var streams: [UInt32: RTMPStream] = [:]
     var sequence: Int64 = 0
     var bandWidth: UInt32 = 0
-    var streamsmap: [UInt16: UInt32] = [: ]
-    var operations: [Int: Responder] = [: ]
+    var streamsmap: [UInt16: UInt32] = [:]
+    var operations: [Int: Responder] = [:]
     var windowSizeC: Int64 = RTMPConnection.defaultWindowSizeS {
         didSet {
             guard socket.connected else {
@@ -224,32 +231,27 @@ open class RTMPConnection: EventDispatcher {
         didSet {
             oldValue?.invalidate()
             if let timer: Timer = timer {
-                RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+                RunLoop.main.add(timer, forMode: .common)
             }
         }
     }
-    private var messages: [UInt16: RTMPMessage] = [: ]
+    private var messages: [UInt16: RTMPMessage] = [:]
     private var arguments: [Any?] = []
     private var currentChunk: RTMPChunk?
     private var measureInterval: Int = 3
-    private var fragmentedChunks: [UInt16: RTMPChunk] = [: ]
+    private var fragmentedChunks: [UInt16: RTMPChunk] = [:]
     private var previousTotalBytesIn: Int64 = 0
     private var previousTotalBytesOut: Int64 = 0
 
     override public init() {
         super.init()
-        addEventListener(Event.RTMP_STATUS, selector: #selector(on(status:)))
+        addEventListener(.rtmpStatus, selector: #selector(on(status:)))
     }
 
     deinit {
         timer = nil
         streams.removeAll()
-        removeEventListener(Event.RTMP_STATUS, selector: #selector(on(status:)))
-    }
-
-    @available(*, unavailable)
-    open func connect(_ command: String) {
-        connect(command, arguments: nil)
+        removeEventListener(.rtmpStatus, selector: #selector(on(status:)))
     }
 
     open func call(_ commandName: String, responder: Responder?, arguments: Any?...) {
@@ -282,9 +284,14 @@ open class RTMPConnection: EventDispatcher {
         case "rtmpt", "rtmpts":
             socket = socket is RTMPTSocket ? socket : RTMPTSocket()
         default:
-            socket = socket is RTMPSocket ? socket : RTMPSocket()
+            if #available(iOS 12.0, macOS 10.14, tvOS 12.0, *), requireNetworkFramework {
+                socket = socket is RTMPNWSocket ? socket : RTMPNWSocket()
+            } else {
+                socket = socket is RTMPSocket ? socket : RTMPSocket()
+            }
         }
         socket.delegate = self
+        socket.setProperty(parameters, forKey: "parameters")
         socket.securityLevel = uri.scheme == "rtmps" || uri.scheme == "rtmpts"  ? .negotiatedSSL : .none
         socket.connect(withName: uri.host!, port: uri.port ?? RTMPConnection.defaultPort)
     }
@@ -322,7 +329,7 @@ open class RTMPConnection: EventDispatcher {
     }
 
     @objc
-    func on(status: Notification) {
+    private func on(status: Notification) {
         let e = Event.from(status)
 
         guard
@@ -332,7 +339,7 @@ open class RTMPConnection: EventDispatcher {
         }
 
         switch Code(rawValue: code) {
-        case .connectSuccess?:
+        case .some(.connectSuccess):
             connected = true
             socket.chunkSizeS = chunkSize
             socket.doOutput(chunk: RTMPChunk(
@@ -340,7 +347,7 @@ open class RTMPConnection: EventDispatcher {
                 streamId: RTMPChunk.StreamID.control.rawValue,
                 message: RTMPSetChunkSizeMessage(UInt32(socket.chunkSizeS))
             ), locked: nil)
-        case .connectRejected?:
+        case .some(.connectRejected):
             guard
                 let uri: URL = uri,
                 let user: String = uri.user,
@@ -348,7 +355,7 @@ open class RTMPConnection: EventDispatcher {
                 let description: String = data["description"] as? String else {
                 break
             }
-            socket.deinitConnection(isDisconnected: false)
+            socket.close(isDisconnected: false)
             switch true {
             case description.contains("reason=nosuchuser"):
                 break
@@ -368,7 +375,7 @@ open class RTMPConnection: EventDispatcher {
             default:
                 break
             }
-        case .connectClosed?:
+        case .some(.connectClosed):
             if let description: String = data["description"] as? String {
                 logger.warn(description)
             }
@@ -378,7 +385,7 @@ open class RTMPConnection: EventDispatcher {
         }
     }
 
-    private func createConnectionChunk() -> RTMPChunk? {
+    private func makeConnectionChunk() -> RTMPChunk? {
         guard let uri: URL = uri else {
             return nil
         }
@@ -394,7 +401,7 @@ open class RTMPConnection: EventDispatcher {
             streamId: 0,
             transactionId: currentTransactionId,
             // "connect" must be a objectEncoding = 0
-            objectEncoding: 0,
+            objectEncoding: .amf0,
             commandName: "connect",
             commandObject: [
                 "app": app,
@@ -428,13 +435,17 @@ open class RTMPConnection: EventDispatcher {
             stream.on(timer: timer)
         }
         if measureInterval <= previousQueueBytesOut.count {
-            var count: Int = 0
+            var total: Int = 0
             for i in 0..<previousQueueBytesOut.count - 1 where previousQueueBytesOut[i] < previousQueueBytesOut[i + 1] {
-                count += 1
+                total += 1
             }
-            if count == measureInterval - 1 {
+            if total == measureInterval - 1 {
                 for (_, stream) in streams {
                     stream.delegate?.didPublishInsufficientBW(stream, withConnection: self)
+                }
+            } else if total == 0 {
+                for (_, stream) in streams {
+                  stream.delegate?.didPublishSufficientBW(stream, withConnection: self)
                 }
             }
             previousQueueBytesOut.removeFirst()
@@ -444,10 +455,11 @@ open class RTMPConnection: EventDispatcher {
 
 extension RTMPConnection: RTMPSocketDelegate {
     // MARK: RTMPSocketDelegate
-    func didSetReadyState(_ readyState: RTMPSocket.ReadyState) {
+    func didSetReadyState(_ readyState: RTMPSocketReadyState) {
+        logger.debug(readyState)
         switch readyState {
         case .handshakeDone:
-            guard let chunk: RTMPChunk = createConnectionChunk() else {
+            guard let chunk: RTMPChunk = makeConnectionChunk() else {
                 close()
                 break
             }
@@ -516,7 +528,7 @@ extension RTMPConnection: RTMPSocketDelegate {
             case .three:
                 break
             }
-            message.execute(self)
+            message.execute(self, type: chunk.type)
             currentChunk = nil
             messages[chunk.streamId] = message
             if 0 < position && position < data.count {

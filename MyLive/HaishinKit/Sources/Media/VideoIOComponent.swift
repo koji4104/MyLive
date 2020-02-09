@@ -1,4 +1,5 @@
 import AVFoundation
+import CoreImage
 
 final class VideoIOComponent: IOComponent {
     #if os(macOS)
@@ -26,13 +27,13 @@ final class VideoIOComponent: IOComponent {
     }
 
     #if os(iOS) || os(macOS)
-    var drawable: NetStreamDrawable? = nil {
+    var renderer: NetStreamRenderer? = nil {
         didSet {
-            drawable?.orientation = orientation
+            renderer?.orientation = orientation
         }
     }
     #else
-    var drawable: NetStreamDrawable?
+    var renderer: NetStreamRenderer?
     #endif
 
     var formatDescription: CMVideoFormatDescription? {
@@ -48,7 +49,7 @@ final class VideoIOComponent: IOComponent {
         return queue
     }()
 
-    private(set) var effects: Set<VisualEffect> = []
+    private(set) var effects: Set<VideoEffect> = []
 
     private var extent = CGRect.zero {
         didSet {
@@ -115,7 +116,7 @@ final class VideoIOComponent: IOComponent {
 
     var orientation: AVCaptureVideoOrientation = .portrait {
         didSet {
-            drawable?.orientation = orientation
+            renderer?.orientation = orientation
             guard orientation != oldValue else {
                 return
             }
@@ -221,7 +222,7 @@ final class VideoIOComponent: IOComponent {
     }
 
     #if os(iOS)
-    var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode = .auto {
+    var preferredVideoStabilizationMode: AVCaptureVideoStabilizationMode = .off {
         didSet {
             guard preferredVideoStabilizationMode != oldValue else {
                 return
@@ -290,13 +291,6 @@ final class VideoIOComponent: IOComponent {
         super.init(mixer: mixer)
         encoder.lockQueue = lockQueue
         decoder.delegate = self
-        #if os(iOS)
-        if let orientation: AVCaptureVideoOrientation = DeviceUtil.videoOrientation(by: UIDevice.current.orientation) {
-            self.orientation = orientation
-        } else if let defaultOrientation = RTMPStream.defaultOrientation {
-            self.orientation = defaultOrientation
-        }
-        #endif
     }
 
     #if os(iOS) || os(macOS)
@@ -338,7 +332,7 @@ final class VideoIOComponent: IOComponent {
 
         fps *= 1
         position = camera.position
-        drawable?.position = camera.position
+        renderer?.position = camera.position
     }
 
     func setTorchMode(_ torchMode: AVCaptureDevice.TorchMode) {
@@ -357,10 +351,10 @@ final class VideoIOComponent: IOComponent {
 
     func dispose() {
         if Thread.isMainThread {
-            self.drawable?.attachStream(nil)
+            self.renderer?.attachStream(nil)
         } else {
             DispatchQueue.main.sync {
-                self.drawable?.attachStream(nil)
+                self.renderer?.attachStream(nil)
             }
         }
 
@@ -370,10 +364,10 @@ final class VideoIOComponent: IOComponent {
     #else
     func dispose() {
         if Thread.isMainThread {
-            self.drawable?.attachStream(nil)
+            self.renderer?.attachStream(nil)
         } else {
             DispatchQueue.main.sync {
-                self.drawable?.attachStream(nil)
+                self.renderer?.attachStream(nil)
             }
         }
     }
@@ -394,7 +388,7 @@ final class VideoIOComponent: IOComponent {
             }
         }
 
-        if drawable != nil || !effects.isEmpty {
+        if renderer != nil || !effects.isEmpty {
             let image: CIImage = effect(buffer, info: sampleBuffer)
             extent = image.extent
             if !effects.isEmpty {
@@ -410,7 +404,7 @@ final class VideoIOComponent: IOComponent {
                 }
                 context?.render(image, to: imageBuffer ?? buffer)
             }
-            drawable?.draw(image: image)
+            renderer?.render(image: image)
         }
 
         encoder.encodeImageBuffer(
@@ -431,18 +425,31 @@ final class VideoIOComponent: IOComponent {
         return image
     }
 
-    func registerEffect(_ effect: VisualEffect) -> Bool {
+    func registerEffect(_ effect: VideoEffect) -> Bool {
         effect.ciContext = context
         return effects.insert(effect).inserted
     }
 
-    func unregisterEffect(_ effect: VisualEffect) -> Bool {
+    func unregisterEffect(_ effect: VideoEffect) -> Bool {
         effect.ciContext = nil
         return effects.remove(effect) != nil
     }
     
     // Koji4104
-    public var ex:VideoIOComponentEx = VideoIOComponentEx()
+    public var ex:VideoIOComponentEx = VideoIOComponentEx()    
+}
+
+extension VideoIOComponent {
+    func startDecoding() {
+        queue.startRunning()
+        decoder.startRunning()
+    }
+
+    func stopDecoding() {
+        decoder.stopRunning()
+        queue.stopRunning()
+        renderer?.render(image: nil)
+    }
 }
 
 extension VideoIOComponent: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -464,6 +471,11 @@ extension VideoIOComponent: VideoDecoderDelegate {
 extension VideoIOComponent: DisplayLinkedQueueDelegate {
     // MARK: DisplayLinkedQueue
     func queue(_ buffer: CMSampleBuffer) {
-        drawable?.draw(image: CIImage(cvPixelBuffer: buffer.imageBuffer!))
+        renderer?.render(image: CIImage(cvPixelBuffer: buffer.imageBuffer!))
+        mixer?.delegate?.didOutputVideo(buffer)
+    }
+
+    func empty() {
+        mixer?.didBufferEmpty(self)
     }
 }

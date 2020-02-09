@@ -1,10 +1,12 @@
+import CoreVideo
 import Foundation
 
 extension CVPixelBuffer {
     var width: Int {
-        return CVPixelBufferGetWidth(self)
+        CVPixelBufferGetWidth(self)
     }
+
     var height: Int {
-        return CVPixelBufferGetHeight(self)
+        CVPixelBufferGetHeight(self)
     }
 }

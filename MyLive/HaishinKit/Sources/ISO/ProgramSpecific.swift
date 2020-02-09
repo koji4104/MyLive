@@ -50,7 +50,7 @@ class ProgramSpecific: PSIPointer, PSITableHeader, PSITableSyntax {
     var lastSectionNumber: UInt8 = 0
     var tableData: Data {
         get {
-            return Data()
+            Data()
         }
         set {
         }
@@ -107,13 +107,13 @@ extension ProgramSpecific: DataConvertible {
                 pointerField = try buffer.readUInt8()
                 pointerFillerBytes = try buffer.readBytes(Int(pointerField))
                 tableID = try buffer.readUInt8()
-                var bytes: Data = try buffer.readBytes(2)
-                sectionSyntaxIndicator = bytes[0] & 0x80 == 0x80
-                privateBit = bytes[0] & 0x40 == 0x40
+                let bytes: Data = try buffer.readBytes(2)
+                sectionSyntaxIndicator = (bytes[0] & 0x80) == 0x80
+                privateBit = (bytes[0] & 0x40) == 0x40
                 sectionLength = UInt16(bytes[0] & 0x03) << 8 | UInt16(bytes[1])
                 tableIDExtension = try buffer.readUInt16()
                 versionNumber = try buffer.readUInt8()
-                currentNextIndicator = versionNumber & 0x01 == 0x01
+                currentNextIndicator = (versionNumber & 0x01) == 0x01
                 versionNumber = (versionNumber & 0b00111110) >> 1
                 sectionNumber = try buffer.readUInt8()
                 lastSectionNumber = try buffer.readUInt8()
@@ -126,11 +126,18 @@ extension ProgramSpecific: DataConvertible {
     }
 }
 
+extension ProgramSpecific: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
+    }
+}
+
 // MARK: -
 final class ProgramAssociationSpecific: ProgramSpecific {
     static let tableID: UInt8 = 0
 
-    var programs: [UInt16: UInt16] = [: ]
+    var programs: [UInt16: UInt16] = [:]
 
     override var tableData: Data {
         get {
@@ -246,7 +253,7 @@ extension ElementaryStreamSpecificData: DataConvertible {
     // MARK: BytesConvertible
     var data: Data {
         get {
-            return ByteArray()
+            ByteArray()
                 .writeUInt8(streamType)
                 .writeUInt16(elementaryPID | 0xe000)
                 .writeUInt16(ESInfoLength | 0xf000)
@@ -260,11 +267,19 @@ extension ElementaryStreamSpecificData: DataConvertible {
                 //elementaryPID = try buffer.readUInt16() & 0x0fff
                 //ESInfoLength = try buffer.readUInt16() & 0x01ff
                 elementaryPID = try buffer.readUInt16() & 0x1fff //(3+13) koji4104
-                ESInfoLength = try buffer.readUInt16() & 0x03ff //(4+2+10)
+                ESInfoLength = try buffer.readUInt16() & 0x03ff //(6+10)
+                
                 ESDescriptors = try buffer.readBytes(Int(ESInfoLength))
             } catch {
                 logger.error("\(buffer)")
             }
         }
+    }
+}
+
+extension ElementaryStreamSpecificData: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }

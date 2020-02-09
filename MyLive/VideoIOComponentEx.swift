@@ -57,8 +57,9 @@ extension VideoIOComponent {
             duration: sampleBuffer.duration
         )
         let image: CIImage = CIImage(cvPixelBuffer: buffer)
-        drawable?.draw(image: image)
-
+        //drawable?.draw(image: image)
+        renderer?.render(image: image) // Haishin 1.0.3
+        
         mixer?.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
     }
     

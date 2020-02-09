@@ -1,99 +1,81 @@
 import AVFoundation
 
 #if os(macOS)
-    import CoreVideo
-
-    final class DisplayLink: NSObject {
-        var frameInterval: Int = 0
-        private(set) var timestamp: CFTimeInterval = 0
-        private var displayLink: CVDisplayLink?
-        private weak var delegate: NSObject?
-        private var selector: Selector?
-        private var status: CVReturn = 0
-
-        private var callback: CVDisplayLinkOutputCallback = { (displayLink: CVDisplayLink, inNow: UnsafePointer<CVTimeStamp>, inOutputTIme: UnsafePointer<CVTimeStamp>, flagsIn: CVOptionFlags, flgasOut: UnsafeMutablePointer<CVOptionFlags>, displayLinkContext: UnsafeMutableRawPointer?) -> CVReturn in
-            let displayLink: DisplayLink = Unmanaged<DisplayLink>.fromOpaque(displayLinkContext!).takeUnretainedValue()
-            displayLink.timestamp = Double(inNow.pointee.videoTime) / Double(inNow.pointee.videoTimeScale)
-            _ = displayLink.delegate?.perform(displayLink.selector, with: displayLink)
-            return 0
-        }
-
-        init(target: NSObject, selector sel: Selector) {
-            super.init()
-            status = CVDisplayLinkCreateWithActiveCGDisplays(&displayLink)
-            guard let displayLink: CVDisplayLink = displayLink else {
-                return
-            }
-            self.delegate = target
-            self.selector = sel
-            CVDisplayLinkSetOutputCallback(displayLink, callback, Unmanaged.passUnretained(self).toOpaque())
-        }
-
-        func add(to runloop: RunLoop, forMode mode: RunLoop.Mode) {
-            guard let displayLink: CVDisplayLink = displayLink else {
-                return
-            }
-            status = CVDisplayLinkStart(displayLink)
-        }
-
-        func invalidate() {
-            guard let displayLink: CVDisplayLink = displayLink else {
-                return
-            }
-            status = CVDisplayLinkStop(displayLink)
-        }
-    }
 #else
     typealias DisplayLink = CADisplayLink
 #endif
 
 protocol DisplayLinkedQueueDelegate: class {
     func queue(_ buffer: CMSampleBuffer)
+    func empty()
+}
+
+protocol DisplayLinkedQueueClockReference: class {
+    var duration: TimeInterval { get }
 }
 
 final class DisplayLinkedQueue: NSObject {
-    var isRunning: Bool = false
-    var bufferTime: TimeInterval = 0.1 // sec
-    weak var delegate: DisplayLinkedQueueDelegate?
-    private(set) var duration: TimeInterval = 0
+    static let defaultPreferredFramesPerSecond = 0
 
-    private var isReady: Bool = false
-    private var buffers: [CMSampleBuffer] = []
-    private var mediaTime: CFTimeInterval = 0
+    var isPaused: Bool {
+        get { displayLink?.isPaused ?? false }
+        set { displayLink?.isPaused = newValue }
+    }
+    var duration: TimeInterval {
+        (displayLink?.timestamp ?? 0.0) - timestamp
+    }
+    weak var delegate: DisplayLinkedQueueDelegate?
+    weak var clockReference: DisplayLinkedQueueClockReference?
+    private var timestamp: TimeInterval = 0.0
+    private var buffer: CircularBuffer<CMSampleBuffer> = .init(256)
     private var displayLink: DisplayLink? {
         didSet {
             oldValue?.invalidate()
-            guard let displayLink: DisplayLink = displayLink else {
+            guard let displayLink = displayLink else {
                 return
             }
-            displayLink.frameInterval = 1
-            displayLink.add(to: .main, forMode: RunLoop.Mode.common)
+            displayLink.isPaused = true
+            if #available(iOS 10.0, tvOS 10.0, *) {
+                displayLink.preferredFramesPerSecond = DisplayLinkedQueue.defaultPreferredFramesPerSecond
+            } else {
+                displayLink.frameInterval = 1
+            }
+            displayLink.add(to: .main, forMode: .common)
         }
     }
     private let lockQueue = DispatchQueue(label: "com.haishinkit.HaishinKit.DisplayLinkedQueue.lock")
+    private(set) var isRunning: Atomic<Bool> = .init(false)
 
     func enqueue(_ buffer: CMSampleBuffer) {
-        lockQueue.async {
-            self.duration += buffer.duration.seconds
-            self.buffers.append(buffer)
-            if !self.isReady {
-                self.isReady = self.duration <= self.bufferTime
-            }
+        guard buffer.presentationTimeStamp != .invalid else { return }
+        if self.buffer.isEmpty {
+            delegate?.queue(buffer)
         }
+        self.buffer.append(buffer)
     }
 
     @objc
     private func update(displayLink: DisplayLink) {
-        guard let first: CMSampleBuffer = buffers.first, isReady else {
+        if timestamp == 0.0 {
+            timestamp = displayLink.timestamp
+        }
+        guard let first = buffer.first else {
             return
         }
-        if mediaTime == 0 {
-            mediaTime = displayLink.timestamp
-        }
-        if first.presentationTimeStamp.seconds <= displayLink.timestamp - mediaTime {
-            lockQueue.async {
-                self.buffers.removeFirst()
+        defer {
+            if buffer.isEmpty {
+                delegate?.empty()
             }
+        }
+        let current = clockReference?.duration ?? duration
+        let targetTimestamp = first.presentationTimeStamp.seconds + first.duration.seconds
+        if targetTimestamp < current {
+            buffer.removeFirst()
+            update(displayLink: displayLink)
+            return
+        }
+        if first.presentationTimeStamp.seconds <= current && current <= targetTimestamp {
+            buffer.removeFirst()
             delegate?.queue(first)
         }
     }
@@ -103,22 +85,24 @@ extension DisplayLinkedQueue: Running {
     // MARK: Running
     func startRunning() {
         lockQueue.async {
-            guard !self.isRunning else {
+            guard !self.isRunning.value else {
                 return
             }
+            self.timestamp = 0.0
             self.displayLink = DisplayLink(target: self, selector: #selector(self.update(displayLink:)))
-            self.isRunning = true
+            self.isRunning.mutate { $0 = true }
         }
     }
 
     func stopRunning() {
         lockQueue.async {
-            guard self.isRunning else {
+            guard self.isRunning.value else {
                 return
             }
             self.displayLink = nil
-            self.buffers.removeAll()
-            self.isRunning = false
+            self.clockReference = nil
+            self.buffer.removeAll()
+            self.isRunning.mutate { $0 = false }
         }
     }
 }

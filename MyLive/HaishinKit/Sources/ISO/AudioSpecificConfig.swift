@@ -61,7 +61,7 @@ struct AudioSpecificConfig {
     }
 
     func audioStreamBasicDescription() -> AudioStreamBasicDescription {
-        return AudioStreamBasicDescription(
+        AudioStreamBasicDescription(
             mSampleRate: frequency.sampleRate,
             mFormatID: kAudioFormatMPEG4AAC,
             mFormatFlags: UInt32(type.rawValue),
@@ -72,6 +72,13 @@ struct AudioSpecificConfig {
             mBitsPerChannel: 0,
             mReserved: 0
         )
+    }
+}
+
+extension AudioSpecificConfig: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }
 

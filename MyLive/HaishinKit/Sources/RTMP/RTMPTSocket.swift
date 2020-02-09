@@ -3,10 +3,11 @@ import Foundation
 final class RTMPTSocket: NSObject, RTMPSocketCompatible {
     static let contentType: String = "application/x-fcs"
 
-    var timeout: Int64 = 0
+    var timeout: Int = 0
     var chunkSizeC: Int = RTMPChunk.defaultSize
     var chunkSizeS: Int = RTMPChunk.defaultSize
     var inputBuffer = Data()
+    var qualityOfService: DispatchQoS = .default
     var securityLevel: StreamSocketSecurityLevel = .none
     weak var delegate: RTMPSocketDelegate?
     var connected: Bool = false {
@@ -27,10 +28,10 @@ final class RTMPTSocket: NSObject, RTMPSocketCompatible {
     }
 
     var timestamp: TimeInterval {
-        return handshake.timestamp
+        handshake.timestamp
     }
 
-    var readyState: RTMPSocket.ReadyState = .uninitialized {
+    var readyState: RTMPSocketReadyState = .uninitialized {
         didSet {
             delegate?.didSetReadyState(readyState)
         }
@@ -78,7 +79,7 @@ final class RTMPTSocket: NSObject, RTMPSocketCompatible {
         ]
         let scheme: String = securityLevel == .none ? "http" : "https"
         session = URLSession(configuration: config, delegate: self, delegateQueue: .main)
-        baseURL = URL(string: "\(scheme): //\(withName): \(port)")!
+        baseURL = URL(string: "\(scheme)://\(withName):\(port)")!
         doRequest("/fcs/ident2", Data([0x00]), didIdent2)
         timer = Timer(timeInterval: 0.1, target: self, selector: #selector(on(timer:)), userInfo: nil, repeats: true)
     }
@@ -112,7 +113,7 @@ final class RTMPTSocket: NSObject, RTMPSocketCompatible {
         if isDisconnected {
             let data: ASObject = (readyState == .handshakeDone) ?
                 RTMPConnection.Code.connectClosed.data("") : RTMPConnection.Code.connectFailed.data("")
-            events.append(Event(type: Event.RTMP_STATUS, bubbles: false, data: data))
+            events.append(Event(type: .rtmpStatus, bubbles: false, data: data))
         }
         guard let connectionID: String = connectionID else {
             return
@@ -121,7 +122,6 @@ final class RTMPTSocket: NSObject, RTMPSocketCompatible {
     }
 
     private func listen(data: Data?, response: URLResponse?, error: Error?) {
-
         lastResponse = Date()
 
         if logger.isEnabledFor(level: .trace) {

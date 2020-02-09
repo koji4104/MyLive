@@ -1,21 +1,24 @@
+#if os(iOS)
+
 import AVFoundation
 import GLKit
 
-open class GLHKView: GLKView {
-    static let defaultOptions: [String: AnyObject] = [
-        convertFromCIContextOption(CIContextOption.workingColorSpace): NSNull(),
-        convertFromCIContextOption(CIContextOption.useSoftwareRenderer): NSNumber(value: false)
+open class GLHKView: GLKView, NetStreamRenderer {
+    static let defaultOptions: [CIContextOption: Any] = [
+        .workingColorSpace: NSNull(),
+        .useSoftwareRenderer: NSNumber(value: false)
     ]
     public static var defaultBackgroundColor: UIColor = .black
     open var videoGravity: AVLayerVideoGravity = .resizeAspect
-
+    public var videoFormatDescription: CMVideoFormatDescription? {
+        currentStream?.mixer.videoIO.formatDescription
+    }
     var position: AVCaptureDevice.Position = .back
     var orientation: AVCaptureVideoOrientation = .portrait
-
-    private var displayImage: CIImage?
+    var displayImage: CIImage?
     private weak var currentStream: NetStream? {
         didSet {
-            oldValue?.mixer.videoIO.drawable = nil
+            oldValue?.mixer.videoIO.renderer = nil
         }
     }
 
@@ -39,10 +42,10 @@ open class GLHKView: GLKView {
 
     open func attachStream(_ stream: NetStream?) {
         if let stream: NetStream = stream {
-            stream.mixer.videoIO.context = CIContext(eaglContext: context, options: convertToOptionalCIContextOptionDictionary(GLHKView.defaultOptions))
+            stream.mixer.videoIO.context = CIContext(eaglContext: context, options: GLHKView.defaultOptions)
             stream.lockQueue.async {
                 self.position = stream.mixer.videoIO.position
-                stream.mixer.videoIO.drawable = self
+                stream.mixer.videoIO.renderer = self
                 stream.mixer.startRunning()
             }
         }
@@ -68,23 +71,4 @@ extension GLHKView: GLKViewDelegate {
     }
 }
 
-extension GLHKView: NetStreamDrawable {
-    // MARK: NetStreamDrawable
-    func draw(image: CIImage) {
-        DispatchQueue.main.async {
-            self.displayImage = image
-            self.setNeedsDisplay()
-        }
-    }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-private func convertFromCIContextOption(_ input: CIContextOption) -> String {
-	return input.rawValue
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-private func convertToOptionalCIContextOptionDictionary(_ input: [String: Any]?) -> [CIContextOption: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (CIContextOption(rawValue: key), value) })
-}
+#endif

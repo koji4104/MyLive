@@ -16,3 +16,10 @@ public struct SoundTransform {
         playerNode?.pan = pan
     }
 }
+
+extension SoundTransform: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    public var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
+    }
+}

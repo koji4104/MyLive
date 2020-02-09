@@ -1,17 +1,21 @@
 import CoreMedia
 
 extension CMSampleBuffer {
-    var dependsOnOthers: Bool {
-        guard
-            let attachments = CMSampleBufferGetSampleAttachmentsArray(self, createIfNecessary: false) else {
-                return false
+    var isNotSync: Bool {
+        get {
+            getAttachmentValue(for: kCMSampleAttachmentKey_NotSync) ?? false
         }
-        let attachment: [NSObject: AnyObject] = unsafeBitCast(CFArrayGetValueAtIndex(attachments, 0), to: CFDictionary.self) as [NSObject: AnyObject]
-        return attachment["DependsOnOthers" as NSObject] as! Bool
+        set {
+            setAttachmentValue(for: kCMSampleAttachmentKey_NotSync, value: newValue)
+        }
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var dataBuffer: CMBlockBuffer? {
         get {
-            return CMSampleBufferGetDataBuffer(self)
+            CMSampleBufferGetDataBuffer(self)
         }
         set {
             _ = newValue.map {
@@ -19,22 +23,71 @@ extension CMSampleBuffer {
             }
         }
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var imageBuffer: CVImageBuffer? {
-        return CMSampleBufferGetImageBuffer(self)
+        CMSampleBufferGetImageBuffer(self)
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var numSamples: CMItemCount {
-        return CMSampleBufferGetNumSamples(self)
+        CMSampleBufferGetNumSamples(self)
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var duration: CMTime {
-        return CMSampleBufferGetDuration(self)
+        CMSampleBufferGetDuration(self)
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var formatDescription: CMFormatDescription? {
-        return CMSampleBufferGetFormatDescription(self)
+        CMSampleBufferGetFormatDescription(self)
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var decodeTimeStamp: CMTime {
-        return CMSampleBufferGetDecodeTimeStamp(self)
+        CMSampleBufferGetDecodeTimeStamp(self)
     }
+
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var presentationTimeStamp: CMTime {
-        return CMSampleBufferGetPresentationTimeStamp(self)
+        CMSampleBufferGetPresentationTimeStamp(self)
+    }
+
+    // swiftlint:disable discouraged_optional_boolean
+    @inline(__always)
+    private func getAttachmentValue(for key: CFString) -> Bool? {
+        guard
+            let attachments = CMSampleBufferGetSampleAttachmentsArray(self, createIfNecessary: false) as? [[CFString: Any]],
+            let value = attachments.first?[key] as? Bool else {
+            return nil
+        }
+        return value
+    }
+
+    @inline(__always)
+    private func setAttachmentValue(for key: CFString, value: Bool) {
+        guard
+            let attachments: CFArray = CMSampleBufferGetSampleAttachmentsArray(self, createIfNecessary: true), 0 < CFArrayGetCount(attachments) else {
+            return
+        }
+        let attachment = unsafeBitCast(CFArrayGetValueAtIndex(attachments, 0), to: CFMutableDictionary.self)
+        CFDictionarySetValue(
+            attachment,
+            Unmanaged.passUnretained(key).toOpaque(),
+            Unmanaged.passUnretained(value ? kCFBooleanTrue : kCFBooleanFalse).toOpaque()
+        )
     }
 }

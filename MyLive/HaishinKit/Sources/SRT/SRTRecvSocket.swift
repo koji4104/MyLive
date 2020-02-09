@@ -127,7 +127,7 @@ extension SRTRecvSocket: TSReader2Delegate {
         } else {
             olddts += framesec
         }
-         
+        
         var timing = CMSampleTimingInfo(
             duration: CMTimeMake(value: Int64(framesec), timescale: 1000),
             presentationTimeStamp: CMTimeMake(value: Int64(pts), timescale: 1000),

@@ -1,8 +1,11 @@
 import CoreMedia
 
 extension CMBlockBuffer {
+    @available(iOS, obsoleted: 13.0)
+    @available(tvOS, obsoleted: 13.0)
+    @available(macOS, obsoleted: 10.15)
     var dataLength: Int {
-        return CMBlockBufferGetDataLength(self)
+        CMBlockBufferGetDataLength(self)
     }
 
     var data: Data? {

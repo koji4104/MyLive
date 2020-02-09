@@ -1,10 +1,17 @@
 import Foundation
 
-protocol HTTPResponseCompatible {
+protocol HTTPResponseCompatible: CustomDebugStringConvertible {
     var version: String { get set }
     var statusCode: String { get set }
     var headerFields: [String: String] { get set }
     var body: Data? { get set }
+}
+
+extension HTTPResponseCompatible {
+    // MARK: CustomDebugStringConvertible
+    public var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
+    }
 }
 
 extension HTTPResponseCompatible {
@@ -61,7 +68,7 @@ public struct HTTPResponse: HTTPResponseCompatible, ExpressibleByDictionaryLiter
 
     public var version: String = HTTPVersion.version11.rawValue
     public var statusCode: String = ""
-    public var headerFields: [String: String] = [: ]
+    public var headerFields: [String: String] = [:]
     public var body: Data?
 
     public init(dictionaryLiteral elements: (Key, Value)...) {

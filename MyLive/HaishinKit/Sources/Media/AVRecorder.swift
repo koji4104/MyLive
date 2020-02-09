@@ -13,7 +13,6 @@ public protocol AVRecorderDelegate: class {
 
 // MARK: -
 open class AVRecorder: NSObject {
-
     public static let defaultOutputSettings: [AVMediaType: [String: Any]] = [
         .audio: [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -34,7 +33,7 @@ open class AVRecorder: NSObject {
     open var outputSettings: [AVMediaType: [String: Any]] = AVRecorder.defaultOutputSettings
     open var pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor?
     public let lockQueue = DispatchQueue(label: "com.haishinkit.HaishinKit.AVRecorder.lock")
-    public private(set) var isRunning: Bool = false
+    public private(set) var isRunning: Atomic<Bool> = .init(false)
     fileprivate(set) var sourceTime = CMTime.zero
 
     var isReadyForStartWriting: Bool {
@@ -46,7 +45,7 @@ open class AVRecorder: NSObject {
 
     final func appendSampleBuffer(_ sampleBuffer: CMSampleBuffer, mediaType: AVMediaType) {
         lockQueue.async {
-            guard let delegate: AVRecorderDelegate = self.delegate, self.isRunning else {
+            guard let delegate: AVRecorderDelegate = self.delegate, self.isRunning.value else {
                 return
             }
 
@@ -75,12 +74,11 @@ open class AVRecorder: NSObject {
 
     final func appendPixelBuffer(_ pixelBuffer: CVPixelBuffer, withPresentationTime: CMTime) {
         lockQueue.async {
-            guard let delegate: AVRecorderDelegate = self.delegate, self.isRunning else {
+            guard let delegate: AVRecorderDelegate = self.delegate, self.isRunning.value else {
                 return
             }
-            
+
             delegate.rotateFile(self, withPresentationTimeStamp: withPresentationTime, mediaType: .video)
-            
             guard
                 let writer = self.writer,
                 let input = delegate.getWriterInput(self, mediaType: .video, sourceFormatHint: CMVideoFormatDescription.create(pixelBuffer: pixelBuffer)),
@@ -88,7 +86,7 @@ open class AVRecorder: NSObject {
                 self.isReadyForStartWriting else {
                 return
             }
-         
+
             switch writer.status {
             case .unknown:
                 writer.startWriting()
@@ -123,21 +121,21 @@ extension AVRecorder: Running {
     // MARK: Running
     public func startRunning() {
         lockQueue.async {
-            guard !self.isRunning else {
+            guard !self.isRunning.value else {
                 return
             }
-            self.isRunning = true
+            self.isRunning.mutate { $0 = true }
             self.delegate?.didStartRunning(self)
         }
     }
 
     public func stopRunning() {
         lockQueue.async {
-            guard self.isRunning else {
+            guard self.isRunning.value else {
                 return
             }
             self.finishWriting()
-            self.isRunning = false
+            self.isRunning.mutate { $0 = false }
             self.delegate?.didStopRunning(self)
         }
     }
@@ -145,6 +143,29 @@ extension AVRecorder: Running {
 
 // MARK: -
 open class DefaultAVRecorderDelegate: NSObject {
+    public enum FileType {
+        case mp4
+        case mov
+
+        public var AVFileType: AVFileType {
+            switch self {
+            case .mp4:
+                return .mp4
+            case .mov:
+                return .mov
+            }
+        }
+
+        public var fileExtension: String {
+            switch self {
+            case .mp4:
+                return ".mp4"
+            case .mov:
+                return ".mov"
+            }
+        }
+    }
+
     public static let shared = DefaultAVRecorderDelegate()
 
     open var duration: Int64 = 0
@@ -152,6 +173,7 @@ open class DefaultAVRecorderDelegate: NSObject {
 
     private var rotateTime = CMTime.zero
     private var clockReference: AVMediaType = .video
+    public private(set) var fileType: FileType
 
     #if os(iOS)
     open lazy var moviesDirectory: URL = {
@@ -162,6 +184,11 @@ open class DefaultAVRecorderDelegate: NSObject {
         URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.moviesDirectory, .userDomainMask, true)[0])
     }()
     #endif
+
+    public init(fileType: FileType = .mp4)
+    {
+        self.fileType = fileType
+    }
 }
 
 @objc
@@ -195,7 +222,7 @@ extension DefaultAVRecorderDelegate: AVRecorderDelegate {
         guard let writerInput: AVAssetWriterInput = withWriterInput else {
             return nil
         }
-        let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput, sourcePixelBufferAttributes: [: ])
+        let adaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: writerInput, sourcePixelBufferAttributes: [:])
         recorder.pixelBufferAdaptor = adaptor
         return adaptor
     }
@@ -205,7 +232,7 @@ extension DefaultAVRecorderDelegate: AVRecorderDelegate {
             return recorder.writerInputs[mediaType]
         }
 
-        var outputSettings: [String: Any] = [: ]
+        var outputSettings: [String: Any] = [:]
         if let defaultOutputSettings: [String: Any] = recorder.outputSettings[mediaType] {
             switch mediaType {
             case .audio:
@@ -273,9 +300,9 @@ extension DefaultAVRecorderDelegate: AVRecorderDelegate {
                 }
                 fileComponent = fileName + dateFormatter.string(from: Date())
             }
-            let url: URL = moviesDirectory.appendingPathComponent((fileComponent ?? UUID().uuidString) + ".mp4")
+            let url: URL = moviesDirectory.appendingPathComponent((fileComponent ?? UUID().uuidString) + fileType.fileExtension)
             logger.info("\(url)")
-            return try AVAssetWriter(outputURL: url, fileType: .mp4)
+            return try AVAssetWriter(outputURL: url, fileType: fileType.AVFileType)
         } catch {
             logger.warn("create an AVAssetWriter")
         }

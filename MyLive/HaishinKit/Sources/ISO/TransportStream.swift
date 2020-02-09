@@ -89,15 +89,15 @@ extension TSPacket: DataConvertible {
         set {
             let buffer = ByteArray(data: newValue)
             do {
-                var data: Data = try buffer.readBytes(4)
+                let data: Data = try buffer.readBytes(4)
                 syncByte = data[0]
-                transportErrorIndicator = data[1] & 0x80 == 0x80
-                payloadUnitStartIndicator = data[1] & 0x40 == 0x40
-                transportPriority = data[1] & 0x20 == 0x20
+                transportErrorIndicator = (data[1] & 0x80) == 0x80
+                payloadUnitStartIndicator = (data[1] & 0x40) == 0x40
+                transportPriority = (data[1] & 0x20) == 0x20
                 PID = UInt16(data[1] & 0x1f) << 8 | UInt16(data[2])
                 scramblingControl = UInt8(data[3] & 0xc0)
-                adaptationFieldFlag = data[3] & 0x20 == 0x20
-                payloadFlag = data[3] & 0x10 == 0x10
+                adaptationFieldFlag = (data[3] & 0x20) == 0x20
+                payloadFlag = (data[3] & 0x10) == 0x10
                 continuityCounter = UInt8(data[3] & 0xf)
                 if adaptationFieldFlag {
                     let length = Int(try buffer.readUInt8())
@@ -151,7 +151,7 @@ struct TSProgramClockReference {
         b |= UInt64(data[1]) << 17
         b |= UInt64(data[2]) << 9
         b |= UInt64(data[3]) << 1
-        b |= (data[4] & 0x80 == 0x80) ? 1 : 0
+        b |= ((data[4] & 0x80) == 0x80) ? 1 : 0
         e |= UInt16(data[4] & 0x01) << 8
         e |= UInt16(data[5])
         return (b, e)
@@ -164,7 +164,7 @@ struct TSProgramClockReference {
         data[2] = UInt8(truncatingIfNeeded: b >> 9)
         data[3] = UInt8(truncatingIfNeeded: b >> 1)
         data[4] = 0xff
-        if b & 1 == 1 {
+        if (b & 1) == 1 {
             data[4] |= 0x80
         } else {
             data[4] &= 0x7f
@@ -176,6 +176,13 @@ struct TSProgramClockReference {
         }
         data[5] = UInt8(truncatingIfNeeded: e)
         return data
+    }
+}
+
+extension TSPacket: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }
 
@@ -264,14 +271,14 @@ extension TSAdaptationField: DataConvertible {
             do {
                 length = try buffer.readUInt8()
                 let byte: UInt8 = try buffer.readUInt8()
-                discontinuityIndicator = byte & 0x80 == 0x80
-                randomAccessIndicator = byte & 0x40 == 0x40
-                elementaryStreamPriorityIndicator = byte & 0x20 == 0x20
-                PCRFlag = byte & 0x10 == 0x10
-                OPCRFlag = byte & 0x08 == 0x08
-                splicingPointFlag = byte & 0x04 == 0x04
-                transportPrivateDataFlag = byte & 0x02 == 0x02
-                adaptationFieldExtensionFlag = byte & 0x01 == 0x01
+                discontinuityIndicator = (byte & 0x80) == 0x80
+                randomAccessIndicator = (byte & 0x40) == 0x40
+                elementaryStreamPriorityIndicator = (byte & 0x20) == 0x20
+                PCRFlag = (byte & 0x10) == 0x10
+                OPCRFlag = (byte & 0x08) == 0x08
+                splicingPointFlag = (byte & 0x04) == 0x04
+                transportPrivateDataFlag = (byte & 0x02) == 0x02
+                adaptationFieldExtensionFlag = (byte & 0x01) == 0x01
                 if PCRFlag {
                     PCR = try buffer.readBytes(TSAdaptationField.PCRSize)
                 }
@@ -290,11 +297,18 @@ extension TSAdaptationField: DataConvertible {
                     buffer.position -= 1
                     adaptationExtension = TSAdaptationExtensionField(data: try buffer.readBytes(length + 1))
                 }
-                stuffingBytes = try buffer.readBytes(buffer.bytesAvailable) 
+                stuffingBytes = try buffer.readBytes(buffer.bytesAvailable)
             } catch {
                 logger.error("\(buffer)")
             }
         }
+    }
+}
+
+extension TSAdaptationField: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }
 
@@ -364,5 +378,12 @@ extension TSAdaptationExtensionField: DataConvertible {
                 logger.error("\(buffer)")
             }
         }
+    }
+}
+
+extension TSAdaptationExtensionField: CustomDebugStringConvertible {
+    // MARK: CustomDebugStringConvertible
+    var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }

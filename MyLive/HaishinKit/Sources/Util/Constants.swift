@@ -1,4 +1,7 @@
 import Logboard
 
-//let logger = Logboard.with(HaishinKitIdentifier)
-let logger = Logboard.with("")
+#if canImport(SwiftPMSupport)
+import SwiftPMSupport
+#endif
+
+let logger = Logboard.with(HaishinKitIdentifier)

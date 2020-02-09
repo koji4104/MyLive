@@ -1,6 +1,11 @@
+#if os(iOS)
+
 import AVFoundation
 import CoreImage
+
+#if os(iOS)
 import UIKit
+#endif
 
 public protocol ScreenCaptureOutputPixelBufferDelegate: class {
     func didSet(size: CGSize)
@@ -31,12 +36,12 @@ open class ScreenCaptureSession: NSObject {
         return attributes
     }
     public weak var delegate: ScreenCaptureOutputPixelBufferDelegate?
-    public internal(set) var isRunning: Bool = false
+    public internal(set) var isRunning: Atomic<Bool> = .init(false)
 
     private var shared: UIApplication?
     private var viewToCapture: UIView?
     public var afterScreenUpdates: Bool = false
-    private var context = CIContext(options: convertToOptionalCIContextOptionDictionary([convertFromCIContextOption(CIContextOption.useSoftwareRenderer): NSNumber(value: false)]))
+    private var context = CIContext(options: [.useSoftwareRenderer: NSNumber(value: false)])
     private let semaphore = DispatchSemaphore(value: 1)
     private let lockQueue = DispatchQueue(
         label: "com.haishinkit.HaishinKit.ScreenCaptureSession.lock", qos: .userInteractive, attributes: []
@@ -54,7 +59,7 @@ open class ScreenCaptureSession: NSObject {
         }
     }
     private var scale: CGFloat {
-        return enabledScale ? UIScreen.main.scale : 1.0
+        enabledScale ? UIScreen.main.scale : 1.0
     }
 
     private var _pixelBufferPool: CVPixelBufferPool?
@@ -143,10 +148,10 @@ extension ScreenCaptureSession: Running {
     // MARK: Running
     public func startRunning() {
         lockQueue.sync {
-            guard !self.isRunning else {
+            guard !self.isRunning.value else {
                 return
             }
-            self.isRunning = true
+            self.isRunning.mutate { $0 = true }
             self.pixelBufferPool = nil
             self.colorSpace = CGColorSpaceCreateDeviceRGB()
             self.displayLink = CADisplayLink(target: self, selector: #selector(onScreen))
@@ -157,25 +162,16 @@ extension ScreenCaptureSession: Running {
 
     public func stopRunning() {
         lockQueue.sync {
-            guard self.isRunning else {
+            guard self.isRunning.value else {
                 return
             }
             self.displayLink.remove(from: .main, forMode: RunLoop.Mode.common)
             self.displayLink.invalidate()
             self.colorSpace = nil
             self.displayLink = nil
-            self.isRunning = false
+            self.isRunning.mutate { $0 = false }
         }
     }
 }
 
-// Helper function inserted by Swift 4.2 migrator.
-private func convertToOptionalCIContextOptionDictionary(_ input: [String: Any]?) -> [CIContextOption: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (CIContextOption(rawValue: key), value) })
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-private func convertFromCIContextOption(_ input: CIContextOption) -> String {
-	return input.rawValue
-}
+#endif

@@ -1,3 +1,5 @@
+import Foundation
+
 public enum FLVTagType: UInt8 {
     case audio = 8
     case video = 9
@@ -25,7 +27,7 @@ public enum FLVTagType: UInt8 {
 }
 
 // MARK: -
-public protocol FLVTag {
+public protocol FLVTag: CustomDebugStringConvertible {
     var tagType: FLVTagType { get set }
     var dataSize: UInt32 { get set }
     var timestamp: UInt32 { get set }
@@ -39,7 +41,7 @@ public protocol FLVTag {
 
 extension FLVTag {
     var headerSize: Int {
-        return tagType.headerSize
+        tagType.headerSize
     }
 
     init?(data: Data) {
@@ -55,6 +57,11 @@ extension FLVTag {
         } catch {
             return nil
         }
+    }
+
+    // MARK: CustomDebugStringConvertible
+    public var debugDescription: String {
+        Mirror(reflecting: self).debugDescription
     }
 }
 

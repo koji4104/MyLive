@@ -227,7 +227,8 @@ class SRTSocket {
     }    
 }
 
-extension SRTSocket: Running {
+//extension SRTSocket: Running {
+extension SRTSocket {
     // MARK: Running
     func startRunning() {
         lockQueue.async {
