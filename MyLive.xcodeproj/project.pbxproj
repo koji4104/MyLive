@@ -47,7 +47,6 @@
 		CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */; };
 		CE6469271FD255D300A8FAB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7471661FC9009300F2515D /* Info.plist */; };
 		CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
 		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
@@ -150,7 +149,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EBBFB7A22079F86C00D71E70 /* Logboard.framework in Copy Files */,
-				CE70DD3A1FF13AB9000D45AC /* Eureka.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
