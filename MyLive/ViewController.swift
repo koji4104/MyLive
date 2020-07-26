@@ -6,7 +6,7 @@ import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = true // テストソース
+    let test:Bool = false // テストソース
     let recv:Bool = false
     let record:Bool = false
         

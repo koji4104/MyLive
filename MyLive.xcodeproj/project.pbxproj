@@ -13,6 +13,8 @@
 		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
 		4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */; };
 		4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */; };
+		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
+		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4ABEBBE423E54E9100679983 /* Mirror+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */; };
 		4ABEBBE823E54F4200679983 /* VTSessionPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE523E54F4200679983 /* VTSessionPropertyKey.swift */; };
 		4ABEBBE923E54F4200679983 /* AudioConverter.Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE623E54F4200679983 /* AudioConverter.Destination.swift */; };
@@ -46,7 +48,6 @@
 		CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */; };
 		CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */; };
 		CE6469271FD255D300A8FAB8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE7471661FC9009300F2515D /* Info.plist */; };
-		CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
 		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
@@ -149,6 +150,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EBBFB7A22079F86C00D71E70 /* Logboard.framework in Copy Files */,
+				4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,10 +327,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */,
+				4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */,
 				4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */,
 				4A04C3AC22A6C11000CA624A /* libsrt-iOS.a in Frameworks */,
 				EBBFB7A12079DF0400D71E70 /* Logboard.framework in Frameworks */,
-				CE70DD371FEE659D000D45AC /* Eureka.framework in Frameworks */,
 				CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */,
 				CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */,
 				CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */,
@@ -921,7 +923,7 @@
 		CE74717D1FC9009300F2515D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -981,7 +983,7 @@
 		CE74717E1FC9009300F2515D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
