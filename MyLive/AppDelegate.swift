@@ -2,9 +2,9 @@
 
 import AVFoundation
 //import HaishinKit
-import Logboard
+import Logboard 
 import UIKit
-import XCGLogger
+//import XCGLogger
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
