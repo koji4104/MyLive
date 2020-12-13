@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,8 @@
 		4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */; };
 		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
 		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4A8DD2DE25861F9400E82B64 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4A8DD2DD25861F9400E82B64 /* HaishinKit */; };
+		4A8DD2DF25861F9400E82B64 /* HaishinKit in Copy Files */ = {isa = PBXBuildFile; productRef = 4A8DD2DD25861F9400E82B64 /* HaishinKit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4ABEBBE423E54E9100679983 /* Mirror+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */; };
 		4ABEBBE823E54F4200679983 /* VTSessionPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE523E54F4200679983 /* VTSessionPropertyKey.swift */; };
 		4ABEBBE923E54F4200679983 /* AudioConverter.Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE623E54F4200679983 /* AudioConverter.Destination.swift */; };
@@ -150,6 +152,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EBBFB7A22079F86C00D71E70 /* Logboard.framework in Copy Files */,
+				4A8DD2DF25861F9400E82B64 /* HaishinKit in Copy Files */,
 				4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */,
 			);
 			name = "Copy Files";
@@ -336,6 +339,7 @@
 				CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */,
 				CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */,
 				CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */,
+				4A8DD2DE25861F9400E82B64 /* HaishinKit in Frameworks */,
 				CE747BD91FC94A3B00F2515D /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,6 +699,9 @@
 			dependencies = (
 			);
 			name = MyLive;
+			packageProductDependencies = (
+				4A8DD2DD25861F9400E82B64 /* HaishinKit */,
+			);
 			productName = MyLive;
 			productReference = CE7471571FC9009300F2515D /* MyLive.app */;
 			productType = "com.apple.product-type.application";
@@ -725,6 +732,9 @@
 				ja,
 			);
 			mainGroup = CE74714E1FC9009300F2515D;
+			packageReferences = (
+				4A8DD2DC25861F9400E82B64 /* XCRemoteSwiftPackageReference "HaishinKit" */,
+			);
 			productRefGroup = CE7471581FC9009300F2515D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1051,7 +1061,10 @@
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
@@ -1087,7 +1100,10 @@
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
@@ -1128,6 +1144,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A8DD2DC25861F9400E82B64 /* XCRemoteSwiftPackageReference "HaishinKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shogo4405/HaishinKit.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4A8DD2DD25861F9400E82B64 /* HaishinKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A8DD2DC25861F9400E82B64 /* XCRemoteSwiftPackageReference "HaishinKit" */;
+			productName = HaishinKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE74714F1FC9009300F2515D /* Project object */;
 }
