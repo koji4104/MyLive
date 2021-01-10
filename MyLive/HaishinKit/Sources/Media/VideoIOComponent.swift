@@ -436,7 +436,7 @@ final class VideoIOComponent: IOComponent {
     }
     
     // Koji4104
-    public var ex:VideoIOComponentEx = VideoIOComponentEx()    
+    //public var ex:VideoIOComponentEx = VideoIOComponentEx()
 }
 
 extension VideoIOComponent {
@@ -455,9 +455,10 @@ extension VideoIOComponent {
 extension VideoIOComponent: AVCaptureVideoDataOutputSampleBufferDelegate {
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        //appendSampleBuffer(sampleBuffer)
+        appendSampleBuffer(sampleBuffer)
+        
         // Koji4104
-        appendSampleBufferEx(sampleBuffer)
+        //appendSampleBufferEx(sampleBuffer)
     }
 }
 

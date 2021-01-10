@@ -1,4 +1,5 @@
 import HaishinKit
+import HaishinKit1
 import Foundation
 import AVFoundation
 

@@ -1,5 +1,8 @@
 import Foundation
+
+import HaishinKit1
 import HaishinKit
+//import Logboard 2021-01
 
 protocol SRTSocketDelegate: class {
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS)
@@ -91,7 +94,10 @@ class SRTSocket {
 
     func configure(_ binding: SRTSocketOption.Binding, _ sock: SRTSOCKET) -> Bool {
         let failures = SRTSocketOption.configure(sock, binding: binding, options: options)
-        guard failures.isEmpty else { logger.error(failures); return false }
+        
+        //guard failures.isEmpty else { logger.error(failures); return false } 2021-01
+        guard failures.isEmpty else { return false }
+        
         return true
     }
 
@@ -132,13 +138,13 @@ class SRTSocket {
             return srt_bind(bindSocket, psa, Int32(MemoryLayout.size(ofValue: addr)))
         }
         if stat == SRT_ERROR {
-            logger.error("srt_bind SRT_ERROR")
+            //logger.error("srt_bind SRT_ERROR")
             return
         }
         stat = srt_listen(bindSocket, 1)
         if stat == SRT_ERROR {
             srt_close(bindSocket)
-            logger.error("srt_listen SRT_ERROR")
+            //logger.error("srt_listen SRT_ERROR")
             return
         }
 
@@ -152,7 +158,7 @@ class SRTSocket {
             usleep(200 * 1000)
              
             if bindSocket == SRT_INVALID_SOCK && socket == SRT_INVALID_SOCK {
-                logger.info("listening break")
+                //logger.info("listening break")
                 break
             }
 
@@ -205,13 +211,13 @@ class SRTSocket {
                         if self.status == SRTS_CONNECTED {
                             srt_epoll_remove_usock(pollid, s)
                             doabort = true
-                            logger.info("SRTS_BROKEN SRTS_CLOSED")
+                            //logger.info("SRTS_BROKEN SRTS_CLOSED")
                         }
                         
                     case SRTS_CONNECTED:
                         if self.status != SRTS_CONNECTED {
                             startRunning()
-                            logger.info("SRTS_CONNECTED")
+                            //logger.info("SRTS_CONNECTED")
                         }
 
                     default:

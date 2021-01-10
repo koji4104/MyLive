@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit
+import HaishinKit1
 
 final class SRTSendSocket: SRTSocket {
     static let payloadSize: Int = 1316

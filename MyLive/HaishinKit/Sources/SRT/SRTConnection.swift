@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit
+import HaishinKit1
 
 open class SRTConnection: NSObject {
     /// SRT Library version
@@ -64,9 +64,10 @@ open class SRTConnection: NSObject {
         recvSocket?.stream?.mixer.stopEncoding()
         //recvSocket?.mixer.startPlaying(srtConnection.audioEngine)
         recvSocket?.stream?.mixer.startRunning()
-        recvSocket?.stream?.mixer.videoIO.queue.startRunning()
         
-        recvSocket?.call(addr, options: options)
+        //2020-12 Comment Package Depend HaishinKit
+        //recvSocket?.stream?.mixer.videoIO.queue.startRunning()
+        //recvSocket?.call(addr, options: options)
     }
     
     public func close() {

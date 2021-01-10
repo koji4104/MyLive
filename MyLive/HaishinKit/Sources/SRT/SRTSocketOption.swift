@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit
+import HaishinKit1
 
 private let enummapTranstype: [String: Any] = [
     "live": SRTT_LIVE,

@@ -3,6 +3,8 @@ import AVFoundation
 import Photos
 import VideoToolbox //def kVTProfileLevel_H264_High_3_1
 
+import HaishinKit //2020-12
+
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
@@ -21,7 +23,8 @@ class ViewController: UIViewController {
 
     var netStream:NetStream!
     
-    @IBOutlet weak var myView: GLHKView!
+    @IBOutlet weak var myView: MTHKView!
+    
     
     @IBOutlet weak var segBps:UISegmentedControl!
     @IBOutlet weak var segFps:UISegmentedControl!
@@ -32,7 +35,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnTurn:RoundRectButton!
     @IBOutlet weak var btnOption:RoundRectButton!
     @IBOutlet weak var btnAudio:RoundRectButton!
-    @IBOutlet weak var btnFace:RoundRectButton!
+    //@IBOutlet weak var btnFace:RoundRectButton!
     @IBOutlet weak var btnRotLock: RoundRectButton!
     
     var timer:Timer!
@@ -56,7 +59,7 @@ class ViewController: UIViewController {
     
     /// 画面表示
     override func viewWillAppear(_ animated: Bool) {
-        logger.info("viewWillAppear")
+        //logger.info("viewWillAppear")
         super.viewWillAppear(animated)
 
         initControl()
@@ -70,7 +73,7 @@ class ViewController: UIViewController {
     
     /// 画面消去
     override func viewWillDisappear(_ animated: Bool) {
-        logger.info("viewWillDisappear")
+        //logger.info("viewWillDisappear")
         super.viewWillDisappear(animated)
         
         closeStream()
@@ -86,7 +89,7 @@ class ViewController: UIViewController {
         let env = Environment()
         if (record == true) {
             self.netStream = NetStream()
-        }else if (env.isRtmp()) {
+        } else if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
         } else if (env.isSrt()) {
@@ -110,8 +113,8 @@ class ViewController: UIViewController {
         
         currentStream.captureSettings = [
             .sessionPreset: preset,
-            .continuousAutofocus: true,
-            .continuousExposure: true,
+            //.continuousAutofocus: true, 2021-01
+            //.continuousExposure: true, 2021-01
             .fps: env.videoFramerate, // def=30
         ]
 
@@ -133,11 +136,11 @@ class ViewController: UIViewController {
         
         let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
         currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
-            logger.warn(error.description)
+            //logger.warn(error.description)
         }
         currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
             automaticallyConfiguresApplicationAudioSession: true) { error in
-            logger.warn(error.description)
+            //logger.warn(error.description)
         }
         
         setOrientation()
@@ -175,9 +178,9 @@ class ViewController: UIViewController {
             currentStream.mixer.recorder.delegate = ExampleRecorderDelegate.default
         }
         
-        if test || recv {
-            currentStream.mixer.videoIO.ex.test = true
-        }
+        //if test || recv {
+        //    currentStream.mixer.videoIO.ex.test = true
+        //}
         
         switch env.videoBitrate {
         case  250: segBps.selectedSegmentIndex = 0
@@ -359,8 +362,10 @@ class ViewController: UIViewController {
                     srtStream.mixer.stopEncoding()
                     //stream?.mixer.startPlaying(rtmpConnection.audioEngine)
                     srtStream.mixer.startRunning()
-                    srtStream.mixer.videoIO.queue.startRunning()
-
+                    
+                    //2020-12
+                    //srtStream.mixer.videoIO.queue.startRunning()
+                    
                     srtConnection.play(URL(string: env.getUrl()))
                 }
             } else {
@@ -487,9 +492,10 @@ class ViewController: UIViewController {
             }
         } else if env.isRtmp() {
             titleRps.text = "RTMP"
-            if rtmpStream != nil {
-                state = "\(rtmpStream.readyState)"
-            }
+            //2020-12
+            //if rtmpStream != nil {
+            //    state = "\(rtmpStream.readyState)"
+            //}
         } else if env.isSrt() {
             titleRps.text = "SRT"
             if srtStream != nil && srtStream.readyState == .publishing {
@@ -525,7 +531,7 @@ class ViewController: UIViewController {
         if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
             labelFps.text = "\(rtmpStream.currentFPS)"
         } else {
-            labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
+            //labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
         }
         
         // CPU
@@ -571,20 +577,26 @@ class ViewController: UIViewController {
             
             let pxTestBuffer:CVPixelBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
             
-            currentStream.mixer.videoIO.encoder.encodeImageBuffer(
-                pxTestBuffer,
-                presentationTimeStamp: pts,
-                duration: CMTimeMake(value: 0, timescale: 0))
+            //2020-12
+            //currentStream.mixer.videoIO.encoder.encodeImageBuffer(
+            //    pxTestBuffer,
+            //    presentationTimeStamp: pts,
+            //    duration: CMTimeMake(value: 0, timescale: 0))
             
+            //Debug
             //let sampleBuffer = makeSampleBuffer(from: pxTestBuffer, at: pts)!
             //currentStream.mixer.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
 
-            currentStream.mixer.recorder.appendPixelBuffer(pxTestBuffer, withPresentationTime: pts)
+            //2020-12
+            //currentStream.mixer.recorder.appendPixelBuffer(pxTestBuffer, withPresentationTime: pts)
         }
         if currentStream != nil {
-            currentStream.mixer.videoIO.ex.test = true
+            //Debug
+            //currentStream.mixer.videoIO.ex.test = true
             //currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
-            currentStream.mixer.videoIO.renderer?.render(image: ciTestImage)
+            
+            //2020-12
+            //currentStream.mixer.videoIO.renderer?.render(image: ciTestImage)
         }
     }
 
@@ -671,7 +683,7 @@ class ViewController: UIViewController {
         env.cameraPosition = (env.cameraPosition==0) ? 1 : 0
         let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front 
         currentStream.attachCamera(DeviceUtil.device(withPosition: pos)) { error in
-            logger.warn(error.description)
+            //logger.warn(error.description)
         }
     }
     
@@ -692,6 +704,7 @@ class ViewController: UIViewController {
     }
     
     /// 顔
+    /*
     @IBAction func faceTouchUpInside(_ sender: UIButton) {
         if currentStream.mixer.videoIO.ex.detectType == .none {
             currentStream.mixer.videoIO.ex.detectType = .detectFace
@@ -701,6 +714,7 @@ class ViewController: UIViewController {
             btnFace.setSwitch(false)
         }
     }
+    */
     
     var labelCpu:ValueLabel = ValueLabel()
     var labelFps:ValueLabel = ValueLabel() 
@@ -738,7 +752,7 @@ class ViewController: UIViewController {
         let bw = btnw + 6
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
         btnAudio.center  = CGPoint(x:btnx+bw*1, y:bottomy)
-        btnFace.center   = CGPoint(x:btnx+bw*2, y:bottomy)
+        //btnFace.center   = CGPoint(x:btnx+bw*2, y:bottomy)
         btnRotLock.center   = CGPoint(x:btnx+bw*3, y:bottomy)
         
         btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
@@ -805,7 +819,7 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(btnOption)
         self.myView.bringSubviewToFront(btnAudio)
         self.myView.bringSubviewToFront(btnPublish)
-        self.myView.bringSubviewToFront(btnFace)
+        //self.myView.bringSubviewToFront(btnFace)
         self.myView.bringSubviewToFront(btnRotLock)
         
         self.myView.bringSubviewToFront(labelBg1)
@@ -836,7 +850,7 @@ class ViewController: UIViewController {
     }
     func optionButton(hidden:Bool) {
         btnAudio.hideLeft(b:hidden)
-        btnFace.hideLeft(b:hidden)
+        //btnFace.hideLeft(b:hidden)
         btnRotLock.hideLeft(b:hidden)
         segBps.hideLeft(b:hidden)
         segFps.hideLeft(b:hidden)

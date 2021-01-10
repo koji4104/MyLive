@@ -1,11 +1,18 @@
 import Foundation
+
+import HaishinKit1
 import HaishinKit
+//import Logboard 2021-01
 
 import AVFoundation
 import CoreFoundation
 import CoreVideo
 import VideoToolbox
 
+class SRTRecvSocket: SRTSocket {
+    var stream: SRTStream?
+}
+/*
 class SRTRecvSocket: SRTSocket {
     private let readQueue: DispatchQueue = DispatchQueue(label:"com.SRTRecvSocket.read")
 
@@ -320,3 +327,4 @@ extension PESOptionalHeader {
         }
     }    
 }
+*/
