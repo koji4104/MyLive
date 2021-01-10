@@ -10,7 +10,6 @@ let sampleRate:Double = 44_100
 class ViewController: UIViewController {
     let test:Bool = false // テストソース
     let recv:Bool = false
-    let record:Bool = false
         
     var httpStream:HTTPStream!
     var httpService:HLSService!
@@ -87,9 +86,7 @@ class ViewController: UIViewController {
     /// コントロール初期値
     public func initControl() {
         let env = Environment()
-        if (record == true) {
-            self.netStream = NetStream()
-        } else if (env.isRtmp()) {
+        if (env.isRtmp()) {
             self.rtmpConnection = RTMPConnection()
             self.rtmpStream = RTMPStream(connection: rtmpConnection)
         } else if (env.isSrt()) {
@@ -145,40 +142,8 @@ class ViewController: UIViewController {
         
         setOrientation()
         myView?.attachStream(currentStream)
-         
-        if (record == true) {
-            if test == true {
-                currentStream.recorderSettings = [
-                    AVMediaType.video: [
-                        AVVideoCodecKey: AVVideoCodecType.h264,
-                        AVVideoHeightKey: 0,
-                        AVVideoWidthKey: 0,
-                    ]
-                ]
-            } else {
-                currentStream.recorderSettings = [
-                    AVMediaType.audio: [
-                        AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-                        AVSampleRateKey: 0,
-                        AVNumberOfChannelsKey: 0,
-                        // AVEncoderBitRateKey: 128000,
-                    ],
-                    AVMediaType.video: [
-                        AVVideoCodecKey: AVVideoCodecType.h264,
-                        AVVideoHeightKey: 0,
-                        AVVideoWidthKey: 0,
-                        //AVVideoCompressionPropertiesKey: [
-                        //    AVVideoMaxKeyFrameIntervalDurationKey: 2,
-                        //    AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline30,
-                        //    AVVideoAverageBitRateKey: 512000
-                        //]
-                    ],
-                ]
-            }
-            currentStream.mixer.recorder.delegate = ExampleRecorderDelegate.default
-        }
         
-        //if test || recv {
+        //if test {
         //    currentStream.mixer.videoIO.ex.test = true
         //}
         
@@ -243,9 +208,7 @@ class ViewController: UIViewController {
     var currentStream: NetStream! {
         get {
             let env = Environment()
-            if (record == true) {
-                return netStream
-            } else if (env.isRtmp()) {
+            if (env.isRtmp()) {
                 return rtmpStream
             } else if (env.isSrt()) {
                 return srtStream
@@ -306,14 +269,7 @@ class ViewController: UIViewController {
         
     func changePublish(_ publish: Bool) {
         let env = Environment()
-        if record == true && netStream != nil {
-            if publish == true {
-                netStream.mixer.recorder.fileName = "mylive"
-                netStream.mixer.recorder.startRunning()
-            } else {
-                netStream.mixer.recorder.stopRunning()
-            }
-        } else if env.isHls() && httpStream != nil {
+        if env.isHls() && httpStream != nil {
             if publish == true {
                 httpStream.publish("my")
                 httpService.startRunning()
@@ -478,13 +434,7 @@ class ViewController: UIViewController {
         
         // 配信方式
         var state:String = ""
-        if record == true {
-            titleRps.text = "REC"
-            labelRps.text = ""
-            if currentStream != nil && currentStream.mixer.recorder.isRunning.value {
-                state = "publishing"
-            }
-        } else if env.isHls() {
+        if env.isHls() {
             titleRps.text = "HLS"
             labelRps.text = ""
             if httpService != nil && httpService.isRunning.value {
