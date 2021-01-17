@@ -2,6 +2,7 @@ import UIKit
 import AVFoundation
 import Vision
 import CoreML
+import HaishinKit
 
 /*
  Sources/Media/VideoIOComponent.swift line 444

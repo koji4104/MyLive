@@ -13,17 +13,12 @@ class ViewController: UIViewController {
         
     var httpStream:HTTPStream!
     var httpService:HLSService!
-
     var rtmpConnection:RTMPConnection!
     var rtmpStream:RTMPStream!
-    
     var srtConnection:SRTConnection!
     var srtStream:SRTStream!
-
-    var netStream:NetStream!
     
     @IBOutlet weak var myView: MTHKView!
-    
     
     @IBOutlet weak var segBps:UISegmentedControl!
     @IBOutlet weak var segFps:UISegmentedControl!
@@ -34,7 +29,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnTurn:RoundRectButton!
     @IBOutlet weak var btnOption:RoundRectButton!
     @IBOutlet weak var btnAudio:RoundRectButton!
-    //@IBOutlet weak var btnFace:RoundRectButton!
     @IBOutlet weak var btnRotLock: RoundRectButton!
     
     var timer:Timer!
@@ -58,11 +52,8 @@ class ViewController: UIViewController {
     
     /// 画面表示
     override func viewWillAppear(_ animated: Bool) {
-        //logger.info("viewWillAppear")
         super.viewWillAppear(animated)
-
         initControl()
-        
         NotificationCenter.default.addObserver(
             self,
             selector:#selector(self.onOrientationChange(_:)),
@@ -72,11 +63,8 @@ class ViewController: UIViewController {
     
     /// 画面消去
     override func viewWillDisappear(_ animated: Bool) {
-        //logger.info("viewWillDisappear")
         super.viewWillDisappear(animated)
-        
         closeStream()
-        
         NotificationCenter.default.removeObserver(
             self,
             name: UIDevice.orientationDidChangeNotification, // swift4.2
@@ -110,8 +98,8 @@ class ViewController: UIViewController {
         
         currentStream.captureSettings = [
             .sessionPreset: preset,
-            //.continuousAutofocus: true, 2021-01
-            //.continuousExposure: true, 2021-01
+            .continuousAutofocus: true,
+            .continuousExposure: true, 
             .fps: env.videoFramerate, // def=30
         ]
 
@@ -185,10 +173,6 @@ class ViewController: UIViewController {
         if timer2.isValid == true { timer2.invalidate() }
         changePublish(false)
 
-        if netStream != nil {
-            netStream.dispose()
-            netStream = nil
-        }
         if rtmpStream != nil {
             rtmpStream.close()
             rtmpStream.dispose()
@@ -281,26 +265,13 @@ class ViewController: UIViewController {
             }
         } else if env.isRtmp() && rtmpStream != nil {
             if publish == true {
-                
-                //rtmpConnection.addEventListener(
-                //    Event.RTMP_STATUS,
-                //    selector:#selector(self.rtmpStatusHandler(_:)),
-                //    observer: self)
-                
                 rtmpConnection.addEventListener(
                     .rtmpStatus,
                     selector:#selector(self.rtmpStatusHandler(_:)),
                     observer: self)
-                
                 rtmpConnection.connect(env.getUrl())
             } else {
                 rtmpConnection.close()
-                
-                //rtmpConnection.removeEventListener(
-                //    Event.RTMP_STATUS,
-                //    selector:#selector(self.rtmpStatusHandler(_:)),
-                //    observer: self)
-            
                 rtmpConnection.removeEventListener(
                     .rtmpStatus,
                     selector:#selector(self.rtmpStatusHandler(_:)),
@@ -415,15 +386,11 @@ class ViewController: UIViewController {
                         }
                         let avg:Int = sum / aryFps.count
                         if (isAutoLow==false && env.videoFramerate-avg >= 5) {
-                            //rtmpStream.videoSettings["bitrate"] = (env.videoBitrate/2) * 1024
                             rtmpStream.videoSettings = [.bitrate: (env.videoBitrate/2) * 1024]
-                                
                             aryFps.removeAll(keepingCapacity: true)
                             isAutoLow = true
                         } else if (isAutoLow==true && env.videoFramerate-avg <= 2) {
-                            //rtmpStream.videoSettings["bitrate"] = (env.videoBitrate) * 1024
                             rtmpStream.videoSettings = [.bitrate: (env.videoBitrate) * 1024]
-                            
                             aryFps.removeAll(keepingCapacity: true)
                             isAutoLow = false
                         }
@@ -436,16 +403,16 @@ class ViewController: UIViewController {
         var state:String = ""
         if env.isHls() {
             titleRps.text = "HLS"
-            labelRps.text = ""
             if httpService != nil && httpService.isRunning.value {
                 state = "publishing"
             }
         } else if env.isRtmp() {
             titleRps.text = "RTMP"
-            //2020-12
-            //if rtmpStream != nil {
-            //    state = "\(rtmpStream.readyState)"
-            //}
+            if rtmpStream != nil {
+                if rtmpConnection.totalStreamsCount>0 {
+                    state = "publishing"
+                }
+            }
         } else if env.isSrt() {
             titleRps.text = "SRT"
             if srtStream != nil && srtStream.readyState == .publishing {
@@ -454,7 +421,13 @@ class ViewController: UIViewController {
                 state = "listening"
             }    
         }
-        labelRps.text = state
+        
+        if env.isRtmp() {
+            labelRps.text = "   " + state + " (\(rtmpConnection.totalStreamsCount))"
+        } else {
+            labelRps.text = state
+        }
+        
         if state == "publishing" {
             changeButtonState(.publishing)
         } else if state == "listening" {
@@ -481,7 +454,7 @@ class ViewController: UIViewController {
         if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
             labelFps.text = "\(rtmpStream.currentFPS)"
         } else {
-            //labelFps.text = "\(currentStream.mixer.videoIO.ex.fps)"
+            labelFps.text = "\(env.videoFramerate)"
         }
         
         // CPU
@@ -562,7 +535,6 @@ class ViewController: UIViewController {
         }
         let env = Environment()
         env.videoFramerate = Int(fps)
-        //currentStream.captureSettings["fps"] = fps
         currentStream.captureSettings = [.fps: fps]
     }
     
@@ -578,7 +550,6 @@ class ViewController: UIViewController {
         }
         let env = Environment()
         env.videoBitrate = bps
-        //currentStream.videoSettings["bitrate"] = bps * 1024
         currentStream.videoSettings = [.bitrate: bps * 1024]
         aryFps.removeAll(keepingCapacity: true)
     }
@@ -597,7 +568,6 @@ class ViewController: UIViewController {
         w = (h/9) * 16
         let env = Environment()
         env.videoHeight = h
-        //currentStream.videoSettings = ["width":w, "height":h]
         currentStream.videoSettings = [.width:w, .height:h]
     }
   
@@ -621,7 +591,6 @@ class ViewController: UIViewController {
     // MARK: Settings
     @IBAction func settingsTouchUpInside(_ sender: UIButton) {
         viewWillDisappear(true)
-        
         let vc: SettingsViewController = SettingsViewController()
         vc.mainView = self
         self.present(vc, animated: true, completion: nil)
@@ -642,7 +611,6 @@ class ViewController: UIViewController {
         let env = Environment()
         env.audioMode = (env.audioMode==1) ? 0 : 1
         let b:Bool = (env.audioMode==1) ? true : false
-        //currentStream.audioSettings = ["muted": !b]
         currentStream.audioSettings = [.muted: !b]
         btnAudio.setSwitch(b)
     }
@@ -703,7 +671,7 @@ class ViewController: UIViewController {
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
         btnAudio.center  = CGPoint(x:btnx+bw*1, y:bottomy)
         //btnFace.center   = CGPoint(x:btnx+bw*2, y:bottomy)
-        btnRotLock.center   = CGPoint(x:btnx+bw*3, y:bottomy)
+        btnRotLock.center   = CGPoint(x:btnx+bw*2, y:bottomy)
         
         btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
         
@@ -734,7 +702,7 @@ class ViewController: UIViewController {
         
         labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
         labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
-        labelRps.center = CGPoint(x:Int(titleRps.center.x)+130, y:ly)
+        labelRps.center = CGPoint(x:Int(titleRps.center.x)+114, y:ly)
         
         let cpux1 = Int(titleCpu.frame.minX + 360/2)
         labelBg1.frame.size = CGSize.init(width:380, height:28)

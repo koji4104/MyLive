@@ -13,8 +13,6 @@
 		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
 		4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */; };
 		4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */; };
-		4A1BBC4025A9C935001F6E49 /* Logboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1BBC3F25A9C935001F6E49 /* Logboard.framework */; };
-		4A1BBC4125A9C948001F6E49 /* Logboard.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 4A1BBC3F25A9C935001F6E49 /* Logboard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
 		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB23BC825AAF9C400BA3D7A /* HaishinKit */; };
@@ -64,7 +62,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4A1BBC4125A9C948001F6E49 /* Logboard.framework in Copy Files */,
 				4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */,
 			);
 			name = "Copy Files";
@@ -106,8 +103,7 @@
 		4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-srt-iOS.sh"; sourceTree = "<group>"; };
 		4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
 		4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Eureka.framework.dSYM; path = Carthage/Build/iOS/Eureka.framework.dSYM; sourceTree = "<group>"; };
-		4A1BBC3F25A9C935001F6E49 /* Logboard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Logboard.framework; path = Carthage/Build/iOS/Logboard.framework; sourceTree = "<group>"; };
-		4AB23BC325AAEF3200BA3D7A /* Logboard.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Logboard.framework.dSYM; path = Carthage/Build/iOS/Logboard.framework.dSYM; sourceTree = "<group>"; };
+		4A719E6925B4224300D2855B /* MyLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLive.entitlements; sourceTree = "<group>"; };
 		4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Extension.swift"; sourceTree = "<group>"; };
 		4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
 		4AF92096229ECDF5001C8E10 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
@@ -158,7 +154,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A1BBC4025A9C935001F6E49 /* Logboard.framework in Frameworks */,
 				4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */,
 				4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */,
 				4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */,
@@ -262,6 +257,7 @@
 		CE7471591FC9009300F2515D /* MyLive */ = {
 			isa = PBXGroup;
 			children = (
+				4A719E6925B4224300D2855B /* MyLive.entitlements */,
 				CEA20C3B204821D50061E7EA /* Doc */,
 				EB05D133206A815700F17E98 /* HaishinKit */,
 				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
@@ -317,8 +313,6 @@
 		CE747BB81FC9275800F2515D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4A1BBC3F25A9C935001F6E49 /* Logboard.framework */,
-				4AB23BC325AAEF3200BA3D7A /* Logboard.framework.dSYM */,
 				CE70DD361FEE659D000D45AC /* Eureka.framework */,
 				4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */,
 				4A04C3AF22A6C1DD00CA624A /* libc++.tbd */,
@@ -652,6 +646,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyLive/MyLive.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.4.0;
@@ -679,6 +674,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/includes/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
@@ -691,6 +687,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MyLive/MyLive.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.4.0;
@@ -718,6 +715,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.twitter.koji4104.itsmylive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/includes/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
