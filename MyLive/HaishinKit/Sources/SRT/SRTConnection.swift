@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit1
+import HaivisionSrt
 
 open class SRTConnection: NSObject {
     /// SRT Library version

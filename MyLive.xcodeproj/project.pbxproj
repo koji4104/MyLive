@@ -16,7 +16,6 @@
 		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
 		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB23BC825AAF9C400BA3D7A /* HaishinKit */; };
-		4ABEBBE423E54E9100679983 /* Mirror+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */; };
 		4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */; };
 		4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92096229ECDF5001C8E10 /* SRTSocket.swift */; };
 		4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */; };
@@ -31,15 +30,7 @@
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
 		CE7471621FC9009300F2515D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7471611FC9009300F2515D /* Assets.xcassets */; };
 		CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7471631FC9009300F2515D /* LaunchScreen.storyboard */; };
-		CE747B651FC9153500F2515D /* CMAudioFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */; };
-		CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */; };
-		CE747B671FC9153500F2515D /* CMFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */; };
-		CE747B681FC9153500F2515D /* CMSampleBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */; };
-		CE747B6A1FC9153500F2515D /* CMVideoFormatDescription+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */; };
-		CE747B6B1FC9153500F2515D /* CVPixelBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */; };
 		CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0B1FC9153500F2515D /* Data+Extension.swift */; };
-		CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */; };
-		CE747B6F1FC9153500F2515D /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0E1FC9153500F2515D /* URL+Extension.swift */; };
 		CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BB91FC9275800F2515D /* Foundation.framework */; };
 		CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */; };
 		CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBD1FC9302100F2515D /* AVFoundation.framework */; };
@@ -104,7 +95,6 @@
 		4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
 		4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Eureka.framework.dSYM; path = Carthage/Build/iOS/Eureka.framework.dSYM; sourceTree = "<group>"; };
 		4A719E6925B4224300D2855B /* MyLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLive.entitlements; sourceTree = "<group>"; };
-		4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mirror+Extension.swift"; sourceTree = "<group>"; };
 		4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
 		4AF92096229ECDF5001C8E10 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
 		4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
@@ -124,15 +114,7 @@
 		CE7471611FC9009300F2515D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7471641FC9009300F2515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE7471661FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMAudioFormatDescription+Extension.swift"; sourceTree = "<group>"; };
-		CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMBlockBuffer+Extension.swift"; sourceTree = "<group>"; };
-		CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMFormatDescription+Extension.swift"; sourceTree = "<group>"; };
-		CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMSampleBuffer+Extension.swift"; sourceTree = "<group>"; };
-		CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CMVideoFormatDescription+Extension.swift"; sourceTree = "<group>"; };
-		CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Extension.swift"; sourceTree = "<group>"; };
 		CE747B0B1FC9153500F2515D /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
-		CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExpressibleByIntegerLiteral+Extension.swift"; sourceTree = "<group>"; };
-		CE747B0E1FC9153500F2515D /* URL+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		CE747BB91FC9275800F2515D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		CE747BBD1FC9302100F2515D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -288,16 +270,7 @@
 		CE747B031FC9153500F2515D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				CE747B041FC9153500F2515D /* CMAudioFormatDescription+Extension.swift */,
-				CE747B051FC9153500F2515D /* CMBlockBuffer+Extension.swift */,
-				CE747B061FC9153500F2515D /* CMFormatDescription+Extension.swift */,
-				CE747B071FC9153500F2515D /* CMSampleBuffer+Extension.swift */,
-				CE747B091FC9153500F2515D /* CMVideoFormatDescription+Extension.swift */,
-				CE747B0A1FC9153500F2515D /* CVPixelBuffer+Extension.swift */,
 				CE747B0B1FC9153500F2515D /* Data+Extension.swift */,
-				CE747B0C1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift */,
-				4ABEBBE323E54E9100679983 /* Mirror+Extension.swift */,
-				CE747B0E1FC9153500F2515D /* URL+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -469,8 +442,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ABEBBE423E54E9100679983 /* Mirror+Extension.swift in Sources */,
-				CE747B6A1FC9153500F2515D /* CMVideoFormatDescription+Extension.swift in Sources */,
 				CE74715D1FC9009300F2515D /* ViewController.swift in Sources */,
 				CE8767D120504445009F9FF8 /* SettingsViewController.swift in Sources */,
 				4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */,
@@ -478,21 +449,14 @@
 				4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */,
 				CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */,
 				CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */,
-				CE747B6B1FC9153500F2515D /* CVPixelBuffer+Extension.swift in Sources */,
-				CE747B6F1FC9153500F2515D /* URL+Extension.swift in Sources */,
-				CE747B681FC9153500F2515D /* CMSampleBuffer+Extension.swift in Sources */,
 				EB297E9320C9E15300511099 /* MyExtension.swift in Sources */,
-				CE747B651FC9153500F2515D /* CMAudioFormatDescription+Extension.swift in Sources */,
 				4AFCA7B0259C944500B3DA28 /* Constants.swift in Sources */,
 				4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */,
 				4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */,
 				CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */,
-				CE747B6D1FC9153500F2515D /* ExpressibleByIntegerLiteral+Extension.swift in Sources */,
 				4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */,
 				CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */,
 				4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */,
-				CE747B671FC9153500F2515D /* CMFormatDescription+Extension.swift in Sources */,
-				CE747B661FC9153500F2515D /* CMBlockBuffer+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

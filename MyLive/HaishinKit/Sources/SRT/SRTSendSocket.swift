@@ -1,5 +1,5 @@
 import Foundation
-import HaishinKit1
+import HaivisionSrt
 
 final class SRTSendSocket: SRTSocket {
     static let payloadSize: Int = 1316
