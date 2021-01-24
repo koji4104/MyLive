@@ -471,6 +471,7 @@ class ViewController: UIViewController {
         if test == false {
             return
         }
+        /*
         let tw = 960
         let th = 540
         if isTestCreated == false {
@@ -521,6 +522,7 @@ class ViewController: UIViewController {
             //2020-12
             //currentStream.mixer.videoIO.renderer?.render(image: ciTestImage)
         }
+        */
     }
 
     /// フレームレート
@@ -936,6 +938,7 @@ class MySegmentedControl: UISegmentedControl {
 //------------------------------------------------------------
 // Recorder
 //------------------------------------------------------------
+/*
 final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
     static let `default` = ExampleRecorderDelegate()
     static let albumName = "MyLive"
@@ -986,3 +989,4 @@ final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
         return findAlbumResult.firstObject
     }    
 }
+*/

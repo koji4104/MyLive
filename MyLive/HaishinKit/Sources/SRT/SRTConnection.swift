@@ -51,6 +51,7 @@ open class SRTConnection: NSObject {
     }
 
     public func play(_ uri: URL?) {  
+        /*
         guard let uri = uri, let scheme = uri.scheme, let host = uri.host, let port = uri.port, scheme == "srt" else { return }
         
         self.uri = uri
@@ -68,6 +69,7 @@ open class SRTConnection: NSObject {
         //2020-12 Comment Package Depend HaishinKit
         //recvSocket?.stream?.mixer.videoIO.queue.startRunning()
         //recvSocket?.call(addr, options: options)
+        */
     }
     
     public func close() {

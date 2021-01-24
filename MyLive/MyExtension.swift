@@ -59,8 +59,7 @@ extension CGPoint {
 }
 
 extension ViewController {
-    func makeSampleBuffer(from pixelBuffer: CVPixelBuffer, at frameTime: CMTime) -> CMSampleBuffer?
-    {
+    func makeSampleBuffer(from pixelBuffer: CVPixelBuffer, at frameTime: CMTime) -> CMSampleBuffer? {
         // CVPixelBufferからのCMVideoFormatDescriptionの作成
         var description:CMVideoFormatDescription?
         var status = CMVideoFormatDescriptionCreateForImageBuffer(
@@ -86,7 +85,7 @@ extension ViewController {
             sampleTiming: &timing,
             sampleBufferOut: &sampleBuffer
         )
-
+        print(status)
         return sampleBuffer
     }
     

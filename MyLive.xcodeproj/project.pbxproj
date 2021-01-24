@@ -103,7 +103,6 @@
 		4AF9209C229ECDF5001C8E10 /* SRTStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTStream.swift; sourceTree = "<group>"; };
 		4AF920A4229EDA85001C8E10 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4AFCA7AF259C944500B3DA28 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		4AFCD4C72288174A00616402 /* HaishinKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HaishinKit.h; sourceTree = "<group>"; };
 		CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTRecvSocket.swift; sourceTree = "<group>"; };
 		CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSendSocket.swift; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
@@ -312,7 +311,6 @@
 		CE747BC21FC9352F00F2515D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				4AFCD4C72288174A00616402 /* HaishinKit.h */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
