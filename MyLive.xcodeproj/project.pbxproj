@@ -300,21 +300,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CE747BC11FC9352F00F2515D /* Platforms */ = {
-			isa = PBXGroup;
-			children = (
-				CE747BC21FC9352F00F2515D /* iOS */,
-			);
-			path = Platforms;
-			sourceTree = "<group>";
-		};
-		CE747BC21FC9352F00F2515D /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
 		CEA20C3B204821D50061E7EA /* Doc */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,7 +315,6 @@
 				4AF920A4229EDA85001C8E10 /* module.modulemap */,
 				EB05D134206A81BA00F17E98 /* LICENSE.md */,
 				4A090B0122A003BA0029E3CE /* Vendor */,
-				CE747BC11FC9352F00F2515D /* Platforms */,
 				CE747AFB1FC9153500F2515D /* Sources */,
 			);
 			path = HaishinKit;
@@ -639,7 +623,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/includes/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/MyLive.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -680,7 +664,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/$(PROJECT)/HaishinKit $(SRCROOT)/$(PROJECT)/HaishinKit/Vendor/SRT/includes/srt.h";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/HaishinKit/Platforms/iOS/MyLive.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT)/MyLive.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
