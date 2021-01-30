@@ -2,7 +2,6 @@ import UIKit
 import AVFoundation
 import Photos
 import VideoToolbox //def kVTProfileLevel_H264_High_3_1
-
 import HaishinKit //2020-12
 
 let sampleRate:Double = 44_100
@@ -37,7 +36,7 @@ class ViewController: UIViewController {
     var isOption:Bool = false
     var isOrientation = true
 
-    var timer2:Timer!
+    var timerTest:Timer!
     var frameCount:Int = 0
     
     /// 初期化
@@ -121,19 +120,15 @@ class ViewController: UIViewController {
         
         let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front
         currentStream.attachCamera(DeviceUtil.device(withPosition:pos)) { error in
-            //logger.warn(error.description)
+            print(error.description)
         }
         currentStream.attachAudio(AVCaptureDevice.default(for: .audio),
             automaticallyConfiguresApplicationAudioSession: true) { error in
-            //logger.warn(error.description)
+            print(error.description)
         }
         
         setOrientation()
         myView?.attachStream(currentStream)
-        
-        //if test {
-        //    currentStream.mixer.videoIO.ex.test = true
-        //}
         
         switch env.videoBitrate {
         case  250: segBps.selectedSegmentIndex = 0
@@ -162,15 +157,15 @@ class ViewController: UIViewController {
         timer.fire()
         
         // タイマー
-        timer2 = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
+        timerTest = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
         if test == true {
-            timer2.fire()
+            timerTest.fire()
         }
     }
     
     func closeStream() {
         if timer.isValid == true { timer.invalidate() }
-        if timer2.isValid == true { timer2.invalidate() }
+        if timerTest.isValid == true { timerTest.invalidate() }
         changePublish(false)
 
         if rtmpStream != nil {
@@ -284,16 +279,12 @@ class ViewController: UIViewController {
                 if recv == false {
                     srtConnection.connect(URL(string: env.getUrl()))
                 } else {
-                    self.srtConnection?.attachStream(srtStream)
-                    
-                    srtStream.mixer.stopEncoding()
-                    //stream?.mixer.startPlaying(rtmpConnection.audioEngine)
-                    srtStream.mixer.startRunning()
-                    
-                    //2020-12
+                    // 2020-12 comment
+                    //self.srtConnection?.attachStream(srtStream)
+                    //srtStream.mixer.stopEncoding()
+                    //srtStream.mixer.startRunning()
                     //srtStream.mixer.videoIO.queue.startRunning()
-                    
-                    srtConnection.play(URL(string: env.getUrl()))
+                    //srtConnection.play(URL(string: env.getUrl()))
                 }
             } else {
                 srtConnection.close()
@@ -623,19 +614,6 @@ class ViewController: UIViewController {
         btnRotLock.setSwitch(!self.isOrientation)
     }
     
-    /// 顔
-    /*
-    @IBAction func faceTouchUpInside(_ sender: UIButton) {
-        if currentStream.mixer.videoIO.ex.detectType == .none {
-            currentStream.mixer.videoIO.ex.detectType = .detectFace
-            btnFace.setSwitch(true)
-        } else {
-            currentStream.mixer.videoIO.ex.detectType = .none
-            btnFace.setSwitch(false)
-        }
-    }
-    */
-    
     var labelCpu:ValueLabel = ValueLabel()
     var labelFps:ValueLabel = ValueLabel() 
     var labelRps:ValueLabel = ValueLabel() 
@@ -739,11 +717,9 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(btnOption)
         self.myView.bringSubviewToFront(btnAudio)
         self.myView.bringSubviewToFront(btnPublish)
-        //self.myView.bringSubviewToFront(btnFace)
         self.myView.bringSubviewToFront(btnRotLock)
         
         self.myView.bringSubviewToFront(labelBg1)
-
         self.myView.bringSubviewToFront(labelFps)
         self.myView.bringSubviewToFront(labelRps)
         self.myView.bringSubviewToFront(labelCpu)
@@ -770,7 +746,6 @@ class ViewController: UIViewController {
     }
     func optionButton(hidden:Bool) {
         btnAudio.hideLeft(b:hidden)
-        //btnFace.hideLeft(b:hidden)
         btnRotLock.hideLeft(b:hidden)
         segBps.hideLeft(b:hidden)
         segFps.hideLeft(b:hidden)
@@ -934,59 +909,3 @@ class MySegmentedControl: UISegmentedControl {
         super.init(frame: frame)
     }
 }
-
-//------------------------------------------------------------
-// Recorder
-//------------------------------------------------------------
-/*
-final class ExampleRecorderDelegate: DefaultAVRecorderDelegate {
-    static let `default` = ExampleRecorderDelegate()
-    static let albumName = "MyLive"
-    
-    override func didStartRunning(_ recorder: AVRecorder) {
-        ExampleRecorderDelegate.createAlbum()
-    }
-    
-    override func didFinishWriting(_ recorder: AVRecorder) {
-        guard let writer: AVAssetWriter = recorder.writer else { return }
-        PHPhotoLibrary.shared().performChanges({() -> Void in
-            if let album = ExampleRecorderDelegate.self.findAlbum() {
-                let assetReq = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: writer.outputURL)
-                if let asset = assetReq?.placeholderForCreatedAsset {
-                    let request = PHAssetCollectionChangeRequest(for: album)
-                    request?.addAssets([asset] as NSArray)
-                }
-            }
-        }, completionHandler: { _, error -> Void in
-            do {
-                try FileManager.default.removeItem(at: writer.outputURL)
-            } catch {
-                print(error)
-            }
-        })
-    }
-
-    static func createAlbum() -> PHAssetCollection? {
-        if let album = self.findAlbum() {
-            return album
-        } else {
-            do {
-                try PHPhotoLibrary.shared().performChangesAndWait({
-                    PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
-                })
-            } catch {
-                print("Problem finding/creating album: ".appending(albumName))
-                print(error)
-            }
-            return self.findAlbum()
-        }
-    }
-    
-    static func findAlbum() -> PHAssetCollection? {
-        let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "title = %@", albumName)
-        let findAlbumResult = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
-        return findAlbumResult.firstObject
-    }    
-}
-*/

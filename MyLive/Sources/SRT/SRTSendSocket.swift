@@ -24,6 +24,7 @@ final class SRTSendSocket: SRTSocket {
 
     func write(_ data: Data) {
         writeQueue.async {
+            // 103 comment
             //self.pendingData.append(contentsOf: data.chunk(SRTSendSocket.payloadSize))
             //repeat {
             //    if let data = self.pendingData.first {

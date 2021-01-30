@@ -1,8 +1,6 @@
 import Foundation
-
 import HaivisionSrt
 import HaishinKit
-//import Logboard 2021-01
 
 protocol SRTSocketDelegate: class {
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS)
@@ -97,7 +95,7 @@ class SRTSocket {
         let failures = SRTSocketOption.configure(sock, binding: binding, options: options)
         
         //guard failures.isEmpty else { logger.error(failures); return false } 2021-01
-        guard failures.isEmpty else { return false }
+        guard failures.isEmpty else { print(failures); return false }
         
         return true
     }
@@ -139,13 +137,13 @@ class SRTSocket {
             return srt_bind(bindSocket, psa, Int32(MemoryLayout.size(ofValue: addr)))
         }
         if stat == SRT_ERROR {
-            //logger.error("srt_bind SRT_ERROR")
+            print("-- error srt_bind SRT_ERROR")
             return
         }
         stat = srt_listen(bindSocket, 1)
         if stat == SRT_ERROR {
             srt_close(bindSocket)
-            //logger.error("srt_listen SRT_ERROR")
+            print("-- error srt_listen SRT_ERROR")
             return
         }
 
@@ -157,9 +155,9 @@ class SRTSocket {
         while count < 100000 {
             count += 1
             usleep(200 * 1000)
-             
+            
             if bindSocket == SRT_INVALID_SOCK && socket == SRT_INVALID_SOCK {
-                //logger.info("listening break")
+                print("-- listening break")
                 break
             }
 
@@ -169,12 +167,9 @@ class SRTSocket {
             var wfds: [SRTSOCKET] = .init(repeating: SRT_INVALID_SOCK, count: 1)
             if srt_epoll_wait(pollid, &rfds, &rfdslen, &wfds, &wfdslen, 0, nil, nil, nil, nil) >= 0 {
                 var doabort: Bool = false
-                
                 if rfdslen > 0 || wfdslen > 0 {
                     let s = rfdslen > 0 ? rfds[0] : wfds[0]
-
                     let status = srt_getsockstate(s)
-                                        
                     switch status {
                     case SRTS_LISTENING:
                         var scl: sockaddr_in = .init()
@@ -192,7 +187,6 @@ class SRTSocket {
                         }
 
                         srt_epoll_remove_usock(pollid, s)
-                        
                         srt_close(bindSocket)
                         bindSocket = SRT_INVALID_SOCK
 
@@ -202,7 +196,6 @@ class SRTSocket {
                             doabort = true
                             break
                         }
-    
                         guard configure(.post, socket) else {
                             doabort = true
                             break
@@ -212,20 +205,17 @@ class SRTSocket {
                         if self.status == SRTS_CONNECTED {
                             srt_epoll_remove_usock(pollid, s)
                             doabort = true
-                            //logger.info("SRTS_BROKEN SRTS_CLOSED")
+                            print("-- SRTS_BROKEN SRTS_CLOSED")
                         }
-                        
                     case SRTS_CONNECTED:
                         if self.status != SRTS_CONNECTED {
                             startRunning()
-                            //logger.info("SRTS_CONNECTED")
+                            print("-- SRTS_CONNECTED")
                         }
-
                     default:
                         break
                     }
                 }
-                
                 if doabort {
                     break
                 } 
@@ -246,7 +236,6 @@ extension SRTSocket {
             } while self.isRunning
         }
     }
-
     func stopRunning() {
         isRunning = false
     }

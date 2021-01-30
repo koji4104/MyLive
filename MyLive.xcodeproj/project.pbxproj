@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AF22A6C1DD00CA624A /* libc++.tbd */; };
-		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
 		4A187FE125C55E9F00C7EC65 /* SRTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDA25C55E9F00C7EC65 /* SRTSocket.swift */; };
 		4A187FE225C55E9F00C7EC65 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDB25C55E9F00C7EC65 /* SRTSocketOption.swift */; };
 		4A187FE325C55E9F00C7EC65 /* SRTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDC25C55E9F00C7EC65 /* SRTConnection.swift */; };
@@ -23,7 +22,6 @@
 		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
 		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB23BC825AAF9C400BA3D7A /* HaishinKit */; };
-		4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */; };
 		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
 		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
@@ -59,7 +57,6 @@
 
 /* Begin PBXFileReference section */
 		4A04C3AF22A6C1DD00CA624A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		4A05962E2281D4E60070B169 /* VisionAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionAdapter.swift; sourceTree = "<group>"; };
 		4A187FDA25C55E9F00C7EC65 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
 		4A187FDB25C55E9F00C7EC65 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
 		4A187FDC25C55E9F00C7EC65 /* SRTConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTConnection.swift; sourceTree = "<group>"; };
@@ -100,7 +97,6 @@
 		4A188B9925C5639600C7EC65 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "MyLive/Vendor/SRT/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Eureka.framework.dSYM; path = Carthage/Build/iOS/Eureka.framework.dSYM; sourceTree = "<group>"; };
 		4A719E6925B4224300D2855B /* MyLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLive.entitlements; sourceTree = "<group>"; };
-		4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE74715A1FC9009300F2515D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -246,8 +242,6 @@
 				4A719E6925B4224300D2855B /* MyLive.entitlements */,
 				CEA20C3B204821D50061E7EA /* Doc */,
 				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
-				4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */,
-				4A05962E2281D4E60070B169 /* VisionAdapter.swift */,
 				EB297E9120C9E15300511099 /* MyExtension.swift */,
 				CE74715C1FC9009300F2515D /* ViewController.swift */,
 				CE8767D020504445009F9FF8 /* SettingsViewController.swift */,
@@ -399,8 +393,6 @@
 				4A187FE425C55E9F00C7EC65 /* SRTError.swift in Sources */,
 				4A187FE325C55E9F00C7EC65 /* SRTConnection.swift in Sources */,
 				EB297E9320C9E15300511099 /* MyExtension.swift in Sources */,
-				4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */,
-				4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */,
 				CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */,
 				4A187FE125C55E9F00C7EC65 /* SRTSocket.swift in Sources */,
 			);
