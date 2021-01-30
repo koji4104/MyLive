@@ -1,0 +1,6 @@
+//module SRTHaishinKit [system] {
+module HaivisionSrt [system] {
+    header "./Vendor/SRT/Includes/srt.h"
+    export *
+}
+
