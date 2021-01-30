@@ -7,30 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A04C3AC22A6C11000CA624A /* libsrt-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */; };
-		4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AD22A6C1AC00CA624A /* libcrypto.a */; };
 		4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A04C3AF22A6C1DD00CA624A /* libc++.tbd */; };
 		4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A05962E2281D4E60070B169 /* VisionAdapter.swift */; };
-		4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */; };
-		4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */; };
+		4A187FE125C55E9F00C7EC65 /* SRTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDA25C55E9F00C7EC65 /* SRTSocket.swift */; };
+		4A187FE225C55E9F00C7EC65 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDB25C55E9F00C7EC65 /* SRTSocketOption.swift */; };
+		4A187FE325C55E9F00C7EC65 /* SRTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDC25C55E9F00C7EC65 /* SRTConnection.swift */; };
+		4A187FE425C55E9F00C7EC65 /* SRTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDD25C55E9F00C7EC65 /* SRTError.swift */; };
+		4A187FE525C55E9F00C7EC65 /* SRTSendSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDE25C55E9F00C7EC65 /* SRTSendSocket.swift */; };
+		4A187FE625C55E9F00C7EC65 /* SRTRecvSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FDF25C55E9F00C7EC65 /* SRTRecvSocket.swift */; };
+		4A187FE725C55E9F00C7EC65 /* SRTStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A187FE025C55E9F00C7EC65 /* SRTStream.swift */; };
+		4A18879325C55EF800C7EC65 /* build-srt-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A18800725C55EF300C7EC65 /* build-srt-iOS.sh */; };
+		4A18880A25C55EF800C7EC65 /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A1880BD25C55EF400C7EC65 /* build-openssl-iOS.sh */; };
+		4A188B9825C5637900C7EC65 /* libsrt-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A188B9725C5637900C7EC65 /* libsrt-iOS.a */; };
+		4A188B9A25C5639600C7EC65 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A188B9925C5639600C7EC65 /* libcrypto.a */; };
 		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
 		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB23BC825AAF9C400BA3D7A /* HaishinKit */; };
 		4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */; };
-		4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92096229ECDF5001C8E10 /* SRTSocket.swift */; };
-		4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */; };
-		4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92098229ECDF5001C8E10 /* SRTConnection.swift */; };
-		4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF92099229ECDF5001C8E10 /* SRTError.swift */; };
-		4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9209C229ECDF5001C8E10 /* SRTStream.swift */; };
-		4AFCA7B0259C944500B3DA28 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFCA7AF259C944500B3DA28 /* Constants.swift */; };
-		CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */; };
-		CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */; };
 		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
 		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
 		CE7471601FC9009300F2515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE74715E1FC9009300F2515D /* Main.storyboard */; };
 		CE7471621FC9009300F2515D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7471611FC9009300F2515D /* Assets.xcassets */; };
 		CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE7471631FC9009300F2515D /* LaunchScreen.storyboard */; };
-		CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE747B0B1FC9153500F2515D /* Data+Extension.swift */; };
 		CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BB91FC9275800F2515D /* Foundation.framework */; };
 		CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */; };
 		CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE747BBD1FC9302100F2515D /* AVFoundation.framework */; };
@@ -41,7 +39,6 @@
 		CE8F887F2041576A00E19633 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE8F88812041576A00E19633 /* Localizable.strings */; };
 		CEA20C3E204821D60061E7EA /* help-en.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA20C3C204821D50061E7EA /* help-en.html */; };
 		CEA20C3F204821D60061E7EA /* help-ja.html in Resources */ = {isa = PBXBuildFile; fileRef = CEA20C3D204821D50061E7EA /* help-ja.html */; };
-		EB05D135206A81BB00F17E98 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = EB05D134206A81BA00F17E98 /* LICENSE.md */; };
 		EB297E9320C9E15300511099 /* MyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB297E9120C9E15300511099 /* MyExtension.swift */; };
 		EBD8A392205EA78B0011938A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EBD8A391205EA78B0011938A /* Settings.bundle */; };
 /* End PBXBuildFile section */
@@ -61,50 +58,49 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsrt-iOS.a"; path = "MyLive/HaishinKit/Vendor/SRT/libsrt-iOS.a"; sourceTree = "<group>"; };
-		4A04C3AD22A6C1AC00CA624A /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		4A04C3AF22A6C1DD00CA624A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		4A05962E2281D4E60070B169 /* VisionAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionAdapter.swift; sourceTree = "<group>"; };
-		4A090B0422A003BA0029E3CE /* smoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoother.h; sourceTree = "<group>"; };
-		4A090B0522A003BA0029E3CE /* platform_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_sys.h; sourceTree = "<group>"; };
-		4A090B0622A003BA0029E3CE /* netinet_any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netinet_any.h; sourceTree = "<group>"; };
-		4A090B0722A003BA0029E3CE /* channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = channel.h; sourceTree = "<group>"; };
-		4A090B0822A003BA0029E3CE /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
-		4A090B0922A003BA0029E3CE /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
-		4A090B0A22A003BA0029E3CE /* threadname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadname.h; sourceTree = "<group>"; };
-		4A090B0B22A003BA0029E3CE /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
-		4A090B0C22A003BA0029E3CE /* epoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = epoll.h; sourceTree = "<group>"; };
-		4A090B0D22A003BA0029E3CE /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
-		4A090B0E22A003BA0029E3CE /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
-		4A090B0F22A003BA0029E3CE /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cache.h; sourceTree = "<group>"; };
-		4A090B1022A003BA0029E3CE /* window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
-		4A090B1122A003BA0029E3CE /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
-		4A090B1222A003BA0029E3CE /* srt_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt_compat.h; sourceTree = "<group>"; };
-		4A090B1322A003BA0029E3CE /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
-		4A090B1422A003BA0029E3CE /* api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = api.h; sourceTree = "<group>"; };
-		4A090B1522A003BA0029E3CE /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
-		4A090B1622A003BA0029E3CE /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
-		4A090B1722A003BA0029E3CE /* srt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt.h; sourceTree = "<group>"; };
-		4A090B1822A003BA0029E3CE /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		4A090B1922A003BA0029E3CE /* packet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packet.h; sourceTree = "<group>"; };
-		4A090B1A22A003BA0029E3CE /* logging_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging_api.h; sourceTree = "<group>"; };
-		4A090B1B22A003BA0029E3CE /* udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udt.h; sourceTree = "<group>"; };
-		4A090B1C22A003BA0029E3CE /* srt4udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt4udt.h; sourceTree = "<group>"; };
-		4A090B1D22A003BA0029E3CE /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
-		4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-srt-iOS.sh"; sourceTree = "<group>"; };
-		4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
+		4A187FDA25C55E9F00C7EC65 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
+		4A187FDB25C55E9F00C7EC65 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
+		4A187FDC25C55E9F00C7EC65 /* SRTConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTConnection.swift; sourceTree = "<group>"; };
+		4A187FDD25C55E9F00C7EC65 /* SRTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTError.swift; sourceTree = "<group>"; };
+		4A187FDE25C55E9F00C7EC65 /* SRTSendSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSendSocket.swift; sourceTree = "<group>"; };
+		4A187FDF25C55E9F00C7EC65 /* SRTRecvSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTRecvSocket.swift; sourceTree = "<group>"; };
+		4A187FE025C55E9F00C7EC65 /* SRTStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTStream.swift; sourceTree = "<group>"; };
+		4A187FE825C55ED800C7EC65 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		4A187FED25C55EF300C7EC65 /* smoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoother.h; sourceTree = "<group>"; };
+		4A187FEE25C55EF300C7EC65 /* platform_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform_sys.h; sourceTree = "<group>"; };
+		4A187FEF25C55EF300C7EC65 /* netinet_any.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netinet_any.h; sourceTree = "<group>"; };
+		4A187FF025C55EF300C7EC65 /* channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = channel.h; sourceTree = "<group>"; };
+		4A187FF125C55EF300C7EC65 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
+		4A187FF225C55EF300C7EC65 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
+		4A187FF325C55EF300C7EC65 /* threadname.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = threadname.h; sourceTree = "<group>"; };
+		4A187FF425C55EF300C7EC65 /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
+		4A187FF525C55EF300C7EC65 /* epoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = epoll.h; sourceTree = "<group>"; };
+		4A187FF625C55EF300C7EC65 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		4A187FF725C55EF300C7EC65 /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
+		4A187FF825C55EF300C7EC65 /* cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cache.h; sourceTree = "<group>"; };
+		4A187FF925C55EF300C7EC65 /* window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		4A187FFA25C55EF300C7EC65 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		4A187FFB25C55EF300C7EC65 /* srt_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt_compat.h; sourceTree = "<group>"; };
+		4A187FFC25C55EF300C7EC65 /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
+		4A187FFD25C55EF300C7EC65 /* api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = api.h; sourceTree = "<group>"; };
+		4A187FFE25C55EF300C7EC65 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		4A187FFF25C55EF300C7EC65 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffer.h; sourceTree = "<group>"; };
+		4A18800025C55EF300C7EC65 /* srt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt.h; sourceTree = "<group>"; };
+		4A18800125C55EF300C7EC65 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		4A18800225C55EF300C7EC65 /* packet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packet.h; sourceTree = "<group>"; };
+		4A18800325C55EF300C7EC65 /* logging_api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging_api.h; sourceTree = "<group>"; };
+		4A18800425C55EF300C7EC65 /* udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = udt.h; sourceTree = "<group>"; };
+		4A18800525C55EF300C7EC65 /* srt4udt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = srt4udt.h; sourceTree = "<group>"; };
+		4A18800625C55EF300C7EC65 /* queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = queue.h; sourceTree = "<group>"; };
+		4A18800725C55EF300C7EC65 /* build-srt-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-srt-iOS.sh"; sourceTree = "<group>"; };
+		4A1880BD25C55EF400C7EC65 /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
+		4A188B9725C5637900C7EC65 /* libsrt-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsrt-iOS.a"; path = "MyLive/Vendor/SRT/libsrt-iOS.a"; sourceTree = "<group>"; };
+		4A188B9925C5639600C7EC65 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "MyLive/Vendor/SRT/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
 		4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Eureka.framework.dSYM; path = Carthage/Build/iOS/Eureka.framework.dSYM; sourceTree = "<group>"; };
 		4A719E6925B4224300D2855B /* MyLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLive.entitlements; sourceTree = "<group>"; };
 		4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoIOComponentEx.swift; sourceTree = "<group>"; };
-		4AF92096229ECDF5001C8E10 /* SRTSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocket.swift; sourceTree = "<group>"; };
-		4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSocketOption.swift; sourceTree = "<group>"; };
-		4AF92098229ECDF5001C8E10 /* SRTConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTConnection.swift; sourceTree = "<group>"; };
-		4AF92099229ECDF5001C8E10 /* SRTError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTError.swift; sourceTree = "<group>"; };
-		4AF9209C229ECDF5001C8E10 /* SRTStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTStream.swift; sourceTree = "<group>"; };
-		4AF920A4229EDA85001C8E10 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		4AFCA7AF259C944500B3DA28 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTRecvSocket.swift; sourceTree = "<group>"; };
-		CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTSendSocket.swift; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE74715A1FC9009300F2515D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,7 +109,6 @@
 		CE7471611FC9009300F2515D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7471641FC9009300F2515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE7471661FC9009300F2515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE747B0B1FC9153500F2515D /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		CE747BB91FC9275800F2515D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CE747BBB1FC92C7D00F2515D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		CE747BBD1FC9302100F2515D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -125,7 +120,6 @@
 		CE8F88842041582A00E19633 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEA20C3C204821D50061E7EA /* help-en.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "help-en.html"; sourceTree = "<group>"; };
 		CEA20C3D204821D50061E7EA /* help-ja.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "help-ja.html"; sourceTree = "<group>"; };
-		EB05D134206A81BA00F17E98 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		EB297E9120C9E15300511099 /* MyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyExtension.swift; sourceTree = "<group>"; };
 		EBD8A391205EA78B0011938A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,11 +131,11 @@
 			files = (
 				4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */,
 				4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */,
-				4A04C3AE22A6C1AC00CA624A /* libcrypto.a in Frameworks */,
-				4A04C3AC22A6C11000CA624A /* libsrt-iOS.a in Frameworks */,
 				CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */,
 				CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */,
 				CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */,
+				4A188B9825C5637900C7EC65 /* libsrt-iOS.a in Frameworks */,
+				4A188B9A25C5639600C7EC65 /* libcrypto.a in Frameworks */,
 				CE747BBA1FC9277200F2515D /* Foundation.framework in Frameworks */,
 				CE747BBE1FC9302C00F2515D /* AVFoundation.framework in Frameworks */,
 				4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */,
@@ -152,69 +146,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4A090B0122A003BA0029E3CE /* Vendor */ = {
+		4A187FD825C55E9F00C7EC65 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4A090B0222A003BA0029E3CE /* SRT */,
+				4A187FD925C55E9F00C7EC65 /* SRT */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4A187FD925C55E9F00C7EC65 /* SRT */ = {
+			isa = PBXGroup;
+			children = (
+				4A187FDA25C55E9F00C7EC65 /* SRTSocket.swift */,
+				4A187FDB25C55E9F00C7EC65 /* SRTSocketOption.swift */,
+				4A187FDC25C55E9F00C7EC65 /* SRTConnection.swift */,
+				4A187FDD25C55E9F00C7EC65 /* SRTError.swift */,
+				4A187FDE25C55E9F00C7EC65 /* SRTSendSocket.swift */,
+				4A187FDF25C55E9F00C7EC65 /* SRTRecvSocket.swift */,
+				4A187FE025C55E9F00C7EC65 /* SRTStream.swift */,
+			);
+			path = SRT;
+			sourceTree = "<group>";
+		};
+		4A187FE925C55EF300C7EC65 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				4A187FEA25C55EF300C7EC65 /* SRT */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
 		};
-		4A090B0222A003BA0029E3CE /* SRT */ = {
+		4A187FEA25C55EF300C7EC65 /* SRT */ = {
 			isa = PBXGroup;
 			children = (
-				4A090B0322A003BA0029E3CE /* Includes */,
-				4A090B1E22A003BA0029E3CE /* build-srt-iOS.sh */,
-				4A090BD422A003BA0029E3CE /* build-openssl-iOS.sh */,
+				4A187FEC25C55EF300C7EC65 /* Includes */,
+				4A18800725C55EF300C7EC65 /* build-srt-iOS.sh */,
+				4A1880BD25C55EF400C7EC65 /* build-openssl-iOS.sh */,
 			);
 			path = SRT;
 			sourceTree = "<group>";
 		};
-		4A090B0322A003BA0029E3CE /* Includes */ = {
+		4A187FEC25C55EF300C7EC65 /* Includes */ = {
 			isa = PBXGroup;
 			children = (
-				4A090B0422A003BA0029E3CE /* smoother.h */,
-				4A090B0522A003BA0029E3CE /* platform_sys.h */,
-				4A090B0622A003BA0029E3CE /* netinet_any.h */,
-				4A090B0722A003BA0029E3CE /* channel.h */,
-				4A090B0822A003BA0029E3CE /* core.h */,
-				4A090B0922A003BA0029E3CE /* version.h */,
-				4A090B0A22A003BA0029E3CE /* threadname.h */,
-				4A090B0B22A003BA0029E3CE /* handshake.h */,
-				4A090B0C22A003BA0029E3CE /* epoll.h */,
-				4A090B0D22A003BA0029E3CE /* md5.h */,
-				4A090B0E22A003BA0029E3CE /* utilities.h */,
-				4A090B0F22A003BA0029E3CE /* cache.h */,
-				4A090B1022A003BA0029E3CE /* window.h */,
-				4A090B1122A003BA0029E3CE /* logging.h */,
-				4A090B1222A003BA0029E3CE /* srt_compat.h */,
-				4A090B1322A003BA0029E3CE /* crypto.h */,
-				4A090B1422A003BA0029E3CE /* api.h */,
-				4A090B1522A003BA0029E3CE /* list.h */,
-				4A090B1622A003BA0029E3CE /* buffer.h */,
-				4A090B1722A003BA0029E3CE /* srt.h */,
-				4A090B1822A003BA0029E3CE /* common.h */,
-				4A090B1922A003BA0029E3CE /* packet.h */,
-				4A090B1A22A003BA0029E3CE /* logging_api.h */,
-				4A090B1B22A003BA0029E3CE /* udt.h */,
-				4A090B1C22A003BA0029E3CE /* srt4udt.h */,
-				4A090B1D22A003BA0029E3CE /* queue.h */,
+				4A187FED25C55EF300C7EC65 /* smoother.h */,
+				4A187FEE25C55EF300C7EC65 /* platform_sys.h */,
+				4A187FEF25C55EF300C7EC65 /* netinet_any.h */,
+				4A187FF025C55EF300C7EC65 /* channel.h */,
+				4A187FF125C55EF300C7EC65 /* core.h */,
+				4A187FF225C55EF300C7EC65 /* version.h */,
+				4A187FF325C55EF300C7EC65 /* threadname.h */,
+				4A187FF425C55EF300C7EC65 /* handshake.h */,
+				4A187FF525C55EF300C7EC65 /* epoll.h */,
+				4A187FF625C55EF300C7EC65 /* md5.h */,
+				4A187FF725C55EF300C7EC65 /* utilities.h */,
+				4A187FF825C55EF300C7EC65 /* cache.h */,
+				4A187FF925C55EF300C7EC65 /* window.h */,
+				4A187FFA25C55EF300C7EC65 /* logging.h */,
+				4A187FFB25C55EF300C7EC65 /* srt_compat.h */,
+				4A187FFC25C55EF300C7EC65 /* crypto.h */,
+				4A187FFD25C55EF300C7EC65 /* api.h */,
+				4A187FFE25C55EF300C7EC65 /* list.h */,
+				4A187FFF25C55EF300C7EC65 /* buffer.h */,
+				4A18800025C55EF300C7EC65 /* srt.h */,
+				4A18800125C55EF300C7EC65 /* common.h */,
+				4A18800225C55EF300C7EC65 /* packet.h */,
+				4A18800325C55EF300C7EC65 /* logging_api.h */,
+				4A18800425C55EF300C7EC65 /* udt.h */,
+				4A18800525C55EF300C7EC65 /* srt4udt.h */,
+				4A18800625C55EF300C7EC65 /* queue.h */,
 			);
 			path = Includes;
-			sourceTree = "<group>";
-		};
-		4AF92095229ECDF5001C8E10 /* SRT */ = {
-			isa = PBXGroup;
-			children = (
-				4AF92098229ECDF5001C8E10 /* SRTConnection.swift */,
-				4AF92099229ECDF5001C8E10 /* SRTError.swift */,
-				CE4B5E69238E991F000AF9E0 /* SRTRecvSocket.swift */,
-				CE4B5E6A238E991F000AF9E0 /* SRTSendSocket.swift */,
-				4AF92096229ECDF5001C8E10 /* SRTSocket.swift */,
-				4AF92097229ECDF5001C8E10 /* SRTSocketOption.swift */,
-				4AF9209C229ECDF5001C8E10 /* SRTStream.swift */,
-			);
-			path = SRT;
 			sourceTree = "<group>";
 		};
 		CE74714E1FC9009300F2515D = {
@@ -238,9 +240,11 @@
 		CE7471591FC9009300F2515D /* MyLive */ = {
 			isa = PBXGroup;
 			children = (
+				4A187FE925C55EF300C7EC65 /* Vendor */,
+				4A187FE825C55ED800C7EC65 /* module.modulemap */,
+				4A187FD825C55E9F00C7EC65 /* Sources */,
 				4A719E6925B4224300D2855B /* MyLive.entitlements */,
 				CEA20C3B204821D50061E7EA /* Doc */,
-				EB05D133206A815700F17E98 /* HaishinKit */,
 				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
 				4AF92083229ECA41001C8E10 /* VideoIOComponentEx.swift */,
 				4A05962E2281D4E60070B169 /* VisionAdapter.swift */,
@@ -256,40 +260,14 @@
 			path = MyLive;
 			sourceTree = "<group>";
 		};
-		CE747AFB1FC9153500F2515D /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				CE747B031FC9153500F2515D /* Extension */,
-				4AF92095229ECDF5001C8E10 /* SRT */,
-				CE747B541FC9153500F2515D /* Util */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		CE747B031FC9153500F2515D /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				CE747B0B1FC9153500F2515D /* Data+Extension.swift */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		CE747B541FC9153500F2515D /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				4AFCA7AF259C944500B3DA28 /* Constants.swift */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
 		CE747BB81FC9275800F2515D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A188B9925C5639600C7EC65 /* libcrypto.a */,
+				4A188B9725C5637900C7EC65 /* libsrt-iOS.a */,
 				CE70DD361FEE659D000D45AC /* Eureka.framework */,
 				4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */,
 				4A04C3AF22A6C1DD00CA624A /* libc++.tbd */,
-				4A04C3AD22A6C1AC00CA624A /* libcrypto.a */,
-				4A04C3AB22A6C11000CA624A /* libsrt-iOS.a */,
 				CE747BD81FC94A3400F2515D /* UIKit.framework */,
 				CE747BD61FC9414D00F2515D /* CoreImage.framework */,
 				CE747BBF1FC9303800F2515D /* CoreMedia.framework */,
@@ -307,17 +285,6 @@
 				CEA20C3D204821D50061E7EA /* help-ja.html */,
 			);
 			path = Doc;
-			sourceTree = "<group>";
-		};
-		EB05D133206A815700F17E98 /* HaishinKit */ = {
-			isa = PBXGroup;
-			children = (
-				4AF920A4229EDA85001C8E10 /* module.modulemap */,
-				EB05D134206A81BA00F17E98 /* LICENSE.md */,
-				4A090B0122A003BA0029E3CE /* Vendor */,
-				CE747AFB1FC9153500F2515D /* Sources */,
-			);
-			path = HaishinKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -389,15 +356,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBD8A392205EA78B0011938A /* Settings.bundle in Resources */,
-				4A090F9F22A003BC0029E3CE /* build-srt-iOS.sh in Resources */,
-				EB05D135206A81BB00F17E98 /* LICENSE.md in Resources */,
 				CEA20C3F204821D60061E7EA /* help-ja.html in Resources */,
+				4A18879325C55EF800C7EC65 /* build-srt-iOS.sh in Resources */,
 				CE7471651FC9009300F2515D /* LaunchScreen.storyboard in Resources */,
 				CEA20C3E204821D60061E7EA /* help-en.html in Resources */,
 				CE8F887F2041576A00E19633 /* Localizable.strings in Resources */,
 				CE7471621FC9009300F2515D /* Assets.xcassets in Resources */,
 				CE7471601FC9009300F2515D /* Main.storyboard in Resources */,
-				4A09101622A003BC0029E3CE /* build-openssl-iOS.sh in Resources */,
+				4A18880A25C55EF800C7EC65 /* build-openssl-iOS.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,19 +392,17 @@
 			files = (
 				CE74715D1FC9009300F2515D /* ViewController.swift in Sources */,
 				CE8767D120504445009F9FF8 /* SettingsViewController.swift in Sources */,
-				4AF9209E229ECDF5001C8E10 /* SRTSocketOption.swift in Sources */,
-				4AF9209F229ECDF5001C8E10 /* SRTConnection.swift in Sources */,
-				4AF920A0229ECDF5001C8E10 /* SRTError.swift in Sources */,
-				CE4B5E6C238E991F000AF9E0 /* SRTSendSocket.swift in Sources */,
-				CE747B6C1FC9153500F2515D /* Data+Extension.swift in Sources */,
+				4A187FE725C55E9F00C7EC65 /* SRTStream.swift in Sources */,
+				4A187FE225C55E9F00C7EC65 /* SRTSocketOption.swift in Sources */,
+				4A187FE625C55E9F00C7EC65 /* SRTRecvSocket.swift in Sources */,
+				4A187FE525C55E9F00C7EC65 /* SRTSendSocket.swift in Sources */,
+				4A187FE425C55E9F00C7EC65 /* SRTError.swift in Sources */,
+				4A187FE325C55E9F00C7EC65 /* SRTConnection.swift in Sources */,
 				EB297E9320C9E15300511099 /* MyExtension.swift in Sources */,
-				4AFCA7B0259C944500B3DA28 /* Constants.swift in Sources */,
-				4AF920A3229ECDF5001C8E10 /* SRTStream.swift in Sources */,
 				4A05962F2281D4E70070B169 /* VisionAdapter.swift in Sources */,
-				CE4B5E6B238E991F000AF9E0 /* SRTRecvSocket.swift in Sources */,
 				4AF92084229ECA41001C8E10 /* VideoIOComponentEx.swift in Sources */,
 				CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */,
-				4AF9209D229ECDF5001C8E10 /* SRTSocket.swift in Sources */,
+				4A187FE125C55E9F00C7EC65 /* SRTSocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,8 +564,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT/build/iOS",
+					"$(PROJECT_DIR)/MyLive",
 				);
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
@@ -612,8 +576,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
 				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -641,8 +605,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/build/iOS",
-					"$(PROJECT_DIR)/MyLive/HaishinKit",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT/build/iOS",
+					"$(PROJECT_DIR)/MyLive",
 				);
 				INFOPLIST_FILE = MyLive/Info.plist;
 				INSTALL_PATH = "$(LOCAL_APPS_DIR)";
@@ -653,8 +617,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT",
-					"$(PROJECT_DIR)/MyLive/HaishinKit/Vendor/SRT/OpenSSL-for-iPhone/lib",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT",
+					"$(PROJECT_DIR)/MyLive/Vendor/SRT/OpenSSL-for-iPhone/lib",
 				);
 				MARKETING_VERSION = 1.4.0;
 				ONLY_ACTIVE_ARCH = YES;

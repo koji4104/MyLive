@@ -1,3 +1,2 @@
-github "shogo4405/Logboard" "2.2.2"
-# github "xmartlabs/Eureka" "5.3.2"
-# github "shogo4405/HaishinKit.swift" "1.1.0"
+github "xmartlabs/Eureka" "5.3.2"
+# github "shogo4405/Logboard" "2.2.0"
