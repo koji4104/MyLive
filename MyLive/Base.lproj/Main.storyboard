@@ -16,99 +16,97 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" restorationIdentifier="MainVIew" translatesAutoresizingMaskIntoConstraints="NO" id="Kh1-PP-qaS" userLabel="MyView" customClass="MTHKView" customModule="HaishinKit">
-                                <rect key="frame" x="0.0" y="0.0" width="647" height="375"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYo-Dd-lQJ" userLabel="btn Settings" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="45" height="35"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="Settings"/>
-                                        <connections>
-                                            <action selector="settingsTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khW-PY-w2J"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKV-lI-NWY" userLabel="btn Turn" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="83" y="17" width="44" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="Loop"/>
-                                        <connections>
-                                            <action selector="turnTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="940-ik-tYg"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4N-Px-d2w" userLabel="btn Publish" customClass="CircleButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="539" y="170" width="30" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <action selector="publishTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RrI-mj-zgR"/>
-                                        </connections>
-                                    </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cIu-YK-rzU" userLabel="seg Fps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="118" width="143" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <segments>
-                                            <segment title="5fps"/>
-                                            <segment title="10fps"/>
-                                            <segment title="15fps"/>
-                                            <segment title="30fps"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="onFpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="TJX-Dv-0QR"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8ov-0z-qUs" userLabel="seg Bps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="154" width="219" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <segments>
-                                            <segment title="250k"/>
-                                            <segment title="500k"/>
-                                            <segment title="1000k"/>
-                                            <segment title="2000k"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="onBpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="MuQ-Di-S7k"/>
-                                        </connections>
-                                    </segmentedControl>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP2-Tc-mbZ" userLabel="btn Option" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="42" y="280" width="35" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="Option"/>
-                                        <connections>
-                                            <action selector="optionTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sCw-ZV-eSO"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0O-3U-6ol" userLabel="btn Audio" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="91" y="270" width="48" height="47"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="Audio"/>
-                                        <connections>
-                                            <action selector="audioTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hZZ-iL-Idb"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJU-f0-7oi" userLabel="Btin RotLock" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="224" y="268" width="52" height="49"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="RotLock"/>
-                                        <connections>
-                                            <action selector="rotlockTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hW7-XZ-z54"/>
-                                        </connections>
-                                    </button>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nzy-3z-QgA" userLabel="seg Zoom" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="190" width="119" height="29"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <segments>
-                                            <segment title="x1"/>
-                                            <segment title="x2"/>
-                                            <segment title="x3"/>
-                                            <segment title="x4"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="onZoomChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="bJS-p5-yo6"/>
-                                        </connections>
-                                    </segmentedControl>
-                                </subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" restorationIdentifier="MainVIew" translatesAutoresizingMaskIntoConstraints="NO" id="Kh1-PP-qaS" userLabel="MyView" customClass="GLHKView" customModule="HaishinKit">
+                                <rect key="frame" x="0.0" y="0.0" width="172" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pYo-Dd-lQJ" userLabel="btn Settings" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="311" y="170" width="45" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Settings"/>
+                                <connections>
+                                    <action selector="settingsTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="khW-PY-w2J"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aKV-lI-NWY" userLabel="btn Turn" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="311" y="167" width="44" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Loop"/>
+                                <connections>
+                                    <action selector="turnTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="940-ik-tYg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4N-Px-d2w" userLabel="btn Publish" customClass="CircleButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="318" y="170" width="30" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="publishTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RrI-mj-zgR"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cIu-YK-rzU" userLabel="seg Fps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="262" y="173" width="143" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="5fps"/>
+                                    <segment title="10fps"/>
+                                    <segment title="15fps"/>
+                                    <segment title="30fps"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onFpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="TJX-Dv-0QR"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8ov-0z-qUs" userLabel="seg Bps" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="224" y="173" width="219" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="250k"/>
+                                    <segment title="500k"/>
+                                    <segment title="1000k"/>
+                                    <segment title="2000k"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onBpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="MuQ-Di-S7k"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JP2-Tc-mbZ" userLabel="btn Option" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="316" y="172" width="35" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Option"/>
+                                <connections>
+                                    <action selector="optionTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sCw-ZV-eSO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0O-3U-6ol" userLabel="btn Audio" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="309" y="164" width="48" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="Audio"/>
+                                <connections>
+                                    <action selector="audioTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hZZ-iL-Idb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJU-f0-7oi" userLabel="Btin RotLock" customClass="RoundRectButton" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="307" y="163" width="52" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="RotLock"/>
+                                <connections>
+                                    <action selector="rotlockTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hW7-XZ-z54"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nzy-3z-QgA" userLabel="seg Zoom" customClass="MySegmentedControl" customModule="MyLive" customModuleProvider="target">
+                                <rect key="frame" x="274" y="173" width="119" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="x1"/>
+                                    <segment title="x2"/>
+                                    <segment title="x3"/>
+                                    <segment title="x4"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onZoomChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="bJS-p5-yo6"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -135,7 +133,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-155" y="71"/>
+            <point key="canvasLocation" x="-155.17241379310346" y="69.599999999999994"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="Sjs-qf-L7O">

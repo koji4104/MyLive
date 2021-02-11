@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     var srtConnection:SRTConnection!
     var srtStream:SRTStream!
     
-    @IBOutlet weak var myView: MTHKView!
+    @IBOutlet weak var myView: GLHKView!
     
     @IBOutlet weak var segBps:UISegmentedControl!
     @IBOutlet weak var segFps:UISegmentedControl!
@@ -49,6 +49,11 @@ class ViewController: UIViewController {
         return UIStatusBarStyle.lightContent
     }
     
+    /// ステータスバー非表示 true
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     /// 画面表示
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -271,7 +276,6 @@ class ViewController: UIViewController {
                     .rtmpStatus,
                     selector:#selector(self.rtmpStatusHandler(_:)),
                     observer: self)
-                    
             }
         } else if env.isSrt() && srtStream != nil {
             if publish == true {
@@ -630,15 +634,15 @@ class ViewController: UIViewController {
         // ip5  568 320 (640x1136)
         // ip7  667 375 (750x1334)
         // 10.5 1112 834 (1668x2224)
-        let vieww:Int = Int(self.myView.frame.width)
-        let viewh:Int = Int(self.myView.frame.height)
-        print("w=\(view.frame.width) h=\(view.frame.height) w=\(myView.frame.width) h=\(myView.frame.height)")
-        
+        let vieww:Int = Int(self.view.frame.width)
+        let viewh:Int = Int(self.view.frame.height)
+        print("-- vieww=\(view.frame.width) h=\(view.frame.height) myVieww=\(myView.frame.width) h=\(myView.frame.height)")
+
         let stbar:Int = 0
         let cy = viewh/2
         let btnw = Int(btnSettings.frame.width)
 
-        let p:Int = 10
+        let p:Int = 14
         let top = p + stbar/2
         let btnx = p + btnw/2
         btnPublish.center = CGPoint(x:vieww-btnx, y:cy)
@@ -649,10 +653,8 @@ class ViewController: UIViewController {
         var bottomy = viewh - p - btnw/2 + stbar/2
         let bw = btnw + 6
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
-        btnAudio.center  = CGPoint(x:btnx+bw*1, y:bottomy)
-        //btnFace.center   = CGPoint(x:btnx+bw*2, y:bottomy)
-        btnRotLock.center   = CGPoint(x:btnx+bw*2, y:bottomy)
-        
+        btnAudio.center = CGPoint(x:btnx+bw*1, y:bottomy)
+        btnRotLock.center = CGPoint(x:btnx+bw*2, y:bottomy)
         btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
         
         // セグメント
@@ -704,6 +706,17 @@ class ViewController: UIViewController {
             print("test y=\(rect.minY)-\(rect.maxY) w=\(rect.width) h=\(rect.height)")
         }
         
+        self.view.addSubview(labelFps)
+        self.view.addSubview(labelFps)
+        self.view.addSubview(labelRps)
+        self.view.addSubview(labelCpu)
+        self.view.addSubview(titleCpu)
+        self.view.addSubview(titleFps)
+        self.view.addSubview(titleRps)
+        self.view.addSubview(labelBg1)
+        
+        /*
+        self.myView.addSubview(labelFps)
         self.myView.addSubview(labelFps)
         self.myView.addSubview(labelRps)
         self.myView.addSubview(labelCpu)
@@ -731,6 +744,7 @@ class ViewController: UIViewController {
         self.myView.bringSubviewToFront(segBps)
         self.myView.bringSubviewToFront(segFps)
         self.myView.bringSubviewToFront(segZoom)
+        */
         
         let env = Environment()
         btnAudio.setSwitch(env.audioMode==1)
