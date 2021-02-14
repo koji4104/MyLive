@@ -19,8 +19,9 @@
 		4A18880A25C55EF800C7EC65 /* build-openssl-iOS.sh in Resources */ = {isa = PBXBuildFile; fileRef = 4A1880BD25C55EF400C7EC65 /* build-openssl-iOS.sh */; };
 		4A188B9825C5637900C7EC65 /* libsrt-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A188B9725C5637900C7EC65 /* libsrt-iOS.a */; };
 		4A188B9A25C5639600C7EC65 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A188B9925C5639600C7EC65 /* libcrypto.a */; };
-		4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
-		4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4A69485A25D9120200530C85 /* Eureka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; };
+		4A69485B25D9120200530C85 /* Eureka.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE70DD361FEE659D000D45AC /* Eureka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4A69485E25D9187000530C85 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4A69485D25D9187000530C85 /* Cartfile */; };
 		4AB23BC925AAF9C400BA3D7A /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB23BC825AAF9C400BA3D7A /* HaishinKit */; };
 		CE74715B1FC9009300F2515D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715A1FC9009300F2515D /* AppDelegate.swift */; };
 		CE74715D1FC9009300F2515D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74715C1FC9009300F2515D /* ViewController.swift */; };
@@ -42,15 +43,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CEAFC1401FCF095C000326CE /* Copy Files */ = {
+		4A69485C25D9120200530C85 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4A40BF1424CD67310094344D /* Eureka.framework in Copy Files */,
+				4A69485B25D9120200530C85 /* Eureka.framework in Embed Frameworks */,
 			);
-			name = "Copy Files";
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -95,7 +96,7 @@
 		4A1880BD25C55EF400C7EC65 /* build-openssl-iOS.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "build-openssl-iOS.sh"; sourceTree = "<group>"; };
 		4A188B9725C5637900C7EC65 /* libsrt-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsrt-iOS.a"; path = "MyLive/Vendor/SRT/libsrt-iOS.a"; sourceTree = "<group>"; };
 		4A188B9925C5639600C7EC65 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "MyLive/Vendor/SRT/OpenSSL-for-iPhone/lib/libcrypto.a"; sourceTree = "<group>"; };
-		4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Eureka.framework.dSYM; path = Carthage/Build/iOS/Eureka.framework.dSYM; sourceTree = "<group>"; };
+		4A69485D25D9187000530C85 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4A719E6925B4224300D2855B /* MyLive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLive.entitlements; sourceTree = "<group>"; };
 		CE70DD361FEE659D000D45AC /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = Carthage/Build/iOS/Eureka.framework; sourceTree = "<group>"; };
 		CE7471571FC9009300F2515D /* MyLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,7 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A04C3B022A6C1DD00CA624A /* libc++.tbd in Frameworks */,
-				4A40BF1324CD67310094344D /* Eureka.framework in Frameworks */,
+				4A69485A25D9120200530C85 /* Eureka.framework in Frameworks */,
 				CE747BC01FC9304100F2515D /* CoreMedia.framework in Frameworks */,
 				CE747BBC1FC92C8E00F2515D /* CoreVideo.framework in Frameworks */,
 				CE747BD71FC9415D00F2515D /* CoreImage.framework in Frameworks */,
@@ -218,10 +219,11 @@
 		CE74714E1FC9009300F2515D = {
 			isa = PBXGroup;
 			children = (
-				CE747BB81FC9275800F2515D /* Frameworks */,
-				CE8F88812041576A00E19633 /* Localizable.strings */,
 				CE7471591FC9009300F2515D /* MyLive */,
+				CE747BB81FC9275800F2515D /* Frameworks */,
 				CE7471581FC9009300F2515D /* Products */,
+				4A69485D25D9187000530C85 /* Cartfile */,
+				CE8F88812041576A00E19633 /* Localizable.strings */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,9 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				4A187FE925C55EF300C7EC65 /* Vendor */,
-				4A187FE825C55ED800C7EC65 /* module.modulemap */,
 				4A187FD825C55E9F00C7EC65 /* Sources */,
-				4A719E6925B4224300D2855B /* MyLive.entitlements */,
 				CEA20C3B204821D50061E7EA /* Doc */,
 				CE74715A1FC9009300F2515D /* AppDelegate.swift */,
 				EB297E9120C9E15300511099 /* MyExtension.swift */,
@@ -248,6 +248,8 @@
 				CE74715E1FC9009300F2515D /* Main.storyboard */,
 				CE7471611FC9009300F2515D /* Assets.xcassets */,
 				CE7471631FC9009300F2515D /* LaunchScreen.storyboard */,
+				4A719E6925B4224300D2855B /* MyLive.entitlements */,
+				4A187FE825C55ED800C7EC65 /* module.modulemap */,
 				CE7471661FC9009300F2515D /* Info.plist */,
 				EBD8A391205EA78B0011938A /* Settings.bundle */,
 			);
@@ -257,11 +259,10 @@
 		CE747BB81FC9275800F2515D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A04C3AF22A6C1DD00CA624A /* libc++.tbd */,
 				4A188B9925C5639600C7EC65 /* libcrypto.a */,
 				4A188B9725C5637900C7EC65 /* libsrt-iOS.a */,
 				CE70DD361FEE659D000D45AC /* Eureka.framework */,
-				4A1BBC3625A9C06D001F6E49 /* Eureka.framework.dSYM */,
-				4A04C3AF22A6C1DD00CA624A /* libc++.tbd */,
 				CE747BD81FC94A3400F2515D /* UIKit.framework */,
 				CE747BD61FC9414D00F2515D /* CoreImage.framework */,
 				CE747BBF1FC9303800F2515D /* CoreMedia.framework */,
@@ -291,8 +292,8 @@
 				CE7471531FC9009300F2515D /* Sources */,
 				CE7471541FC9009300F2515D /* Frameworks */,
 				CE7471551FC9009300F2515D /* Resources */,
-				CEAFC1401FCF095C000326CE /* Copy Files */,
 				EB062A1C207CEA28006B03A5 /* ShellScript */,
+				4A69485C25D9120200530C85 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,6 +350,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A69485E25D9187000530C85 /* Cartfile in Resources */,
 				EBD8A392205EA78B0011938A /* Settings.bundle in Resources */,
 				CEA20C3F204821D60061E7EA /* help-ja.html in Resources */,
 				4A18879325C55EF800C7EC65 /* build-srt-iOS.sh in Resources */,

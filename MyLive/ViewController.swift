@@ -224,6 +224,13 @@ class ViewController: UIViewController {
     }
 
     func setOrientation() {
+        let env = Environment()
+        if (env.cameraPosition==0) { // back
+            myView.isMirrored = false
+        } else {
+            myView.isMirrored = true
+        }
+        
         if (UIApplication.shared.statusBarOrientation == .landscapeLeft) {
             currentStream.orientation = .landscapeLeft
         } else if (UIApplication.shared.statusBarOrientation == .landscapeRight) {
@@ -599,7 +606,12 @@ class ViewController: UIViewController {
         env.cameraPosition = (env.cameraPosition==0) ? 1 : 0
         let pos:AVCaptureDevice.Position = (env.cameraPosition==0) ? .back : .front 
         currentStream.attachCamera(DeviceUtil.device(withPosition: pos)) { error in
-            //logger.warn(error.description)
+            print("-- " + error.description)
+        }
+        if (env.cameraPosition==0) { // back
+            myView.isMirrored = false
+        } else {
+            myView.isMirrored = true
         }
     }
     
