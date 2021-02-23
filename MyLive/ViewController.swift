@@ -132,8 +132,8 @@ class ViewController: UIViewController {
             print(error.description)
         }
         
-        setOrientation()
         myView?.attachStream(currentStream)
+        setOrientation()
         
         switch env.videoBitrate {
         case  250: segBps.selectedSegmentIndex = 0
@@ -425,7 +425,8 @@ class ViewController: UIViewController {
         }
         
         if env.isRtmp() {
-            labelRps.text = "   " + state + " (\(rtmpConnection.totalStreamsCount))"
+            //labelRps.text = "   " + state + " (\(rtmpConnection.totalStreamsCount))"
+            labelRps.text = "   " + state
         } else {
             labelRps.text = state
         }
@@ -648,21 +649,21 @@ class ViewController: UIViewController {
         // 10.5 1112 834 (1668x2224)
         let vieww:Int = Int(self.view.frame.width)
         let viewh:Int = Int(self.view.frame.height)
-        print("-- vieww=\(view.frame.width) h=\(view.frame.height) myVieww=\(myView.frame.width) h=\(myView.frame.height)")
-
+        
         let stbar:Int = 0
         let cy = viewh/2
         let btnw = Int(btnSettings.frame.width)
 
-        let p:Int = 14
-        let top = p + stbar/2
-        let btnx = p + btnw/2
+        let px:Int = 36
+        let py:Int = 18
+        let top = py + stbar/2
+        let btnx = px + btnw/2
         btnPublish.center = CGPoint(x:vieww-btnx, y:cy)
         btnTurn.center = CGPoint(x:vieww-btnx, y:top+btnw/2)
         btnSettings.center = CGPoint(x:btnx, y:top+btnw/2)
         
         // ボタン
-        var bottomy = viewh - p - btnw/2 + stbar/2
+        var bottomy = viewh - py - btnw/2 + stbar/2
         let bw = btnw + 6
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
         btnAudio.center = CGPoint(x:btnx+bw*1, y:bottomy)
@@ -671,7 +672,7 @@ class ViewController: UIViewController {
         
         // セグメント
         let segw = Int(segBps.frame.width)
-        let segx = p + segw/2
+        let segx = px + segw/2
         let sh = Int(segBps.frame.height) + 8
         bottomy -= 56
         segBps.center  = CGPoint(x:segx, y:bottomy-sh*2)
@@ -684,9 +685,9 @@ class ViewController: UIViewController {
         titleFps.text = "FPS"
         titleRps.text = ""
         
-        let lx1 = 120
+        let lx1 = 148
         let lx2 = lx1 + 84
-        let lx3 = lx2 + 76
+        let lx3 = lx2 + 72
         titleCpu.center = CGPoint(x:lx1, y:ly)
         titleFps.center = CGPoint(x:lx2, y:ly)
         titleRps.center = CGPoint(x:lx3, y:ly)
@@ -698,26 +699,27 @@ class ViewController: UIViewController {
         labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
         labelRps.center = CGPoint(x:Int(titleRps.center.x)+114, y:ly)
         
-        let cpux1 = Int(titleCpu.frame.minX + 360/2)
-        labelBg1.frame.size = CGSize.init(width:380, height:28)
+        let cpux1 = Int(titleCpu.frame.minX + 400/2 - 10)
+        labelBg1.frame.size = CGSize.init(width:400, height:28)
         labelBg1.center = CGPoint(x:cpux1, y:ly)
         labelBg1.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.4)
         labelBg1.layer.cornerRadius = 4
         labelBg1.clipsToBounds = true
         
         // テスト用背景
-        //if (test==true) {
-        if (false) {
+        if (test==true) {
             let rect = CGRect(x:0, y:(viewh-(vieww*9/16))/2, width:vieww, height:vieww*9/16)
             let testImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
                                w:Int(rect.width),
                                h:Int(rect.height))
             let testView = UIImageView(image:testImage)
             testView.frame = rect
-            self.myView.addSubview(testView)
+            self.view.addSubview(testView)
             print("test y=\(rect.minY)-\(rect.maxY) w=\(rect.width) h=\(rect.height)")
+            self.view.sendSubviewToBack(testView)
         }
         
+        self.view.addSubview(labelBg1)
         self.view.addSubview(labelFps)
         self.view.addSubview(labelFps)
         self.view.addSubview(labelRps)
@@ -725,39 +727,7 @@ class ViewController: UIViewController {
         self.view.addSubview(titleCpu)
         self.view.addSubview(titleFps)
         self.view.addSubview(titleRps)
-        self.view.addSubview(labelBg1)
-        
-        /*
-        self.myView.addSubview(labelFps)
-        self.myView.addSubview(labelFps)
-        self.myView.addSubview(labelRps)
-        self.myView.addSubview(labelCpu)
-        self.myView.addSubview(titleCpu)
-        self.myView.addSubview(titleFps)
-        self.myView.addSubview(titleRps)
-        self.myView.addSubview(labelBg1)
-        
-        self.myView.bringSubviewToFront(btnSettings)
-        self.myView.bringSubviewToFront(btnTurn)
-        self.myView.bringSubviewToFront(btnOption)
-        self.myView.bringSubviewToFront(btnAudio)
-        self.myView.bringSubviewToFront(btnPublish)
-        self.myView.bringSubviewToFront(btnRotLock)
-        
-        self.myView.bringSubviewToFront(labelBg1)
-        self.myView.bringSubviewToFront(labelFps)
-        self.myView.bringSubviewToFront(labelRps)
-        self.myView.bringSubviewToFront(labelCpu)
-        
-        self.myView.bringSubviewToFront(titleCpu)
-        self.myView.bringSubviewToFront(titleFps)
-        self.myView.bringSubviewToFront(titleRps)
-        
-        self.myView.bringSubviewToFront(segBps)
-        self.myView.bringSubviewToFront(segFps)
-        self.myView.bringSubviewToFront(segZoom)
-        */
-        
+ 
         let env = Environment()
         btnAudio.setSwitch(env.audioMode==1)
         
