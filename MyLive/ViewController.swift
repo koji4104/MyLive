@@ -98,6 +98,8 @@ class ViewController: UIViewController {
             preset = AVCaptureSession.Preset.iFrame960x540.rawValue
         } else if(env.videoHeight<=720) {
             preset = AVCaptureSession.Preset.hd1280x720.rawValue
+        } else if(env.videoHeight<=1080) {
+            preset = AVCaptureSession.Preset.hd1920x1080.rawValue
         }
         
         currentStream.captureSettings = [
@@ -136,10 +138,10 @@ class ViewController: UIViewController {
         setOrientation()
         
         switch env.videoBitrate {
-        case  250: segBps.selectedSegmentIndex = 0
-        case  500: segBps.selectedSegmentIndex = 1
-        case 1000: segBps.selectedSegmentIndex = 2
-        case 2000: segBps.selectedSegmentIndex = 3
+        case  500: segBps.selectedSegmentIndex = 0
+        case 1000: segBps.selectedSegmentIndex = 1
+        case 2000: segBps.selectedSegmentIndex = 2
+        case 4000: segBps.selectedSegmentIndex = 3
         default: break
         }
         switch env.videoFramerate {

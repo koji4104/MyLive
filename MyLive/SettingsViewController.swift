@@ -255,6 +255,8 @@ class SettingsViewController: FormViewController {
             size="960x540"
         } else if (env.videoHeight<=720) {
             size="1280x720"
+        } else if (env.videoHeight<=1080) {
+            size="1920x1080"
         }
         
         // form
