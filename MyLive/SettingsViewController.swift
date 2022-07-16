@@ -105,12 +105,12 @@ open class Environment {
     }
     // 15, 30 (fps)
     public var videoFramerate: Int {
-        get { return readInt("videoFramerate", def:15) }
+        get { return readInt("videoFramerate", def:30) }
         set(val) { saveInt("videoFramerate", val:val) }
     }
-    // 720, 540 (pixel)
+    // 720, 480 (pixel)
     public var videoHeight: Int {
-        get { return readInt("videoHeight", def:540) }
+        get { return readInt("videoHeight", def:720) }
         set(val) { saveInt("videoHeight", val:val) }
     }
     // 100, 200, 300, 400
@@ -173,10 +173,11 @@ open class Environment {
         print("ud.synchronize() \(b) \(val)")
     }             
     
-    // IPアドレス取得
+    // IP address acquisition
     func getWiFiAddress() -> String {
-        var address : String
-        address = "";
+        var address6 : String = "";
+        var address4 : String = "";
+        
         // Get list of all interfaces on the local machine:
         var ifaddr : UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0 else { return "" }
@@ -189,18 +190,23 @@ open class Environment {
             if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
                 // Check interface name:
                 let name = String(cString: interface.ifa_name)
-                if  name == "en0" {
+                if name == "en0" {
                     // Convert interface address to a human readable string:
                     var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                     getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String(cString: hostname)
+                        &hostname, socklen_t(hostname.count),
+                        nil, socklen_t(0), NI_NUMERICHOST)
+                    let a : String = String(cString: hostname)            
+                    if a.contains(":") {
+                        address6 = a
+                    } else {
+                        address4 = a
+                    }
                 }
             }
         }
         freeifaddrs(ifaddr)
-        return address
+        return address4 != "" ? address4 : address6
     }
 }
 
@@ -213,12 +219,12 @@ class SettingsViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // ダークモード対応
+        // Dark mode compatible
         SwitchRow.defaultCellUpdate = { cell, row in
             cell.textLabel?.textColor = .systemGray
         }
         
-        // ツールバー
+        // Toolbar
         let btnDone = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.onDoneClick(_:)))
         let toolbar = UIToolbar(frame: CGRect(
             x: 0, y: 0, width: self.view.bounds.size.width, height: 55)
@@ -250,13 +256,15 @@ class SettingsViewController: FormViewController {
         else if (t<=120) { timeout="120" }
         else { timeout="240" }
         
-        var size = "1920x1080"
-        if (env.videoHeight<=540) {
+        var size = "1280x720"
+        if (env.videoHeight<=960) {
             size="960x540"
         } else if (env.videoHeight<=720) {
             size="1280x720"
         } else if (env.videoHeight<=1080) {
             size="1920x1080"
+        } else if (env.videoHeight<=2160) {
+            size="3840x2160"
         }
         
         // form
@@ -400,11 +408,15 @@ class HeightController : SubFormViewController
         super.viewDidLoad()
         
         let env = Environment()
-        var size = "1920x1080"
-        if (env.videoHeight<=540) {
+        var size = "1280x720"
+        if (env.videoHeight<=960) {
             size="960x540"
-        } else if(env.videoHeight<=720) {
+        } else if (env.videoHeight<=720) {
             size="1280x720"
+        } else if (env.videoHeight<=1080) {
+            size="1920x1080"
+        } else if (env.videoHeight<=2160) {
+            size="3840x2160"
         }
         
         form
@@ -413,7 +425,7 @@ class HeightController : SubFormViewController
             NSLocalizedString("Camera", comment:""),
             selectionType: .singleSelection(enableDeselection: false))
         
-        let list = ["960x540", "1280x720"]
+        let list = ["960x540","1280x720","1920x1080","3840x2160"]
         for v in list {
             form.last! <<< ListCheckRow<String>(v){ listRow in
                 listRow.title = v
@@ -431,6 +443,7 @@ class HeightController : SubFormViewController
                 case "960x540": env.videoHeight = 540
                 case "1280x720": env.videoHeight = 720
                 case "1920x1080": env.videoHeight = 1080
+                case "3840x2160": env.videoHeight = 2160
                 default: break
                 }
             }
@@ -502,7 +515,7 @@ class RtmpController : SubFormViewController
     }
 }
 
-/// ヘルプ
+/// help
 class HelpController : SubFormViewController
 {
     override func viewDidLoad() {
@@ -526,9 +539,9 @@ class HelpController : SubFormViewController
     }   
 }
 
-/// 基本クラス
+/// Base class
 class SubFormViewController : FormViewController {
-    /// ツールバー
+    /// Toolbar
     override func viewDidLoad() {
         super.viewDidLoad()
         let btnDone = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(self.onDoneClick(_:)))
@@ -538,7 +551,7 @@ class SubFormViewController : FormViewController {
         toolbar.items = [btnDone]
         self.view.addSubview(toolbar)
 
-        // ダークモード対応
+        // Dark mode compatible
         TextRow.defaultCellUpdate = { cell, row in
             cell.textField.textColor = .systemGray
             cell.textLabel?.textColor = .systemGray
@@ -552,7 +565,7 @@ class SubFormViewController : FormViewController {
             cell.textLabel?.textColor = .systemGray
         }
     }
-    /// 完了ボタン
+    /// Done button
     @objc open func onDoneClick(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }

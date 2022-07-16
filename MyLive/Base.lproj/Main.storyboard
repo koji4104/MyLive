@@ -48,10 +48,10 @@
                                 <rect key="frame" x="262" y="173" width="143" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="5fps"/>
-                                    <segment title="10fps"/>
-                                    <segment title="15fps"/>
-                                    <segment title="30fps"/>
+                                    <segment title="10F"/>
+                                    <segment title="20F"/>
+                                    <segment title="30F"/>
+                                    <segment title="60F"/>
                                 </segments>
                                 <connections>
                                     <action selector="onFpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="TJX-Dv-0QR"/>
@@ -61,10 +61,10 @@
                                 <rect key="frame" x="224" y="173" width="219" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
-                                    <segment title="250k"/>
-                                    <segment title="500k"/>
-                                    <segment title="1000k"/>
-                                    <segment title="2000k"/>
+                                    <segment title="1M"/>
+                                    <segment title="2M"/>
+                                    <segment title="4M"/>
+                                    <segment title="8M"/>
                                 </segments>
                                 <connections>
                                     <action selector="onBpsChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="MuQ-Di-S7k"/>

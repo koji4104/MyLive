@@ -7,7 +7,7 @@ import HaishinKit //2020-12
 let sampleRate:Double = 44_100
 
 class ViewController: UIViewController {
-    let test:Bool = false // テストソース
+    let test:Bool = false // Test background
     let recv:Bool = false
         
     var httpStream:HTTPStream!
@@ -35,37 +35,37 @@ class ViewController: UIViewController {
     var isPublish:Bool = false
     var isOption:Bool = false
     var isOrientation = true
-
+    var isLandscape = true
+    
     var timerTest:Timer!
     var frameCount:Int = 0
     
-    /// 初期化
+    /// Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    /// ステータスバー白文字
+    /// Status bar white text
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
     
-    /// ステータスバー非表示 true
+    /// true = Hide status bar
     override var prefersStatusBarHidden: Bool {
         return true
     }
 
-    /// 画面表示
+    /// Screen display
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initControl()
-        NotificationCenter.default.addObserver(
-            self,
-            selector:#selector(self.onOrientationChange(_:)),
-            name: UIDevice.orientationDidChangeNotification, // swift4.2
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(self.onOrientationChange(_:)),
+            name: UIDevice.orientationDidChangeNotification, 
             object: nil)
     }
     
-    /// 画面消去
+    /// Erase screen
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         closeStream()
@@ -75,7 +75,7 @@ class ViewController: UIViewController {
             object: nil)
     }
         
-    /// コントロール初期値
+    /// Control initial value
     public func initControl() {
         let env = Environment()
         if (env.isRtmp()) {
@@ -89,7 +89,6 @@ class ViewController: UIViewController {
             self.httpService = HLSService(domain: "", type: "_http._tcp", name: "my", port: 8080)
             self.httpStream = HTTPStream()
         }
-        
         //currentStream.syncOrientation = false / Haishin 1.0.3
         
         print("env.videoHeight \(env.videoHeight)")
@@ -100,8 +99,10 @@ class ViewController: UIViewController {
             preset = AVCaptureSession.Preset.hd1280x720.rawValue
         } else if(env.videoHeight<=1080) {
             preset = AVCaptureSession.Preset.hd1920x1080.rawValue
+        } else if(env.videoHeight<=2160) {
+            preset = AVCaptureSession.Preset.hd4K3840x2160.rawValue
         }
-        
+
         currentStream.captureSettings = [
             .sessionPreset: preset,
             .continuousAutofocus: true,
@@ -111,8 +112,8 @@ class ViewController: UIViewController {
 
         // Codec/H264Encoder.swift
         currentStream.videoSettings = [
-            .width: env.videoHeight/9 * 16,
-            .height: env.videoHeight,
+            .width: isLandscape ? env.videoHeight/9 * 16 : env.videoHeight,
+            .height: isLandscape ? env.videoHeight : env.videoHeight/9 * 16,
             .profileLevel: kVTProfileLevel_H264_High_AutoLevel,
             .maxKeyFrameIntervalDuration: 2.0, // 2.0
             .bitrate: env.videoBitrate * 1024, // Average
@@ -138,17 +139,17 @@ class ViewController: UIViewController {
         setOrientation()
         
         switch env.videoBitrate {
-        case  500: segBps.selectedSegmentIndex = 0
-        case 1000: segBps.selectedSegmentIndex = 1
-        case 2000: segBps.selectedSegmentIndex = 2
-        case 4000: segBps.selectedSegmentIndex = 3
+        case 1000: segBps.selectedSegmentIndex = 0
+        case 2000: segBps.selectedSegmentIndex = 1
+        case 4000: segBps.selectedSegmentIndex = 2
+        case 8000: segBps.selectedSegmentIndex = 3
         default: break
         }
         switch env.videoFramerate {
-        case  5: segFps.selectedSegmentIndex = 0
-        case 10: segFps.selectedSegmentIndex = 1
-        case 15: segFps.selectedSegmentIndex = 2
-        case 30: segFps.selectedSegmentIndex = 3
+        case 10: segFps.selectedSegmentIndex = 0
+        case 20: segFps.selectedSegmentIndex = 1
+        case 30: segFps.selectedSegmentIndex = 2
+        case 60: segFps.selectedSegmentIndex = 3
         default: break
         }
         switch env.zoom {
@@ -159,20 +160,15 @@ class ViewController: UIViewController {
         default: break
         }
         
-        // タイマー
+        // Timer
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTimer(_:)), userInfo: nil, repeats: true)
         timer.fire()
         
-        // タイマー
-        timerTest = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.onTestTimer(_:)), userInfo: nil, repeats: true)
-        if test == true {
-            timerTest.fire()
-        }
     }
     
     func closeStream() {
         if timer.isValid == true { timer.invalidate() }
-        if timerTest.isValid == true { timerTest.invalidate() }
+        //if timerTest.isValid == true { timerTest.invalidate() }
         changePublish(false)
 
         if rtmpStream != nil {
@@ -204,21 +200,21 @@ class ViewController: UIViewController {
         }
     }
 
-    /// 回転の有効無効
+    /// Rotation enabled/disabled
     override var shouldAutorotate: Bool {
         get {
             return self.isOrientation
         }
     }
     
-    /// 端末の向きは横方向固定（受け側が縦に対応していないため）
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            return .landscape
-        }
-    }
+    /// The orientation is fixed in the horizontal direction
+    //override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    //    get {
+    //        return .landscape
+    //    }
+    //}
 
-    /// 端末の向きが変わったとき
+    /// When the direction changes
     @objc func onOrientationChange(_ notification: Notification) {
         if self.isOrientation == true {
             setOrientation()
@@ -227,24 +223,51 @@ class ViewController: UIViewController {
 
     func setOrientation() {
         let env = Environment()
-        if (env.cameraPosition==0) { // back
+        if (env.cameraPosition==0) { 
             myView.isMirrored = false
         } else {
             myView.isMirrored = true
         }
         
+        var isNowLandscape = true;
+        if #available(iOS 13.0, *) {
+            switch(self.view.window?.windowScene!.interfaceOrientation){
+            case .landscapeLeft: currentStream.orientation = .landscapeLeft
+            case .landscapeRight: currentStream.orientation = .landscapeRight
+            case .portrait: currentStream.orientation = .portrait
+                isNowLandscape = false
+            case .portraitUpsideDown: currentStream.orientation = .portraitUpsideDown
+                isNowLandscape = false
+            default: break
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        if(isLandscape != isNowLandscape){
+            isLandscape = isNowLandscape
+            currentStream.videoSettings = [
+            .width: isLandscape ? env.videoHeight/9 * 16 : env.videoHeight,
+            .height: isLandscape ? env.videoHeight : env.videoHeight/9 * 16,
+            .profileLevel: kVTProfileLevel_H264_High_AutoLevel,
+            .maxKeyFrameIntervalDuration: 2.0, // 2.0
+            .bitrate: env.videoBitrate * 1024, // Average
+            ]
+        }
+        /*
         if (UIApplication.shared.statusBarOrientation == .landscapeLeft) {
             currentStream.orientation = .landscapeLeft
         } else if (UIApplication.shared.statusBarOrientation == .landscapeRight) {
             currentStream.orientation = .landscapeRight
+        } else if (UIApplication.shared.statusBarOrientation == .portrait) {
+            currentStream.orientation = .portrait
+        } else if (UIApplication.shared.statusBarOrientation == .portraitUpsideDown) {
+            currentStream.orientation = .portraitUpsideDown
         }
-        if currentStream.orientation == .portrait
-            || currentStream.orientation == .portraitUpsideDown {
-            currentStream.orientation = .landscapeRight
-        }
+         */
     }
     
-    /// パブリッシュ
+    /// publish
     @IBAction func publishTouchUpInside(_ sender: UIButton) {
         if liveState == .publishing || liveState == .listening {
             changePublish(false)
@@ -272,6 +295,7 @@ class ViewController: UIViewController {
                 httpService.stopRunning()
                 httpService.removeHTTPStream(httpStream)
             }
+
         } else if env.isRtmp() && rtmpStream != nil {
             if publish == true {
                 rtmpConnection.addEventListener(
@@ -286,6 +310,7 @@ class ViewController: UIViewController {
                     selector:#selector(self.rtmpStatusHandler(_:)),
                     observer: self)
             }
+
         } else if env.isSrt() && srtStream != nil {
             if publish == true {
                 srtStream.publish("my")
@@ -334,7 +359,7 @@ class ViewController: UIViewController {
         }
     }
     
-    /// ボタンの状態
+    /// Button state
     enum LiveState {
         case closed
         case publishing
@@ -366,7 +391,6 @@ class ViewController: UIViewController {
         liveState = st
     }   
 
-    /// タイマー
     // MARK: onTimer
     var aryFps:[Int] = []
     var isAutoLow:Bool = false
@@ -378,7 +402,7 @@ class ViewController: UIViewController {
         let env = Environment()
         if (isPublish == true) {
             if (env.isRtmp() && rtmpStream != nil && rtmpStream.currentFPS >= 0) {
-                // RTMP 自動低画質
+                // RTMP Automatic low image quality
                 let f:Int = Int(rtmpStream.currentFPS)
                 if (env.lowimageMode>0 && f>=2) {
                     aryFps.append(f)
@@ -403,7 +427,7 @@ class ViewController: UIViewController {
             }
         }
         
-        // 配信方式
+        // Delivery method
         var state:String = ""
         if env.isHls() {
             titleRps.text = "HLS"
@@ -427,7 +451,6 @@ class ViewController: UIViewController {
         }
         
         if env.isRtmp() {
-            //labelRps.text = "   " + state + " (\(rtmpConnection.totalStreamsCount))"
             labelRps.text = "   " + state
         } else {
             labelRps.text = state
@@ -441,13 +464,13 @@ class ViewController: UIViewController {
             changeButtonState(.closed)
         }
 
-        // 経過秒
+        // Elapsed seconds
         if (isPublish == true) {
             let elapsed = Int32(Date().timeIntervalSince(date1))
             if elapsed<120 {
-                labelRps.text = labelRps.text! + "  \(elapsed)" + "sec"
+                labelRps.text = labelRps.text! + "  \(elapsed)" + " sec"
             } else {
-                labelRps.text = labelRps.text! + "  \(elapsed/60)" + "min"
+                labelRps.text = labelRps.text! + "  \(elapsed/60)" + " min"
             }
             // 自動停止
             if (env.publishTimeout > 0 && elapsed > env.publishTimeout) {
@@ -470,74 +493,14 @@ class ViewController: UIViewController {
         }
     }
 
-    var isTestCreated:Bool = false
-    var uiTestImage:UIImage!
-    @objc func onTestTimer(_ tm: Timer) {
-        if test == false {
-            return
-        }
-        /*
-        let tw = 960
-        let th = 540
-        if isTestCreated == false {
-            isTestCreated = true
-            uiTestImage = cropThumbnailImage(image:UIImage(named:"TestImage")!, w:tw, h:th)
-        }
-        frameCount += 1
-            
-        UIGraphicsBeginImageContext(CGSize(width:tw, height:th))
-        let context1 = UIGraphicsGetCurrentContext()!
-        uiTestImage.draw(in:CGRect(x:0, y:0, width:tw, height:th))
-
-        let font = UIFont.systemFont(ofSize: 30)
-        let attrs = [
-            NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: UIColor.blue
-        ]
-        let text:String = String(frameCount)
-        text.draw(at: CGPoint(x:100,y:100), withAttributes: attrs)
-
-        UIGraphicsEndImageContext()
-        let ciTestImage:CIImage = CIImage(cgImage: context1.makeImage()!)
-
-        if isPublish == true {
-            var pts = CMTimeMake(value: Int64(frameCount), timescale: 1)
-            pts.flags = CMTimeFlags.init(rawValue: 3)
-            
-            let pxTestBuffer:CVPixelBuffer = convertFromCIImageToCVPixelBuffer(ciImage:ciTestImage)!
-            
-            //2020-12
-            //currentStream.mixer.videoIO.encoder.encodeImageBuffer(
-            //    pxTestBuffer,
-            //    presentationTimeStamp: pts,
-            //    duration: CMTimeMake(value: 0, timescale: 0))
-            
-            //Debug
-            //let sampleBuffer = makeSampleBuffer(from: pxTestBuffer, at: pts)!
-            //currentStream.mixer.recorder.appendSampleBuffer(sampleBuffer, mediaType: .video)
-
-            //2020-12
-            //currentStream.mixer.recorder.appendPixelBuffer(pxTestBuffer, withPresentationTime: pts)
-        }
-        if currentStream != nil {
-            //Debug
-            //currentStream.mixer.videoIO.ex.test = true
-            //currentStream.mixer.videoIO.drawable?.draw(image: ciTestImage)
-            
-            //2020-12
-            //currentStream.mixer.videoIO.renderer?.render(image: ciTestImage)
-        }
-        */
-    }
-
-    /// フレームレート
+    /// frame rate
     @IBAction func onFpsChanged(_ sender: UISegmentedControl) {
         var fps:Double = 5.0
         switch sender.selectedSegmentIndex {
-        case 0: fps = 5.0
-        case 1: fps = 10.0
-        case 2: fps = 15.0
-        case 3: fps = 30.0
+        case 0: fps = 10.0
+        case 1: fps = 20.0
+        case 2: fps = 30.0
+        case 3: fps = 60.0
         default: break
         }
         let env = Environment()
@@ -545,14 +508,14 @@ class ViewController: UIViewController {
         currentStream.captureSettings = [.fps: fps]
     }
     
-    /// ビットレート
+    /// bit rate
     @IBAction func onBpsChanged(_ sender: UISegmentedControl) {
         var bps:Int = 250
         switch sender.selectedSegmentIndex {
-        case 0: bps = 250;
-        case 1: bps = 500;
-        case 2: bps = 1000;
-        case 3: bps = 2000;
+        case 0: bps = 1000;
+        case 1: bps = 2000;
+        case 2: bps = 4000;
+        case 3: bps = 8000;
         default: break
         }
         let env = Environment()
@@ -563,13 +526,13 @@ class ViewController: UIViewController {
     
     /// 解像度
     @IBAction func onHeightChanged(_ sender: UISegmentedControl) {
-        var w:Int = 640
-        var h:Int = 360
+        var w:Int = 1280
+        var h:Int = 720
         switch sender.selectedSegmentIndex {
-        case 0: h = 270
-        case 1: h = 360
-        case 2: h = 540
-        case 3: h = 720
+        case 0: h = 540
+        case 1: h = 720
+        case 2: h = 1080
+        case 3: h = 2160
         default: break
         }      
         w = (h/9) * 16
@@ -578,7 +541,7 @@ class ViewController: UIViewController {
         currentStream.videoSettings = [.width:w, .height:h]
     }
   
-    /// ズーム
+    /// Zoom
     @IBAction func onZoomChanged(_ sender: UISegmentedControl) {
         var zoom:Int = 100
         switch sender.selectedSegmentIndex {
@@ -594,7 +557,7 @@ class ViewController: UIViewController {
         currentStream.setZoomFactor(CGFloat(Double(zoom)/100.0), ramping: true, withRate: 2.0)
     }
     
-    /// 設定画面
+    /// Setting screen
     // MARK: Settings
     @IBAction func settingsTouchUpInside(_ sender: UIButton) {
         viewWillDisappear(true)
@@ -603,7 +566,7 @@ class ViewController: UIViewController {
         self.present(vc, animated: true, completion: nil)
     }
 
-    /// 反転
+    /// Inversion
     @IBAction func turnTouchUpInside(_ sender: Any) {
         let env = Environment()
         env.cameraPosition = (env.cameraPosition==0) ? 1 : 0
@@ -618,7 +581,7 @@ class ViewController: UIViewController {
         }
     }
     
-    /// オーディオ
+    /// audio
     @IBAction func audioTouchUpInside(_ sender: Any) { 
         let env = Environment()
         env.audioMode = (env.audioMode==1) ? 0 : 1
@@ -627,25 +590,25 @@ class ViewController: UIViewController {
         btnAudio.setSwitch(b)
     }
     
-    /// 回転無効
+    /// Rotation disabled
     @IBAction func rotlockTouchUpInside(_ sender: Any) {
         self.isOrientation = !self.isOrientation
         btnRotLock.setSwitch(!self.isOrientation)
     }
     
     var labelCpu:ValueLabel = ValueLabel()
-    var labelFps:ValueLabel = ValueLabel() 
-    var labelRps:ValueLabel = ValueLabel() 
+    var labelFps:ValueLabel = ValueLabel()
+    var labelRps:ValueLabel = ValueLabel()
     var labelBg1:ValueLabel = ValueLabel()
     
     var titleCpu:TitleLabel = TitleLabel()
     var titleFps:TitleLabel = TitleLabel()
     var titleRps:TitleLabel = TitleLabel()
     
-    /// ボタン位置
+    /// Button position
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        // 画面の幅高さ
+
         // ip5  568 320 (640x1136)
         // ip7  667 375 (750x1334)
         // 10.5 1112 834 (1668x2224)
@@ -664,7 +627,7 @@ class ViewController: UIViewController {
         btnTurn.center = CGPoint(x:vieww-btnx, y:top+btnw/2)
         btnSettings.center = CGPoint(x:btnx, y:top+btnw/2)
         
-        // ボタン
+        // Button
         var bottomy = viewh - py - btnw/2 + stbar/2
         let bw = btnw + 6
         btnOption.center = CGPoint(x:btnx+bw*0, y:bottomy)
@@ -672,7 +635,7 @@ class ViewController: UIViewController {
         btnRotLock.center = CGPoint(x:btnx+bw*2, y:bottomy)
         btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
         
-        // セグメント
+        // segment
         let segw = Int(segBps.frame.width)
         let segx = px + segw/2
         let sh = Int(segBps.frame.height) + 8
@@ -681,7 +644,7 @@ class ViewController: UIViewController {
         segFps.center  = CGPoint(x:segx, y:bottomy-sh*1)
         segZoom.center = CGPoint(x:segx, y:bottomy-sh*0)
         
-        // ラベル
+        // Label
         let ly = Int(btnSettings.center.y)
         titleCpu.text = "CPU"
         titleFps.text = "FPS"
@@ -708,7 +671,7 @@ class ViewController: UIViewController {
         labelBg1.layer.cornerRadius = 4
         labelBg1.clipsToBounds = true
         
-        // テスト用背景
+        // Test background
         if (test==true) {
             let rect = CGRect(x:0, y:(viewh-(vieww*9/16))/2, width:vieww, height:vieww*9/16)
             let testImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
@@ -737,7 +700,7 @@ class ViewController: UIViewController {
         optionButton(hidden:true)
     }
     
-    /// 画質オプション
+    /// Image quality options
     @IBAction func optionTouchUpInside(_ sender: UIButton) {
         isOption = !isOption
         optionButton(hidden:isOption)
@@ -750,7 +713,7 @@ class ViewController: UIViewController {
         segZoom.hideLeft(b:hidden)
     }
     
-    /// CPU使用率（0-100%）
+    /// CPU（0-100%）
     var cpuCores:Int = UIDevice.current.cpuCores
     private func getCPUPer() -> Int {
         return Int(Int(getCPUUsage())/cpuCores)
@@ -842,7 +805,7 @@ extension UIControl {
     }
 }
 
-/// ボタン  
+/// Button 
 class MyButton: UIButton {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -893,7 +856,7 @@ class CircleButton: MyButton {
     }
 }
 
-/// セグメント
+/// Segment
 class MySegmentedControl: UISegmentedControl {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
