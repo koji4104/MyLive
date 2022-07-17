@@ -254,17 +254,6 @@ class ViewController: UIViewController {
             .bitrate: env.videoBitrate * 1024, // Average
             ]
         }
-        /*
-        if (UIApplication.shared.statusBarOrientation == .landscapeLeft) {
-            currentStream.orientation = .landscapeLeft
-        } else if (UIApplication.shared.statusBarOrientation == .landscapeRight) {
-            currentStream.orientation = .landscapeRight
-        } else if (UIApplication.shared.statusBarOrientation == .portrait) {
-            currentStream.orientation = .portrait
-        } else if (UIApplication.shared.statusBarOrientation == .portraitUpsideDown) {
-            currentStream.orientation = .portraitUpsideDown
-        }
-         */
     }
     
     /// publish
@@ -431,11 +420,13 @@ class ViewController: UIViewController {
         var state:String = ""
         if env.isHls() {
             titleRps.text = "HLS"
+            labelRps.text = ""
             if httpService != nil && httpService.isRunning.value {
                 state = "publishing"
             }
         } else if env.isRtmp() {
             titleRps.text = "RTMP"
+            labelRps.text = "  "
             if rtmpStream != nil {
                 if rtmpConnection.totalStreamsCount>0 {
                     state = "publishing"
@@ -443,17 +434,12 @@ class ViewController: UIViewController {
             }
         } else if env.isSrt() {
             titleRps.text = "SRT"
+            labelRps.text = ""
             if srtStream != nil && srtStream.readyState == .publishing {
                 state = "publishing"
             } else if srtConnection != nil && srtConnection.listening {
                 state = "listening"
             }    
-        }
-        
-        if env.isRtmp() {
-            labelRps.text = "   " + state
-        } else {
-            labelRps.text = state
         }
         
         if state == "publishing" {
@@ -468,11 +454,11 @@ class ViewController: UIViewController {
         if (isPublish == true) {
             let elapsed = Int32(Date().timeIntervalSince(date1))
             if elapsed<120 {
-                labelRps.text = labelRps.text! + "  \(elapsed)" + " sec"
+                labelRps.text = labelRps.text! + "  \(elapsed)" + "s"
             } else {
-                labelRps.text = labelRps.text! + "  \(elapsed/60)" + " min"
+                labelRps.text = labelRps.text! + "  \(elapsed/60)" + "m"
             }
-            // 自動停止
+            // Auto stop
             if (env.publishTimeout > 0 && elapsed > env.publishTimeout) {
                 changePublish(false) 
             }
@@ -651,8 +637,8 @@ class ViewController: UIViewController {
         titleRps.text = ""
         
         let lx1 = 148
-        let lx2 = lx1 + 84
-        let lx3 = lx2 + 72
+        let lx2 = lx1 + 80
+        let lx3 = lx2 + 70
         titleCpu.center = CGPoint(x:lx1, y:ly)
         titleFps.center = CGPoint(x:lx2, y:ly)
         titleRps.center = CGPoint(x:lx3, y:ly)
@@ -662,10 +648,10 @@ class ViewController: UIViewController {
         
         labelCpu.center = CGPoint(x:Int(titleCpu.center.x)-6, y:ly)
         labelFps.center = CGPoint(x:Int(titleFps.center.x)-22, y:ly)
-        labelRps.center = CGPoint(x:Int(titleRps.center.x)+114, y:ly)
+        labelRps.center = CGPoint(x:Int(titleRps.center.x)+110, y:ly)
         
-        let cpux1 = Int(titleCpu.frame.minX + 400/2 - 10)
-        labelBg1.frame.size = CGSize.init(width:400, height:28)
+        let cpux1 = Int(titleCpu.frame.minX + 270/2 - 10)
+        labelBg1.frame.size = CGSize.init(width:270, height:28)
         labelBg1.center = CGPoint(x:cpux1, y:ly)
         labelBg1.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.4)
         labelBg1.layer.cornerRadius = 4
