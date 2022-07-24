@@ -847,8 +847,8 @@ class MySegmentedControl: UISegmentedControl {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         self.tintColor = UIColor.white
-        self.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.3)
-        
+        self.backgroundColor = UIColor(red:0.4,green:0.4,blue:0.4,alpha:0.5)
+
         self.frame.size = CGSize.init(width:220, height:30)  
         self.center = CGPoint(x:0, y:0)
     }
