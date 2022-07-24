@@ -605,12 +605,12 @@ class ViewController: UIViewController {
         let cy = viewh/2
         let btnw = Int(btnSettings.frame.width)
 
-        let px:Int = 36
-        let py:Int = 18
+        let px:Int = 30
+        let py:Int = 30
         let top = py + stbar/2
         let btnx = px + btnw/2
         btnPublish.center = CGPoint(x:vieww-btnx, y:cy)
-        btnTurn.center = CGPoint(x:vieww-btnx, y:top+btnw/2)
+        //btnTurn.center = CGPoint(x:vieww-btnx, y:top+btnw/2)
         btnSettings.center = CGPoint(x:btnx, y:top+btnw/2)
         
         // Button
@@ -620,6 +620,8 @@ class ViewController: UIViewController {
         btnAudio.center = CGPoint(x:btnx+bw*1, y:bottomy)
         btnRotLock.center = CGPoint(x:btnx+bw*2, y:bottomy)
         btnRotLock.colOn = UIColor(red:0.8,green:0.1,blue:0.1,alpha:1.0)
+        
+        btnTurn.center = CGPoint(x:vieww-btnx, y:bottomy)
         
         // segment
         let segw = Int(segBps.frame.width)
@@ -636,7 +638,7 @@ class ViewController: UIViewController {
         titleFps.text = "FPS"
         titleRps.text = ""
         
-        let lx1 = 148
+        let lx1 = 130
         let lx2 = lx1 + 80
         let lx3 = lx2 + 70
         titleCpu.center = CGPoint(x:lx1, y:ly)
@@ -847,7 +849,7 @@ class MySegmentedControl: UISegmentedControl {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         self.tintColor = UIColor.white
-        self.backgroundColor = UIColor(red:0.4,green:0.4,blue:0.4,alpha:0.5)
+        self.backgroundColor = UIColor(red:0.4,green:0.4,blue:0.4,alpha:1.0)
 
         self.frame.size = CGSize.init(width:220, height:30)  
         self.center = CGPoint(x:0, y:0)
