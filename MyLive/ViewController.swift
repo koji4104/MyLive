@@ -135,8 +135,12 @@ class ViewController: UIViewController {
             print(error.description)
         }
         
-        myView?.attachStream(currentStream)
-        setOrientation()
+        if(test==false){
+            myView?.attachStream(currentStream)
+            setOrientation()
+        } else {
+            self.view.willRemoveSubview(myView);
+        }
         
         switch env.videoBitrate {
         case 1000: segBps.selectedSegmentIndex = 0
@@ -477,6 +481,11 @@ class ViewController: UIViewController {
             nDispCpu = 0
             labelCpu.text = "\(getCPUPer())" + "%"
         }
+        
+        if (test==true) {
+            labelFps.text = "30"
+            labelCpu.text = "1" + "%"
+        }
     }
 
     /// frame rate
@@ -658,10 +667,14 @@ class ViewController: UIViewController {
         labelBg1.backgroundColor = UIColor(red:0.0,green:0.0,blue:0.0,alpha:0.4)
         labelBg1.layer.cornerRadius = 4
         labelBg1.clipsToBounds = true
-        
+   
         // Test background
         if (test==true) {
-            let rect = CGRect(x:0, y:(viewh-(vieww*9/16))/2, width:vieww, height:vieww*9/16)
+            // iphone
+            //let rect = CGRect(x:vieww*1/8, y:0, width:vieww*6/8, height:viewh)
+            // ipad
+            let rect = CGRect(x:0, y:0, width:vieww, height:viewh)
+            
             let testImage = cropThumbnailImage(image:UIImage(named:"TestImage")!,
                                w:Int(rect.width),
                                h:Int(rect.height))
@@ -669,7 +682,11 @@ class ViewController: UIViewController {
             testView.frame = rect
             self.view.addSubview(testView)
             print("test y=\(rect.minY)-\(rect.maxY) w=\(rect.width) h=\(rect.height)")
-            self.view.sendSubviewToBack(testView)
+           
+            self.view.addSubview(btnPublish)
+            self.view.addSubview(btnTurn)
+            self.view.addSubview(btnSettings)
+            self.view.addSubview(btnOption)
         }
         
         self.view.addSubview(labelBg1)
@@ -680,7 +697,7 @@ class ViewController: UIViewController {
         self.view.addSubview(titleCpu)
         self.view.addSubview(titleFps)
         self.view.addSubview(titleRps)
- 
+        
         let env = Environment()
         btnAudio.setSwitch(env.audioMode==1)
         
