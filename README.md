@@ -1,6 +1,10 @@
+Moved to ItsMyLive  
+https://github.com/koji4104/ItsMyLive  
+
 # It's my live
 
 <img src='img/01.png' height=160px> <img src='img/02.png' height=160px>
+
 
 **It's my live** is available for free at the Apple Store. Available for iPhone and iPad.
 
