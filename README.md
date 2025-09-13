@@ -1,5 +1,6 @@
-Moved to ItsMyLive  
-https://github.com/koji4104/ItsMyLive  
+MyLive is an old project.  
+It has moved to the new ItsMyLive.  
+https://github.com/koji4104/ItsMyLive
 
 # It's my live
 
